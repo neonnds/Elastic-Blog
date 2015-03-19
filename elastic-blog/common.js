@@ -156,7 +156,8 @@ module.exports.EBSave = function(self, data, index, type, callback)
 	db.client.index({
 		index: index,
 		type: type,
-		body: body
+		body: body,
+		refresh: true
 	}, function (err, response) {
 
 		if(err == null) {
@@ -182,7 +183,8 @@ module.exports.EBDelete = function(self, uri, index, type, callback)
 	db.client.delete({
 		index: index,
 		type: type,
-		id: uri
+		id: uri,
+		refresh: true
 	}, function (err, response) {
 
 		if(err == null) {
