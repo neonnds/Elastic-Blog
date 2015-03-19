@@ -1,0 +1,190 @@
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+		$('#save-button').click(function() {
+
+			var uri = $('#uri').val();
+			var content = $('#content').val();
+			var summary = $('#summary').val();
+		
+			var savePost = $.post('{{pages.apiSavePost.uri}}', {'uri' : uri, 'summary' : summary, 'content' : content});
+
+			savePost.success(function(result) {
+
+				if(result == null || result.success == false) {
+
+					window.location.replace("/error");
+
+				} else {
+
+					if(result.success == true) {
+
+						$('#save-lightbox').show();
+
+						$('#save-close-button').click(function() {
+							window.location.replace("{{pages.updatePost.base}}/" + uri);	
+						});
+					}
+				}
+			});
+
+			savePost.error(errorHandler);
+		});
+
+		$('#summary-button').click(function() {
+
+			$(this).addClass('blog-button-active');
+			$('#full-button').removeClass('blog-button-active');
+
+			$('#summary').show();
+			$('#content').hide();
+
+			convert_text();
+		});
+
+		$('#full-button').click(function() {
+
+			$(this).addClass('blog-button-active');
+			$('#summary-button').removeClass('blog-button-active');
+
+			$('#content').show();
+			$('#summary').hide();
+
+			convert_text();
+		});
+
+		{{#is pages.updatePost.uri "===" page.uri}}
+	
+			$('#delete-button').click(function() {
+
+				console.log('deleting...');
+
+				$('#delete-lightbox').show();
+			});
+
+			$('#delete-cancel-button').click(function() {
+				$('#delete-lightbox').hide();
+			});
+
+			$('#delete-submit-button').click(function() {
+
+				var uri = $('#uri').val();
+
+				var deletePost = $.post('{{pages.apiDeleteByURI.uri}}', {
+					'uri' : uri, 
+					'index' : 'posts', 
+					'type' : 'post'
+				});
+
+				deletePost.success(function(result) {
+
+					if(result == null || result.success == false) {
+
+						window.location.replace("{{pages.home.uri}}");
+
+					} else {
+
+						if(result.success == true) {
+
+							window.location.replace('{{pages.home.uri}}');	
+						}
+					}
+				});
+
+				deletePost.error(errorHandler);
+			});
+			
+		{{/is}}
+
+		function convert_text() {
+
+			var text;
+
+			if($('#summary').is(":visible") == true) {
+
+				text = $('#summary').val();
+
+				$('#preview').removeClass('post-item');
+				$('#preview').addClass('portfolio-item');
+
+			} else {
+
+				text = $('#content').val();
+
+				$('#preview').removeClass('portfolio-item');
+				$('#preview').addClass('post-item');
+			}
+
+			if( text && text == last) {
+				return; 
+			}
+
+			last = text;
+
+			var startTime = new Date() * 1;	
+
+			var html = textile.parse( text );
+
+			var endTime = new Date() * 1;
+
+			processing_time = endTime - startTime;
+
+			$('#preview').html(html);
+		}
+
+		function onInput( e ) {
+			clearTimeout( convertTextTimer );
+			defer_time = Math.min( processing_time, max_delay );
+			convertTextTimer = setTimeout( convert_text, defer_time );
+		}
+
+		$('#content').bind( 'keyup', onInput ).focus();
+
+		$('#summary').bind( 'keyup', onInput ).focus();
+
+		$('#content').hide();
+
+		convert_text();
+	});
+
+</script>
+
+
+<div id="delete-lightbox" class="lightbox">
+	<div class="lightbox-details">
+		<h4>Really delete this post?</h4>
+		<div class="blog-button" id="delete-cancel-button"><span>Cancel</span></div>
+		<div class="blog-button" id="delete-submit-button"><span>Delete</span></div>
+	</div>
+</div>
+
+<div id="save-lightbox" class="lightbox">
+	<div class="lightbox-details">
+		<h4>The post has been saved.</h4>
+		<div class="blog-button" id="save-close-button"><span>Close</span></div>
+	</div>
+</div>
+
+<div class="save-button-pager">
+	<div class="blog-button blog-button-active" id="summary-button"><span>Summary</span></div>
+	<div class="blog-button" id="full-button"><span>Full</span></div>
+
+	{{#is pages.updatePost.uri "===" page.uri}}
+		<div class="blog-button" id="delete-button"><span>Delete</span></div>
+	{{/is}}
+
+	<div class="blog-button" id="save-button"><span>Save</span></div>
+</div>
+
+<input type="text" id="uri" class="panel" name="uri" placeholder="URI" value="{{post.uri}}" />
+
+<div class="tx-shadow panel"></div>
+
+<textarea id="summary" class="tx-input panel" name="summary" placeholder="SUMMARY">{{post.summary}}</textarea>
+
+<textarea id="content" class="tx-input panel" name="content" placeholder="CONTENT">{{post.content}}</textarea>
+
+<div id="preview" class="tx-preview panel portfolio-item"></div>
+
+
