@@ -6,7 +6,7 @@ A simple blog website using total.js and elastic-search.
 * [Version 2015.03](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz)
 
 
-## Requirements
+### Requirements
 
 * [Elastic-Core](https://github.com/neonnds/Elastic-Core)
 
