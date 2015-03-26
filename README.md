@@ -3,7 +3,7 @@ A simple blog website using total.js and elastic-search.
 
 ## Releases
 
-* [Version 2015.03](https://github.com/neonnds/Elastic-Blog)
+* [Version 2015.03](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz)
 
 
 ## Requirements
