@@ -3,7 +3,7 @@ A simple blog website using total.js and elastic-search.
 
 ## Requirements
 
-* [Elastic-Core](https://nodejs.org/)
+* [Elastic-Core](https://github.com/neonnds/Elastic-Core)
 
 ## Linux Installation
 
