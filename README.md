@@ -1,6 +1,11 @@
 # Elastic-Blog
 A simple blog website using total.js and elastic-search.
 
+## Releases
+
+* [Version 2015.03](https://github.com/neonnds/Elastic-Core)
+
+
 ## Requirements
 
 * [Elastic-Core](https://github.com/neonnds/Elastic-Core)
