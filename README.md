@@ -11,7 +11,7 @@ Enter the Elastic-Core project sites directory
 
     $> cd ./Elastic-Core/sites
 
-Get the Elastic-Core project
+Get the Elastic-Blog project
 
     $> git clone https://github.com/neonnds/Elastic-Blog.git
 
