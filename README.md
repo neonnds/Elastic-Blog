@@ -20,13 +20,21 @@ Enter the Elastic-Blog project
 
     $> cd ./Elastic-Blog
 
+Get ElasticSearch from the offical site
+
+    $> wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.0.tar.gz
+    
+Extract ElasticSearch
+
+    $> tar -zxf elastic-blog-2015-03.tar.gz
+    
 Start Elastic Search
 
     $> ./elasticsearch-1.5.0/bin/elasticsearch
 
 Start Elastic-Blog
 
-    $> ./run elastic-blog
+    $> nodejs index.js
 
 
 ## Development
