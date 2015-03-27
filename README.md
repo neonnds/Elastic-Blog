@@ -35,6 +35,11 @@ Start Elastic-Blog
 
 * [Elastic-Core](https://github.com/neonnds/Elastic-Core)
 
+* [CUID](https://github.com/ericelliott/cuid)
+
+* [Textile-js](https://github.com/borgar/textile-js)
+
+
 ### Linux Installation
 
 Enter the Elastic-Core project sites directory
@@ -52,3 +57,7 @@ Enter the Elastic-Blog project
 Install the following node modules
 
     $> npm install bcrypt-nodejs --save
+    
+    $> npm install cuid --save
+    
+    $> npm install textile-js --save
