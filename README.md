@@ -70,8 +70,6 @@ Install the following node modules
     
     $> npm install textile-js --save
 
-### Getting Started
-
 Enter the Elastic-Core project
 
     $> cd ./Elastic-Core
