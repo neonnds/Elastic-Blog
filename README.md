@@ -5,20 +5,11 @@ A simple blog website using total.js and elastic-search.
 
 * [Version 2015.03](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz)
 
-### Getting Started
+## Getting Started
 
 Enter the Elastic-Blog project
 
     $> cd ./Elastic-Blog
-
-
-
- 
-### Getting Started
-
-Enter the Elastic-Core project
-
-    $> cd ./Elastic-Core
 
 Start Elastic Search
 
@@ -27,3 +18,28 @@ Start Elastic Search
 Start Elastic-Blog
 
     $> ./run elastic-blog
+
+
+## Development
+
+### Requirements
+
+* [Elastic-Core](https://github.com/neonnds/Elastic-Core)
+
+### Linux Installation
+
+Enter the Elastic-Core project sites directory
+
+    $> cd ./Elastic-Core/sites
+
+Get the Elastic-Blog project
+
+    $> git clone https://github.com/neonnds/Elastic-Blog.git
+
+Enter the Elastic-Blog project
+
+    $> cd ./Elastic-Blog
+
+Install the following node modules
+
+    $> npm install bcrypt-nodejs --save
