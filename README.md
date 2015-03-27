@@ -54,6 +54,14 @@ Enter the Elastic-Blog project
 
     $> cd ./Elastic-Blog
 
+Get ElasticSearch from the offical site
+
+    $> wget https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz
+    
+Extract ElasticSearch
+
+    $> tar -zxf elastic-blog-2015-03.tar.gz
+    
 Install the following node modules
 
     $> npm install bcrypt-nodejs --save
@@ -61,3 +69,17 @@ Install the following node modules
     $> npm install cuid --save
     
     $> npm install textile-js --save
+
+### Getting Started
+
+Enter the Elastic-Core project
+
+    $> cd ./Elastic-Core
+
+Start Elastic Search
+
+    $> ./elasticsearch-1.5.0/bin/elasticsearch
+
+Start Elastic-Core
+
+    $> ./run Elastic-Core
