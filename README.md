@@ -11,29 +11,7 @@ Enter the Elastic-Blog project
 
     $> cd ./Elastic-Blog
 
-## Development
 
-### Requirements
-
-* [Elastic-Core](https://github.com/neonnds/Elastic-Core)
-
-### Linux Installation
-
-Enter the Elastic-Core project sites directory
-
-    $> cd ./Elastic-Core/sites
-
-Get the Elastic-Blog project
-
-    $> git clone https://github.com/neonnds/Elastic-Blog.git
-
-Enter the Elastic-Blog project
-
-    $> cd ./Elastic-Blog
-
-Install the following node modules
-
-    $> npm install bcrypt-nodejs --save
 
  
 ### Getting Started
