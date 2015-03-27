@@ -80,4 +80,4 @@ Start Elastic Search
 
 Start Elastic-Core
 
-    $> ./run Elastic-Core
+    $> ./run Elastic-Blog
