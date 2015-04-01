@@ -86,6 +86,6 @@ Start Elastic Search
 
     $> ./elasticsearch-1.5.0/bin/elasticsearch
 
-Start Elastic-Core
+Start Elastic-Blog
 
     $> ./run Elastic-Blog
