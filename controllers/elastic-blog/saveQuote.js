@@ -14,7 +14,7 @@ function newQuote()
 
 	common.model.pages = pages;
 	common.model.page = pages.newQuote;
-	common.model.body = common.make(self, pages.saveQuote.view);
+	common.model.body = common.make(self, pages.newQuote.view);
 
 	var page = common.make(self, pages.default.view);
 

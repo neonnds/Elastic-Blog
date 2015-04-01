@@ -1,46 +1,44 @@
-var pages = require('../elastic-core/pages.js'); 
-
 //Override elastic-core pages
-module.exports = pages;
+var $ = module.exports = require('../elastic-core/pages.js');
 
-module.exports.apiGetMany = {
+$.apiGetMany = {
 	uri: '/api/get-many',
 	label: 'API Get Many.',
 };
 
-module.exports.apiGetByURI = {
+$.apiGetByURI = {
 	uri: '/api/get-by-uri',
 	label: 'API Get By URI',
 };
 
-module.exports.apiGetManyByDateRange = {
+$.apiGetManyByDateRange = {
 	uri: '/api/get-many-by-date-range',
 	label: 'API Get Many By Date Range.',
 };
 
-module.exports.apiSavePost = {
+$.apiSavePost = {
 	uri: '/api/save-post',
 	label: 'API Save Post.',
 };
 
-module.exports.apiSaveQuote = {
+$.apiSaveQuote = {
 	uri: '/api/save-quote',
 	label: 'API Save Quote.',
 };
 
-module.exports.apiDeleteByURI = {
+$.apiDeleteByURI = {
 	uri: '/api/delete',
 	label: 'Delete.',
 };
 
-module.exports.default = {
+$.default = {
 	label: 'Elastic Blog',
 	view: 'elastic-blog/default',
 	above: [],
 	below: []
 };
 
-module.exports.error = {
+$.error = {
 	uri: '/error',
 	label: 'Error Occured',
 	view: 'elastic-blog/error',
@@ -48,7 +46,7 @@ module.exports.error = {
 	below: []
 };
 
-module.exports.home = {
+$.home = {
 	uri: '/',
 	label: 'Home',
 	view: 'elastic-blog/home',
@@ -56,7 +54,7 @@ module.exports.home = {
 	below: []
 };
 
-module.exports.homeByYear = {
+$.homeByYear = {
 	uri: '/year/{year}',
 	base: '/year',
 	label: 'Home',
@@ -65,7 +63,7 @@ module.exports.homeByYear = {
 	below: []
 };
 
-module.exports.newPost = {
+$.newPost = {
 	uri: '/save-post',
 	label: 'Save Post',
 	view: 'elastic-blog/savePost',
@@ -73,7 +71,7 @@ module.exports.newPost = {
 	below: []
 };
 
-module.exports.updatePost = {
+$.updatePost = {
 	uri: '/save-post/{uri}',
 	base: '/save-post',
 	label: 'Save Post',
@@ -82,7 +80,7 @@ module.exports.updatePost = {
 	below: []
 };
 
-module.exports.newQuote = {
+$.newQuote = {
 	uri: '/save-quote',
 	label: 'Save Quote',
 	view: 'elastic-blog/saveQuote',
@@ -90,7 +88,7 @@ module.exports.newQuote = {
 	below: []
 };
 
-module.exports.updateQuote = {
+$.updateQuote = {
 	uri: '/save-quote/{uri}',
 	base: '/save-quote',
 	label: 'Save Quote',
@@ -98,7 +96,7 @@ module.exports.updateQuote = {
 	below: []
 };
 
-module.exports.viewPost = {
+$.viewPost = {
 	uri: '/view-post/{uri}',
 	label: 'View Post',
 	view: 'elastic-blog/view',
@@ -106,7 +104,7 @@ module.exports.viewPost = {
 	below: []
 };
 
-module.exports.viewQuotes = {
+$.viewQuotes = {
 	uri: '/view-quotes',
 	label: 'View Quotes',
 	view: 'elastic-blog/viewQuotes',
@@ -114,7 +112,7 @@ module.exports.viewQuotes = {
 	below: []
 };
 
-module.exports.search = {
+$.search = {
 	uri: '/search/{query}',
 	base: '/search',
 	label: 'Search',
@@ -125,25 +123,21 @@ module.exports.search = {
 
 
 //RELATIONSHIPS
-/*
-module.exports.home.below = [
-	module.exports.search, 
-	module.exports.newPost, 
-	module.exports.newQuote, 
-	module.exports.newFile, 
-	module.exports.updatePost, 
-	module.exports.updateQuote, 
-	module.exports.viewPost, 
-	module.exports.viewQuotes
+
+$.home.below = [
+	$.search, 
+	$.newPost, 
+	$.newQuote, 
+	$.updatePost, 
+	$.updateQuote, 
+	$.viewPost, 
+	$.viewQuotes
 ];
 
-module.exports.newPost.above = [module.exports.home];
-module.exports.updatePost.above = [module.exports.home];
-module.exports.newQuote.above = [module.exports.home];
-module.exports.updateQuote.above = [module.exports.home];
-module.exports.viewPost.above = [module.exports.home];
-module.exports.viewQuotes.above = [module.exports.home];
-module.exports.search.above = [module.exports.home];
-module.exports.newFile.above = [module.exports.home];
-module.exports.viewFiles.above = [module.exports.home];
-*/
+$.search.above = [$.home];
+$.newPost.above = [$.home];
+$.newQuote.above = [$.home];
+$.updatePost.above = [$.home];
+$.updateQuote.above = [$.home];
+$.viewPost.above = [$.home];
+$.viewQuotes.above = [$.home];
