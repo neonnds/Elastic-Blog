@@ -50,6 +50,7 @@
 				{{else}}
 
 					$('#login-menu-item').hide();
+					$('#register-menu-item').hide();
 
 				{{/if}}
 			});
@@ -69,6 +70,7 @@
                                 {{else}}
 
                                         $('#login-menu-item').show();
+					$('#register-menu-item').show();
 
                                 {{/if}}
 			});
@@ -99,12 +101,49 @@
 				loginPost.error(errorHandler);
 			});
 
+			$('#register-submit-button').click(function() {
+
+				var email = $('#email').val();
+				var password = $('#password').val();
+				var confirm = $('#confirm').val();
+			
+				var registerPost = $.post('{{pages.apiRegister.uri}}', {'email' : email, 'password' : password, 'confirm' : confirm});
+
+				registerPost.success(function(result) {
+
+					console.log(result);
+
+					if(result == null || result.success == false) {
+
+
+					} else {
+
+						if(result.success == true) {
+
+							//window.location.replace("{{pages.home.uri}}");	
+							$('#register-lightbox').hide();
+							$('#login-lightbox').show();
+						}
+					}
+				});
+
+				registerPost.error(errorHandler);
+			});
+
 			$('#menu-login-button').click(function() {
 				$('#login-lightbox').show();	
 			});
 
+			$('#menu-register-button').click(function() {
+				$('#register-lightbox').show();	
+			});
+
 			$('#login-cancel-button').click(function() {
 				$('#login-lightbox').hide();
+			});
+
+			$('#register-cancel-button').click(function() {
+				$('#register-lightbox').hide();
 			});
 
 			$('#error-ok-button').click(function() {
@@ -123,6 +162,17 @@
 
 				<div class="blog-button" id="login-cancel-button"><span>Cancel</span></div>
 				<div class="blog-button" id="login-submit-button"><span>Login</span></div>
+			</div>
+		</div>
+
+		<div id="register-lightbox" class="lightbox">
+			<div class="lightbox-details">
+				<input id="email" name="email"  type="text" class="panel" placeholder="Email" value="">
+				<input id="password" name="password" type="password" class="panel" placeholder="Password" value="">
+				<input id="confirm" name="confirm" type="password" class="panel" placeholder="Confirm Password" value="">
+
+				<div class="blog-button" id="register-cancel-button"><span>Cancel</span></div>
+				<div class="blog-button" id="register-submit-button"><span>Register</span></div>
 			</div>
 		</div>
 
@@ -181,6 +231,10 @@
 								</li>
 
 							{{else}}
+
+								<li id="login-menu-item" class="menu-item">
+									<span id="menu-register-button">REGISTER</span>
+								</li>
 
 								<li id="login-menu-item" class="menu-item">
 									<span id="menu-login-button">LOGIN</span>
