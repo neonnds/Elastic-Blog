@@ -14,6 +14,8 @@
 
 		<link rel="stylesheet" type="text/css" href="/styles/elastic-core/core.css">
 
+		<link rel="stylesheet" type="text/css" href="/styles/elastic-blog/core.css">
+
 		<script type="text/javascript" src="/libs/elastic-core/jquery/jquery.min.js" charset="utf-8"></script>
 
 		<script type="text/javascript" src="/scripts/elastic-core/shared.js" charset="utf-8"></script>
@@ -77,8 +79,8 @@
 
 			$('#login-submit-button').click(function() {
 
-				var email = $('#email').val();
-				var password = $('#password').val();
+				var email = $('#login-email').val();
+				var password = $('#login-password').val();
 			
 				var loginPost = $.post('{{pages.apiLogin.uri}}', {'email' : email, 'password' : password});
 
@@ -103,9 +105,9 @@
 
 			$('#register-submit-button').click(function() {
 
-				var email = $('#email').val();
-				var password = $('#password').val();
-				var confirm = $('#confirm').val();
+				var email = $('#register-email').val();
+				var password = $('#register-password').val();
+				var confirm = $('#register-confirm').val();
 			
 				var registerPost = $.post('{{pages.apiRegister.uri}}', {'email' : email, 'password' : password, 'confirm' : confirm});
 
@@ -157,8 +159,8 @@
 
 		<div id="login-lightbox" class="lightbox">
 			<div class="lightbox-details">
-				<input id="email" name="email"  type="text" class="panel" placeholder="Email" value="">
-				<input id="password" name="password" type="password" class="panel" placeholder="Password" value="">
+				<input id="login-email" name="login-email"  type="text" class="panel" placeholder="Email" value="">
+				<input id="login-password" name="login-password" type="password" class="panel" placeholder="Password" value="">
 
 				<div class="blog-button" id="login-cancel-button"><span>Cancel</span></div>
 				<div class="blog-button" id="login-submit-button"><span>Login</span></div>
@@ -167,9 +169,9 @@
 
 		<div id="register-lightbox" class="lightbox">
 			<div class="lightbox-details">
-				<input id="email" name="email"  type="text" class="panel" placeholder="Email" value="">
-				<input id="password" name="password" type="password" class="panel" placeholder="Password" value="">
-				<input id="confirm" name="confirm" type="password" class="panel" placeholder="Confirm Password" value="">
+				<input id="register-email" name="register-email"  type="text" class="panel" placeholder="Email" value="">
+				<input id="register-password" name="register-password" type="password" class="panel" placeholder="Password" value="">
+				<input id="register-confirm" name="register-confirm" type="password" class="panel" placeholder="Confirm Password" value="">
 
 				<div class="blog-button" id="register-cancel-button"><span>Cancel</span></div>
 				<div class="blog-button" id="register-submit-button"><span>Register</span></div>
@@ -210,6 +212,7 @@
 								<ul class="posts-menu">
 									<li class="menu-item"><a href="{{pages.homeByYear.base}}/2013">YEAR 2013</a></li>
 									<li class="menu-item"><a href="{{pages.homeByYear.base}}/2014">YEAR 2014</a></li>
+									<li class="menu-item"><a href="{{pages.homeByYear.base}}/2015">YEAR 2015</a></li>
 								</ul>
 							</li>
 
@@ -220,9 +223,8 @@
 									<ul class="admin-menu">
 										<li class="menu-item"><a href="{{{pages.newPost.uri}}}">NEW POST</a></li>
 										<li class="menu-item"><a href="{{{pages.newQuote.uri}}}">NEW QUOTE</a></li>
-										<li class="menu-item"><a href="{{{pages.viewFiles.uri}}}" target="_new">MANAGE FILES</a></li>
 										<li class="menu-item"><a href="{{{pages.viewQuotes.uri}}}">VIEW QUOTES</a></li>
-										<li class="menu-item"><a href="{{{pages.viewComments.uri}}}">VIEW COMMENTS</a></li>
+										<!--<li class="menu-item"><a href="{{{pages.viewComments.uri}}}">VIEW COMMENTS</a></li>-->
 									</ul>
 								</li>
 

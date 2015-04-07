@@ -35,10 +35,10 @@ function updateQuote(uri)
 			
 		} else {
 
-			common.mode.pages = pages;
-			common.model.page = common.pages.updateQuote;
+			common.model.pages = pages;
+			common.model.page = pages.updateQuote;
 			common.model.quote = results.message;
-			common.model.body = common.make(self, pages.saveQuote.view);
+			common.model.body = common.make(self, pages.newQuote.view);
 
 			var page = common.make(self, pages.default.view);
 

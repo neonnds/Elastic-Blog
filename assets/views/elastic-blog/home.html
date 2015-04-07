@@ -104,7 +104,7 @@
 									$('#section .portfolio-item:first').after(portfolioItem)
 								} else {
 
-									$('#empty-portfolio-item').show();		
+									$('#empty-quote-portfolio-item').show();
 								}
 							}
 						}
@@ -184,10 +184,10 @@
 
 							$('#more-button').hide();
 
-							var itemCount = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-portfolio-item').length;	
+							var itemCount = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-quote-portfolio-item').not('#empty-post-portfolio-item').length;	
 
 							if(itemCount == 0) {
-								$('#empty-portfolio-item').show();		
+								$('#empty-post-portfolio-item').show();		
 							}
 						}
 					}
@@ -219,7 +219,8 @@
 
 </div>
 
-<div id="empty-portfolio-item" class="portfolio-item"><h4>No posts found!</h4></div>
+<div id="empty-quote-portfolio-item" class="empty-portfolio-item portfolio-item"><h4>No quotes found!</h4></div>
+<div id="empty-post-portfolio-item" class="empty-portfolio-item portfolio-item"><h4>No posts found!</h4></div>
 
 <div class="more-button-pager">
 	<div class="blog-button" id="more-button"><span>More</span></div>
