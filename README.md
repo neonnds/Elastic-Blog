@@ -10,7 +10,7 @@ A simple blog website using total.js and elastic-search.
 
 Get ElasticSearch from the offical site
 
-    $> wget https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-04.tar.gz
+    $> wget https://github.com/neonnds/Elastic-Blog/blob/master/elastic-blog-2015-04.tar.gz
     
 Extract ElasticSearch
 
