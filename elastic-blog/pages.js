@@ -3,32 +3,38 @@ var $ = module.exports = require('../elastic-core/pages.js');
 
 $.apiGetMany = {
 	uri: '/api/get-many',
-	label: 'API Get Many.',
+	label: 'API Get Many.'
 };
 
 $.apiGetByURI = {
 	uri: '/api/get-by-uri',
-	label: 'API Get By URI',
+	label: 'API Get By URI'
 };
 
 $.apiGetManyByDateRange = {
 	uri: '/api/get-many-by-date-range',
-	label: 'API Get Many By Date Range.',
+	label: 'API Get Many By Date Range.'
 };
 
 $.apiSavePost = {
 	uri: '/api/save-post',
-	label: 'API Save Post.',
+	label: 'API Save Post.'
 };
 
 $.apiSaveQuote = {
 	uri: '/api/save-quote',
-	label: 'API Save Quote.',
+	label: 'API Save Quote.'
 };
 
 $.apiDeleteByURI = {
 	uri: '/api/delete',
-	label: 'Delete.',
+	label: 'Delete.'
+};
+
+$.apiRegister = {
+	uri: '/api/register',
+	label: 'API Register',
+	active: true
 };
 
 $.default = {
@@ -119,6 +125,12 @@ $.search = {
 	view: 'elastic-blog/search',
 	above: [],
 	below: []
+};
+
+$.register = {
+	uri: '/register',
+	label: 'Register',
+	active: false
 };
 
 
