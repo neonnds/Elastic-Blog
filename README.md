@@ -26,7 +26,7 @@ Get ElasticSearch from the offical site
     
 Extract ElasticSearch
 
-    $> tar -zxf elastic-blog-2015-03.tar.gz
+    $> tar -zxf elasticsearch-1.5.0.tar.gz
     
 Start Elastic Search
 
@@ -62,14 +62,6 @@ Enter the Elastic-Blog project
 
     $> cd ./Elastic-Blog
 
-Get ElasticSearch from the offical site
-
-    $> wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.0.tar.gz
-    
-Extract ElasticSearch
-
-    $> tar -zxf elastic-blog-2015-03.tar.gz
-    
 Install the following node modules
 
     $> npm install bcrypt-nodejs --save
