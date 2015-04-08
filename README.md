@@ -26,7 +26,7 @@ Get ElasticSearch from the offical site
     
 Extract ElasticSearch
 
-    $> tar -zxf elastic-blog-2015-03.tar.gz
+    $> tar -zxf elasticsearch-1.5.0.tar.gz
     
 Start Elastic Search
 
