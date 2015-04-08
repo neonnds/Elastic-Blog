@@ -8,11 +8,11 @@ A simple blog website using total.js and elastic-search.
 
 ## Getting Started
 
-Get ElasticSearch from the offical site
+Get Elastic Blog
 
     $> wget https://github.com/neonnds/Elastic-Blog/raw/master/elastic-blog-2015-03.tar.gz
     
-Extract ElasticSearch
+Extract Elastic Blog
 
     $> tar -zxf elastic-blog-2015-03.tar.gz
     
