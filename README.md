@@ -3,18 +3,18 @@ A simple blog website using total.js and elastic-search.
 
 ## Releases
 
-* [Version 2015.04](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-04.tar.gz)
+* [Version 2015.03](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz)
 
 
 ## Getting Started
 
 Get ElasticSearch from the offical site
 
-    $> wget https://github.com/neonnds/Elastic-Blog/blob/master/elastic-blog-2015-04.tar.gz
+    $> wget https://github.com/neonnds/Elastic-Blog/raw/master/elastic-blog-2015-03.tar.gz
     
 Extract ElasticSearch
 
-    $> tar -zxf elastic-blog-2015-04.tar.gz
+    $> tar -zxf elastic-blog-2015-03.tar.gz
     
 Enter the Elastic-Blog project
 
