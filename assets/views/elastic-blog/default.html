@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>Bomblah.</title>
+		<title>Elastic Blog.</title>
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -52,7 +52,10 @@
 				{{else}}
 
 					$('#login-menu-item').hide();
-					$('#register-menu-item').hide();
+	
+					{{#if pages.register.active}}
+						$('#register-menu-item').hide();
+					{{/if}}
 
 				{{/if}}
 			});
@@ -72,7 +75,10 @@
                                 {{else}}
 
                                         $('#login-menu-item').show();
-					$('#register-menu-item').show();
+
+					{{#if pages.register.active}}
+						$('#register-menu-item').show();
+					{{/if}}
 
                                 {{/if}}
 			});
@@ -103,49 +109,51 @@
 				loginPost.error(errorHandler);
 			});
 
-			$('#register-submit-button').click(function() {
+			{{#if pages.register.active}}
+				$('#register-submit-button').click(function() {
 
-				var email = $('#register-email').val();
-				var password = $('#register-password').val();
-				var confirm = $('#register-confirm').val();
-			
-				var registerPost = $.post('{{pages.apiRegister.uri}}', {'email' : email, 'password' : password, 'confirm' : confirm});
+					var email = $('#register-email').val();
+					var password = $('#register-password').val();
+					var confirm = $('#register-confirm').val();
+				
+					var registerPost = $.post('{{pages.apiRegister.uri}}', {'email' : email, 'password' : password, 'confirm' : confirm});
 
-				registerPost.success(function(result) {
+					registerPost.success(function(result) {
 
-					console.log(result);
+						console.log(result);
 
-					if(result == null || result.success == false) {
+						if(result == null || result.success == false) {
 
 
-					} else {
+						} else {
 
-						if(result.success == true) {
+							if(result.success == true) {
 
-							//window.location.replace("{{pages.home.uri}}");	
-							$('#register-lightbox').hide();
-							$('#login-lightbox').show();
+								//window.location.replace("{{pages.home.uri}}");	
+								$('#register-lightbox').hide();
+								$('#login-lightbox').show();
+							}
 						}
-					}
+					});
+
+					registerPost.error(errorHandler);
 				});
 
-				registerPost.error(errorHandler);
-			});
+				$('#menu-register-button').click(function() {
+					$('#register-lightbox').show();	
+				});
+
+				$('#register-cancel-button').click(function() {
+					$('#register-lightbox').hide();
+				});
+			{{/if}}
 
 			$('#menu-login-button').click(function() {
 				$('#login-lightbox').show();	
 			});
 
-			$('#menu-register-button').click(function() {
-				$('#register-lightbox').show();	
-			});
-
 			$('#login-cancel-button').click(function() {
 				$('#login-lightbox').hide();
-			});
-
-			$('#register-cancel-button').click(function() {
-				$('#register-lightbox').hide();
 			});
 
 			$('#error-ok-button').click(function() {
@@ -167,16 +175,18 @@
 			</div>
 		</div>
 
-		<div id="register-lightbox" class="lightbox">
-			<div class="lightbox-details">
-				<input id="register-email" name="register-email"  type="text" class="panel" placeholder="Email" value="">
-				<input id="register-password" name="register-password" type="password" class="panel" placeholder="Password" value="">
-				<input id="register-confirm" name="register-confirm" type="password" class="panel" placeholder="Confirm Password" value="">
+		{{#if pages.register.active}}
+			<div id="register-lightbox" class="lightbox">
+				<div class="lightbox-details">
+					<input id="register-email" name="register-email"  type="text" class="panel" placeholder="Email" value="">
+					<input id="register-password" name="register-password" type="password" class="panel" placeholder="Password" value="">
+					<input id="register-confirm" name="register-confirm" type="password" class="panel" placeholder="Confirm Password" value="">
 
-				<div class="blog-button" id="register-cancel-button"><span>Cancel</span></div>
-				<div class="blog-button" id="register-submit-button"><span>Register</span></div>
+					<div class="blog-button" id="register-cancel-button"><span>Cancel</span></div>
+					<div class="blog-button" id="register-submit-button"><span>Register</span></div>
+				</div>
 			</div>
-		</div>
+		{{/if}}
 
 		<div id="error-lightbox" class="lightbox">
 			<div class="lightbox-details">
@@ -191,7 +201,7 @@
 				<div class="container">
 
 					<div class="header-title">
-						Bomblah.
+						Elastic Blog.
 					</div>
 
 					<div class="menuPC">
@@ -234,9 +244,11 @@
 
 							{{else}}
 
-								<li id="login-menu-item" class="menu-item">
-									<span id="menu-register-button">REGISTER</span>
-								</li>
+								{{#if pages.register.active}}
+									<li id="login-menu-item" class="menu-item">
+										<span id="menu-register-button">REGISTER</span>
+									</li>
+								{{/if}}
 
 								<li id="login-menu-item" class="menu-item">
 									<span id="menu-login-button">LOGIN</span>

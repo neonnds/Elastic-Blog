@@ -130,7 +130,7 @@ $.search = {
 $.register = {
 	uri: '/register',
 	label: 'Register',
-	active: false
+	active: true
 };
 
 
