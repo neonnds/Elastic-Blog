@@ -18,6 +18,7 @@ db.client.indices.create({
 					"key" : {"type" : "string", "index" : "analyzed", "null_value" : "na"},
 					"uri" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"user" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
+					"live" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"summary" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"content" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"created" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "analyzed", "null_value" : "na"}

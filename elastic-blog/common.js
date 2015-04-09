@@ -4,10 +4,10 @@ var db = require('./database.js');
 
 var defaultLimit = 50;
 
-module.exports = require('../elastic-core/common.js');
+var $ = module.exports = require('../elastic-core/common.js');
 
 
-module.exports.EBGetByURI = function(self, uri, index, type, callback)
+$.EBGetByURI = function(self, uri, index, type, callback)
 {
 	db.client.get({
 		index: index,
@@ -16,7 +16,7 @@ module.exports.EBGetByURI = function(self, uri, index, type, callback)
 		id: uri
 	}, function (error, response) {
 
-		if(error == null && response._source !=  null) {
+		if(error == null && response != null && response._source !=  null) {
 
 			callback({success: true, message: response._source}); 
 
@@ -27,82 +27,26 @@ module.exports.EBGetByURI = function(self, uri, index, type, callback)
 	});
 }
 
-module.exports.EBGetMany = function(self, last, index, type, limit, callback)
+$.EBGetMany = function(self, last, index, type, limit, callback)
 {
-	var body = {};
-
-	if(last != null && last != "") {
-
-		body.query = {
-			"range" : {
-				"key" : {
-					"lt" : last
-				}	
+	var body = {
+		"query" : {
+			"bool" : {
+				"must" : []
 			}
-		};
-	}
-
-	if(limit == null || limit == "") {
-		limit = 0;
-	}
-
-	 //Check if submitted limit is within specified bounds
-        if(limit < 1 || limit > defaultLimit) {
-
-                limit = defaultLimit;
-        } 
-
-	db.client.search({
-		index: index,
-		type: type,
-		sort: "key:desc",
-		size: limit,
-		body: body
-	}, function (error, response) {
-
-		if(error == null) {
-
-			var items = [];
-
-			for(var i = 0; i < response.hits.hits.length; i++) {
-
-				items.push(response.hits.hits[i]._source);
-			}
-
-			callback({success: true, message: items}); 
-
-		} else {
-
-			callback({success: false, message: "An error has occurred."});
-		}
-	});
-}
-
-module.exports.EBGetManyByDateRange = function(self, from, to, last, index, type, limit, callback)
-{
-	var body = {};
-
-	body.query = {
-
-		"bool" : {
-			"must" : [{
-					"range" : {
-						"created" : {
-							"from" : from,
-							"to" : to
-						}
-					}
-				},
-				{
-					"range" : {
-						"key" : {
-							"lt" : last
-						}	
-					}
-				}]
 		}
 	};
 
+	if(self.user == null) {
+
+		body.query.bool.must.push({"match" : { "live" : true }});
+	}
+
+	if(last != null && last != "") {
+
+		body.query.bool.must.push({"range" : { "key" : { "lt" : last }}});
+	}
+
 	if(limit == null || limit == "") {
 		limit = 0;
 	}
@@ -139,7 +83,65 @@ module.exports.EBGetManyByDateRange = function(self, from, to, last, index, type
 	});
 }
 
-module.exports.EBSave = function(self, data, index, type, callback)
+$.EBGetManyByDateRange = function(self, from, to, last, index, type, limit, callback)
+{
+	var body = {
+		"query" : {
+			"bool" : {
+				"must" : []
+			}
+		}
+	};
+
+	if(self.user == null) {
+
+		body.query.bool.must.push({"match" : { "live" : true }});
+	}
+
+	body.query.bool.must.push({"range" : { "created" : { "from" : from, "to" : to }}});
+
+	if(last != null && last != "") {
+
+		body.query.bool.must.push({"range" : { "key" : { "lt" : last }}});
+	}
+
+	if(limit == null || limit == "") {
+		limit = 0;
+	}
+
+	 //Check if submitted limit is within specified bounds
+        if(limit < 1 || limit > defaultLimit) {
+
+                limit = defaultLimit;
+        } 
+
+	db.client.search({
+		index: index,
+		type: type,
+		sort: "key:desc",
+		size: limit,
+		body: body
+	}, function (error, response) {
+
+		if(error == null) {
+
+			var items = [];
+
+			for(var i = 0; i < response.hits.hits.length; i++) {
+
+				items.push(response.hits.hits[i]._source);
+			}
+
+			callback({success: true, message: items}); 
+
+		} else {
+
+			callback({success: false, message: "An error has occurred."});
+		}
+	});
+}
+
+$.EBSave = function(self, data, index, type, callback)
 {
 	var body = {};
 
@@ -178,7 +180,7 @@ module.exports.EBSave = function(self, data, index, type, callback)
 	});
 }
 
-module.exports.EBDelete = function(self, uri, index, type, callback)
+$.EBDelete = function(self, uri, index, type, callback)
 {
 	db.client.delete({
 		index: index,

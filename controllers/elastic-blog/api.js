@@ -19,8 +19,9 @@ function savePost()
 	var summary = self.post.summary;
 	var content = self.post.content;
 	var user = self.user.id;
+	var live = self.post.live;
 
-	var data = {'uri' : uri, 'summary' : summary, 'content' : content, 'user' : user};
+	var data = {'uri' : uri, 'summary' : summary, 'content' : content, 'user' : user, 'live' : live};
 
 	common.EBSave(self, data, 'posts', 'post', function(results) {
 

@@ -35,6 +35,8 @@ function updatePost(uri)
 			
 		} else {
 
+			console.log(results);
+
 			common.model.pages = pages;
 			common.model.page = pages.updatePost;
 			common.model.post = results.message;

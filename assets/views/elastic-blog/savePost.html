@@ -7,8 +7,14 @@
 			var uri = $('#uri').val();
 			var content = $('#content').val();
 			var summary = $('#summary').val();
+
+			var isLive = false;
+
+			if($('#live-button').hasClass('blog-button-active') == true) {
+				isLive = true;
+			}
 		
-			var savePost = $.post('{{pages.apiSavePost.uri}}', {'uri' : uri, 'summary' : summary, 'content' : content});
+			var savePost = $.post('{{pages.apiSavePost.uri}}', {'uri' : uri, 'summary' : summary, 'content' : content, 'live' : isLive});
 
 			savePost.success(function(result) {
 
@@ -52,6 +58,18 @@
 			$('#summary').hide();
 
 			convert_text();
+		});
+
+		$('#live-button').click(function() {
+
+			if($('#live-button').hasClass('blog-button-active') == true) {
+		
+				$(this).removeClass('blog-button-active');
+
+			} else {
+
+				$(this).addClass('blog-button-active');
+			}
 		});
 
 		{{#is pages.updatePost.uri "===" page.uri}}
@@ -168,10 +186,25 @@
 
 <div class="save-button-pager">
 	<div class="blog-button blog-button-active" id="summary-button"><span>Summary</span></div>
+
 	<div class="blog-button" id="full-button"><span>Full</span></div>
 
 	{{#is pages.updatePost.uri "===" page.uri}}
+
+		{{#is post.live "===" "true"}}
+
+			<div class="blog-button blog-button-active" id="live-button"><span>Live</span></div>
+
+		{{else}}
+
+			<div class="blog-button" id="live-button"><span>Live</span></div>
+		{{/is}}
+
 		<div class="blog-button" id="delete-button"><span>Delete</span></div>
+
+	{{else}}
+
+		<div class="blog-button" id="live-button"><span>Live</span></div>
 	{{/is}}
 
 	<div class="blog-button" id="save-button"><span>Save</span></div>
