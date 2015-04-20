@@ -43,8 +43,9 @@ function saveQuote()
 	var uri = self.post.uri;
 	var content = self.post.content;
 	var user = self.user.id;
+	var live = self.post.live;
 
-	var data = {'uri' : uri, 'content' : content, 'user' : user};
+	var data = {'uri' : uri, 'content' : content, 'user' : user, 'live' : live};
 
 	common.EBSave(self, data, 'quotes', 'quote', function(results) {
 
