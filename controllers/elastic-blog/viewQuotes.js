@@ -2,7 +2,7 @@ var common = require('../../elastic-blog/common.js');
 var pages = require('../../elastic-blog/pages.js');
 
 exports.install = function(framework) {
-	framework.route(pages.viewQuotes.uri, getViewQuotes);
+	framework.route(pages.viewQuotes.uri, getViewQuotes, pages.viewQuotes.options);
 };
 
 function getViewQuotes()
@@ -13,9 +13,8 @@ function getViewQuotes()
 	
 	common.model.pages = pages;
 	common.model.page = pages.viewQuotes;
-	common.model.body = common.make(self, pages.home.view);
 
-	var page = common.make(self, pages.default.view);
+	var page = common.make(self, pages.viewQuotes.views);
 
 	self.html(page);
 }

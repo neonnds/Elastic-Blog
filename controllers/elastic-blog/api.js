@@ -2,13 +2,12 @@ var common = require('../../elastic-blog/common.js');
 var pages = require('../../elastic-blog/pages.js');
 
 exports.install = function(framework) {
-
-framework.route(pages.apiGetByURI.uri, getByURI, ['post']);
-	framework.route(pages.apiGetMany.uri, getMany, ['post']);
-	framework.route(pages.apiGetManyByDateRange.uri, getManyByDateRange, ['post']);
-	framework.route(pages.apiSavePost.uri, savePost, ['post', 'authorize']);
-	framework.route(pages.apiSaveQuote.uri, saveQuote, ['post', 'authorize']);
-	framework.route(pages.apiDeleteByURI.uri, deleteByURI, ['post', 'authorize']);
+	framework.route(pages.apiGetByURI.uri, getByURI, pages.apiGetByURI.options);
+	framework.route(pages.apiGetMany.uri, getMany, pages.apiGetMany.options);
+	framework.route(pages.apiGetManyByDateRange.uri, getManyByDateRange, pages.apiGetManyByDateRange.options);
+	framework.route(pages.apiSavePost.uri, savePost, pages.apiSavePost.options);
+	framework.route(pages.apiSaveQuote.uri, saveQuote, pages.apiSaveQuote.options);
+	framework.route(pages.apiDeleteByURI.uri, deleteByURI, pages.apiDeleteByURI.options);
 };
 
 function savePost()

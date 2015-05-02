@@ -3,7 +3,7 @@ var pages = require('../../elastic-blog/pages.js');
 var textile = require('textile-js');
 
 exports.install = function(framework) {
-	framework.route(pages.viewPost.uri, getViewPost);
+	framework.route(pages.viewPost.uri, getViewPost, pages.viewPost.options);
 };
 
 // GET Post Item
@@ -25,9 +25,8 @@ function getViewPost(uri)
 			common.model.page = pages.view;
 			common.model.content = textile.parse(results.message.content);
 			common.model.uri = results.message.uri;
-			common.model.body = common.make(self, pages.viewPost.view);
 
-			var page = common.make(self, pages.default.view);
+			var page = common.make(self, pages.view.views);
 
 			self.html(page);
 		}
