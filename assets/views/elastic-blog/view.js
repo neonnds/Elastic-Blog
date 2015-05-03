@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+/*
 	var lastItem = $('#section .portfolio-item').not('#default-portfolio-item').last(); 
 
 	if(lastItem.length == 0) {
@@ -70,4 +70,5 @@ $(document).ready(function() {
 	});
 
 	getItems();
+*/
 });

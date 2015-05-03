@@ -173,8 +173,8 @@ $.viewQuotes = {
 	options: ['authorize'],
 	label: 'View Quotes',
 	views: [
-		{'viewQuotejs' : 'elastic-blog/viewQuotes.js'}, 
-		{'body' : 'elastic-blog/view.html'}, 
+		{'homejs' : 'elastic-blog/home.js'}, 
+		{'body' : 'elastic-blog/home.html'}, 
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
