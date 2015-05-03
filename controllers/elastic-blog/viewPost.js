@@ -26,7 +26,7 @@ function getViewPost(uri)
 			common.model.content = textile.parse(results.message.content);
 			common.model.uri = results.message.uri;
 
-			var page = common.make(self, pages.view.views);
+			var page = common.make(self, pages.viewPost.views);
 
 			self.html(page);
 		}
