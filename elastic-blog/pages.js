@@ -91,7 +91,7 @@ $.homeByYear = {
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
-	options: ['unauthorize'],
+	options: ['get'],
 	above: [],
 	below: []
 };
