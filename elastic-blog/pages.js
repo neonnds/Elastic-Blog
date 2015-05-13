@@ -44,16 +44,6 @@ $.apiRegister = {
 	active: true
 };
 
-$.default = {
-	label: 'Elastic Blog',
-	views: [
-		{'defaultjs' : 'elastic-blog/default.js'}, 
-		{'default' : 'elastic-blog/default.html'}
-	],
-	above: [],
-	below: []
-};
-
 $.error = {
 	uri: '/error',
 	options: [],
