@@ -9,8 +9,13 @@ db.client.indices.create({
 	body : {
 		"mappings" : {
 			"post" : {
-				_id : {
+				"_id" : {
 					"path" : "uri",
+					"store" : "true",
+					"index" : "analyzed"
+				},
+				"_timestamp" : {
+					"enabled": true,
 					"store" : "true",
 					"index" : "analyzed"
 				},
@@ -21,7 +26,7 @@ db.client.indices.create({
 					"live" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"summary" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"content" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
-					"created" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "analyzed", "null_value" : "na"}
+					"updated" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "analyzed", "null_value" : "na"}
 				}
 			}
 		}
@@ -39,8 +44,13 @@ db.client.indices.create({
 	body : {
 		"mappings" : {
 			"quote" : {
-				_id : {
+				"_id" : {
 					"path" : "uri",
+					"store" : "true",
+					"index" : "analyzed"
+				},
+				"_timestamp" : {
+					"enabled": true,
 					"store" : "true",
 					"index" : "analyzed"
 				},
@@ -50,7 +60,7 @@ db.client.indices.create({
 					"user" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"live" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
 					"content" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
-					"created" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "analyzed", "null_value" : "na"}
+					"updated" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "analyzed", "null_value" : "na"}
 				}
 			}
 		}

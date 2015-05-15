@@ -37,23 +37,6 @@ $.apiDeleteByURI = {
 	label: 'Delete.'
 };
 
-$.apiRegister = {
-	uri: '/api/register',
-	options: ['unauthorize', 'post'],
-	label: 'API Register',
-	active: true
-};
-
-$.default = {
-	label: 'Elastic Blog',
-	views: [
-		{'defaultjs' : 'elastic-blog/default.js'}, 
-		{'default' : 'elastic-blog/default.html'}
-	],
-	above: [],
-	below: []
-};
-
 $.error = {
 	uri: '/error',
 	options: [],
@@ -195,13 +178,6 @@ $.search = {
 	options: ['get'],
 	above: [],
 	below: []
-};
-
-$.register = {
-	uri: '/register',
-	options: [],
-	label: 'Register',
-	active: true
 };
 
 

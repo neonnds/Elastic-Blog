@@ -99,7 +99,7 @@ $.EBGetManyByDateRange = function(self, from, to, last, index, type, limit, call
 		body.query.bool.must.push({"match" : { "live" : true }});
 	}
 
-	body.query.bool.must.push({"range" : { "created" : { "from" : from, "to" : to }}});
+	body.query.bool.must.push({"range" : { "_timestamp" : { "from" : from, "to" : to }}});
 
 	if(last != null && last != "") {
 
@@ -154,7 +154,7 @@ $.EBSave = function(self, data, index, type, callback)
 	}
 
 	body.key = cuid();
-	body.created = new Date().format('yyyy/MM/dd');
+	body.updated = new Date().format('yyyy/MM/dd');
 
 	db.client.index({
 		index: index,

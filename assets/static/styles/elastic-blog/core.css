@@ -229,6 +229,14 @@
 	margin-bottom: 32px;
 }
 
+        .post-item video, .portfolio-item video {
+                margin: 0;
+                margin: auto;
+                text-align: center;
+                display: block;
+                margin-bottom: 20px;
+        }
+
 	.portfolio-item:hover .home-button-pager {
 		display: block;
 	}
