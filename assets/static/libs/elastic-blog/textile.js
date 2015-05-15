@@ -188,11 +188,13 @@
 
   var re_block          = re.compile( /^([:blocks:])/ )
     , re_block_se       = re.compile( /^[:blocks:]$/ )
-    , re_block_normal   = re.compile( /^(.*?)($|\n(?:\s*\n|$)+)/, 's' )
-    , re_block_extended = re.compile( /^(.*?)($|\n+(?=[:blocks:][:pba_attr:]\.))/, 's' )
-    , re_ruler          = /^(\-\-\-+|\*\*\*+|___+)(\n\s+|$)/
-    , re_list           = re.compile( /^((?:[\t ]*[\#\*]+[:pba_attr:] .+?(?:\n|$))+)(\s*\n)?/ )
-    , re_list_item      = /^([\#\*]+)(.+?)(\n|$)/
+    , re_block_normal   = re.compile( /^(.*?)($|\r?\n(?:\s*\n|$)+)/, 's' )
+    , re_block_extended = re.compile( /^(.*?)($|\r?\n+(?=[:blocks:][:pba_attr:]\.))/, 's' )
+    , re_ruler          = /^(\-\-\-+|\*\*\*+|___+)(\r?\n\s+|$)/
+    , re_list           = re.compile( /^((?:[\t ]*[\#\*]+[:pba_attr:] .+?(?:\r?\n|$))+)(\s*\r?\n)?/ )
+    , re_list_item      = /^([\#\*]+)(.+?)(\r?\n|$)/
+    , re_deflist        = /^((?:- (?:[^\n]\n?)+?)+:=(?: *\n[^\0]+?=:(?:\n|$)|(?:[^\0]+?(?:$|\n(?=\n|- )))))+/
+    , re_deflist_item   = /^((?:- (?:[^\n]\n?)+?)+):=( *\n[^\0]+?=:\s*(?:\n|$)|(?:[^\0]+?(?:$|\n(?=\n|- ))))/
     , re_table          = re.compile( /^((?:table[:pba_attr:]\.\n)?(?:(?:[:pba_attr:]\.[^\n\S]*)?\|.*?\|[^\n\S]*(?:\n|$))+)([^\n\S]*\n)?/, 's' )
     , re_table_head     = /^table(_?)([^\n]+)\.\s?\n/
     , re_table_row      = re.compile( /^([:pba_attr:]\.[^\n\S]*)?\|(.*?)\|[^\n\S]*(\n|$)/, 's' )
@@ -206,7 +208,7 @@
     , re_link           = re.compile( /^"(?!\s)((?:[^\n"]|"(?![\s:])[^\n"]+"(?!:))+)"[:tx_cite:]/ )
     , re_link_fenced    = /^\["([^\n]+?)":((?:\[[a-z0-9]*\]|[^\]])+)\]/
     , re_link_ref       = re.compile( /^\[([^\]]+)\]((?:https?:\/\/|\/)\S+)(?:\s*\n|$)/ )
-    , re_link_title     = /\s*\(((?:\([^\(\)]*\)|[^\(\)]+)+)\)$/
+    , re_link_title     = /\s*\(((?:\([^\(\)]*\)|[^\(\)])+)\)$/
     , re_footnote_def   = /^fn\d+$/
     , re_footnote       = /^\[(\d+)\]/
 
@@ -661,7 +663,7 @@
 
   function parse_list ( src, options ) {
 
-    src = ribbon( src.replace( /(^|\n)[\t ]+/, '$1' ) );
+    src = ribbon( src.replace( /(^|\r?\n)[\t ]+/, '$1' ) );
     var pad = function ( n ) {
           var s = '\n';
           while ( n-- ) { s += '\t'; }
@@ -724,6 +726,39 @@
     return s.ul;
   }
 
+
+  /* definitions list parser */
+
+  function parse_deflist ( src, options ) {
+    src = ribbon( src.trim() );
+    var deflist = [ 'dl', '\n' ]
+      , terms
+      , def
+      , m
+      ;
+    while ( (m = re_deflist_item.exec( src )) ) {
+      // add terms
+      terms = m[1].split( /(?:^|\n)\- / ).slice(1);
+      while ( terms.length ) {
+        deflist.push( '\t'
+                  , [ 'dt' ].concat( parse_inline( terms.shift().trim(), options ) )
+                  , '\n'
+                  );
+      }
+      // add definitions
+      def = m[2].trim();
+      deflist.push( '\t'
+                , [ 'dd' ].concat(
+                    /=:$/.test( def )
+                      ? parse_blocks( def.slice(0,-2).trim(), options )
+                      : parse_inline( def, options )
+                  )
+                , '\n'
+                );
+      src.advance( m[0] );
+    }
+    return deflist;
+  }
 
 
   /* table parser */
@@ -820,6 +855,9 @@
       src.save();
 
       // linebreak -- having this first keeps it from messing to much with other phrases
+      if ( src.startsWith( '\r\n' ) ) {
+        src.advance( 1 ); // skip cartridge returns
+      }
       if ( src.startsWith( '\n' ) ) {
         src.advance( 1 );
 
@@ -1013,11 +1051,11 @@
       , paragraph = function ( s, tag, pba, linebreak ) {
           tag = tag || 'p';
           var out = [];
-          s.split( /\n\n+/ ).forEach(function( bit, i ) {
+          s.split( /(?:\r?\n){2,}/ ).forEach(function( bit, i ) {
             if ( tag === 'p' && /^\s/.test( bit ) ) {
               // no-paragraphs
               // WTF?: Why does Textile not allow linebreaks in spaced lines
-              bit = bit.replace( /\n[\t ]/g, ' ' ).trim();
+              bit = bit.replace( /\r?\n[\t ]/g, ' ' ).trim();
               out = out.concat( parse_inline( bit, options ) );
             }
             else {
@@ -1031,7 +1069,7 @@
       , link_refs = {}
       , m
       ;
-    src = ribbon( src.replace( /^( *\n)+/, '' ) );
+    src = ribbon( src.replace( /^( *\r?\n)+/, '' ) );
 
     // loop
     while ( src.valueOf() ) {
@@ -1057,7 +1095,7 @@
           src.advance( pba[0] );
           pba = pba[1];
         }
-        if ( (m = /\.(\.?)(?:\s|(?=:))/.exec( src )) ) {
+        if ( (m = /^\.(\.?)(?:\s|(?=:))/.exec( src )) ) {
           // FIXME: this whole copy_pba seems rather strange?
           // slurp rest of block
           var extended = !!m[1];
@@ -1153,7 +1191,7 @@
               src.advance( m[0] );
               if ( tag === 'pre' ) {
                 element.push( tail );
-                element = element.concat( parse_html( m[1].replace( /\n+$/, '' ), { 'code': 1 } ) );
+                element = element.concat( parse_html( m[1].replace( /(\r?\n)+$/, '' ), { 'code': 1 } ) );
                 if ( m[2] ) { element.push( m[2] ); }
                 list.add( element );
               }
@@ -1201,6 +1239,13 @@
       if ( (m = re_list.exec( src )) ) {
         src.advance( m[0] );
         list.add( parse_list( m[0], options ) );
+        continue;
+      }
+
+      // definition list
+      if ( (m = re_deflist.exec( src )) ) {
+        src.advance( m[0] );
+        list.add( parse_deflist( m[0], options ) );
         continue;
       }
 
