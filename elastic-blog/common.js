@@ -99,7 +99,7 @@ $.EBGetManyByDateRange = function(self, from, to, last, index, type, limit, call
 		body.query.bool.must.push({"match" : { "live" : true }});
 	}
 
-	body.query.bool.must.push({"range" : { "_timestamp" : { "from" : from, "to" : to }}});
+	body.query.bool.must.push({"range" : { "created" : { "from" : from, "to" : to }}});
 
 	if(last != null && last != "") {
 
@@ -153,31 +153,42 @@ $.EBSave = function(self, data, index, type, callback)
 		body[keys[i]] = data[keys[i]];
 	}
 
-	body.key = cuid();
 	body.updated = new Date().format('yyyy/MM/dd');
 
-	db.client.index({
-		index: index,
-		type: type,
-		body: body,
-		refresh: true
-	}, function (err, response) {
+	$.EBGetByURI(self, body.uri, index, type, function(result) { 
 
-		if(err == null) {
-			
-			if(response.created == true) {
+		//Exists		
+		if(result.success == false) {
+			body.key = cuid();
+			body.created = new Date().format('yyyy/MM/dd');
+		} else {
+			body.key = result.message.key;
+			body.created = result.message.created;
+		}
+		
+		db.client.index({
+			index: index,
+			type: type,
+			body: body,
+			refresh: true
+		}, function (err, response) {
 
-				callback({success: true, message: "Saved.", created: true});
+			if(err == null) {
+				
+				if(response.created == true) {
 
+					callback({success: true, message: "Saved.", created: true});
+
+				} else {
+
+					callback({success: true, message: "Updated.", created: false});
+				}	
+				
 			} else {
 
-				callback({success: true, message: "Updated.", created: false});
-			}	
-			
-		} else {
-
-			callback({success: false, message: "An error has occurred.", created: false});
-		}
+				callback({success: false, message: "An error has occurred.", created: false});
+			}
+		});
 	});
 }
 
