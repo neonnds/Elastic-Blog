@@ -6,7 +6,6 @@ exports.install = function(framework) {
 	framework.route(pages.apiGetMany.uri, getMany, pages.apiGetMany.options);
 	framework.route(pages.apiGetManyByDateRange.uri, getManyByDateRange, pages.apiGetManyByDateRange.options);
 	framework.route(pages.apiSavePost.uri, savePost, pages.apiSavePost.options);
-	framework.route(pages.apiSaveQuote.uri, saveQuote, pages.apiSaveQuote.options);
 	framework.route(pages.apiDeleteByURI.uri, deleteByURI, pages.apiDeleteByURI.options);
 };
 
@@ -15,38 +14,14 @@ function savePost()
 	var self = this;
 
 	var uri = self.post.uri;
-	var summary = self.post.summary;
 	var content = self.post.content;
 	var user = self.user.id;
 	var live = self.post.live;
+	var group = self.post.group;	
 
-	var data = {'uri' : uri, 'summary' : summary, 'content' : content, 'user' : user, 'live' : live};
+	var data = {'uri' : uri, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
 
 	common.EBSave(self, data, 'posts', 'post', function(results) {
-
-		if(results.success == false) {
-	
-			self.view500(results.message);
-
-		} else {
-
-			self.json(results);
-		}
-	});
-}
-
-function saveQuote()
-{
-	var self = this;
-
-	var uri = self.post.uri;
-	var content = self.post.content;
-	var user = self.user.id;
-	var live = self.post.live;
-
-	var data = {'uri' : uri, 'content' : content, 'user' : user, 'live' : live};
-
-	common.EBSave(self, data, 'quotes', 'quote', function(results) {
 
 		if(results.success == false) {
 	
@@ -88,8 +63,9 @@ function getMany()
        	var index = self.post.index;
         var type = self.post.type;
 	var limit = self.post.limit;
+	var group = self.post.group;
 	
-	common.EBGetMany(self, last, index, type, limit, function(results) {
+	common.EBGetMany(self, last, index, type, group, limit, function(results) {
 
 		if(results.success == false) {
 			
@@ -112,8 +88,9 @@ function getManyByDateRange()
 	var index = self.post.index;
 	var type = self.post.type;
 	var limit = self.post.limit;
+	var group = self.post.group;
 
-	common.EBGetManyByDateRange(self, from, to, last, index, type, limit, function(results) {
+	common.EBGetManyByDateRange(self, from, to, last, index, type, group, limit, function(results) {
 
 		if(results.success == false) {
 			

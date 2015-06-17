@@ -373,12 +373,12 @@
 	min-height: 200px;
 	max-height: 200px;
 	top: 250px;
-	bottom:0;
+	bottom: 0;
 	position: fixed;
 	width: 1000px;	
 	min-width: 1000px;
 	max-width: 1000px;
-	margin-top: 20px;
+	margin-top: 50px;
 }
 
 .tx-shadow {

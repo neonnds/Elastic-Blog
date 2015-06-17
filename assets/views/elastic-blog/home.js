@@ -10,15 +10,9 @@ $(document).ready(function() {
 
 			$(portfolioItem).show();
 
-			{{#is pages.viewQuotes.uri "===" page.uri}}
-				$(portfolioItem).attr('data-id', dataItem.key);
-				$(portfolioItem).find('#edit-button').attr('href', '{{pages.newQuote.uri}}/' + dataItem.uri);
-				$(portfolioItem).append(textile.parse(dataItem.content)).after('#portfolio-header');
-			{{else}}
-				$(portfolioItem).attr('data-id', dataItem.key);
-				$(portfolioItem).find('#edit-button').attr('href', '{{pages.newPost.uri}}/' + dataItem.uri);
-				$(portfolioItem).append(textile.parse(dataItem.summary)).after('#portfolio-header');
-			{{/is}}
+			$(portfolioItem).attr('data-id', dataItem.key);
+			$(portfolioItem).find('#edit-button').attr('href', '{{pages.newPost.uri}}/' + dataItem.uri);
+			$(portfolioItem).append(textile.parse(dataItem.content)).after('#portfolio-header');
 
 			$('#section .portfolio-item:last').after(portfolioItem)
 		});
@@ -50,10 +44,10 @@ $(document).ready(function() {
 					last  : lastItem,
 					index : 'posts',
 					type  : 'post',
-					limit : 5
+					group : 'summary',
+					limit : 8
 				}
 			});
-
 
 			//If the quote has already been generated there is no need to fetch and generate again
 			if($('#section .portfolio-quote').length == 0) {
@@ -63,8 +57,9 @@ $(document).ready(function() {
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
 						last   : '',
-						index  : 'quotes',
-						type   : 'quote',
+						index  : 'posts',
+						type   : 'post',
+						group  : 'quote',
 						limit  : 1
 					}
 				});
@@ -92,11 +87,15 @@ $(document).ready(function() {
 								$(portfolioItem).show();
 
 								var dataItem = result.message.pop();
+
+console.log(dataItem);
 								
-								$(portfolioItem).find('#edit-button').attr('href', '{{pages.newQuote.uri}}/' + dataItem.uri);
+								$(portfolioItem).find('#edit-button').attr('href', '{{pages.newPost.uri}}/' + dataItem.uri);
+
 								$(portfolioItem).append(textile.parse(dataItem.content));
 				
 								$('#section .portfolio-item:first').after(portfolioItem)
+
 							} else {
 
 								$('#empty-quote-portfolio-item').show();
@@ -121,7 +120,8 @@ $(document).ready(function() {
 						 last  :  lastItem,
 						index  :  'posts',
 						 type  :  'post',
-						limit  :  5
+						group  :  'summary',
+						limit  :  8
 					}
 				});
 
@@ -135,28 +135,13 @@ $(document).ready(function() {
 						data: { 
 							query  : '{{query}}', 
 							last   : lastItem, 
-							fields : ['uri', 'summary', 'content'],
+							fields : ['uri', 'content'],
 							index  : 'posts',
 							type   : 'post',
 							limit  : 5
 						}
 					});
-
-				{{else}}
-
-					getPosts = $.ajax({
-						type: "POST", 
-						url: '{{pages.apiGetMany.uri}}', 
-						data: { 
-							last   : lastItem, 
-							index  : 'quotes',
-							type   : 'quote',
-							limit  : 5
-						}
-					});
-
 				{{/is}}
-
 			{{/is}}
 
 		{{/is}}

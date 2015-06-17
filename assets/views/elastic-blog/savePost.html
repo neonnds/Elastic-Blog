@@ -18,9 +18,6 @@
 </div>
 
 <div class="save-button-pager">
-	<div class="blog-button blog-button-active" id="summary-button"><span>Summary</span></div>
-
-	<div class="blog-button" id="full-button"><span>Full</span></div>
 
 	{{#is pages.updatePost.uri "===" page.uri}}
 
@@ -38,16 +35,21 @@
 	{{else}}
 
 		<div class="blog-button" id="live-button"><span>Live</span></div>
+
 	{{/is}}
 
 	<div class="blog-button" id="save-button"><span>Save</span></div>
 </div>
 
+<select id="group" name="group" class="panel">
+	<option value="quote" {{#is post.group "===" "quote"}}selected="selected"{{/is}}>QUOTE</option>
+	<option value="summary" {{#is post.group "===" "summary"}}selected="selected"{{/is}}>SUMMARY</option>
+	<option value="article" {{#is post.group "===" "article"}}selected="selected"{{/is}}>ARTICLE</option>
+</select>
+
 <input type="text" id="uri" class="panel" name="uri" placeholder="URI" value="{{post.uri}}" />
 
 <div class="tx-shadow panel"></div>
-
-<textarea id="summary" class="tx-input panel" name="summary" placeholder="SUMMARY">{{post.summary}}</textarea>
 
 <textarea id="content" class="tx-input panel" name="content" placeholder="CONTENT">{{post.content}}</textarea>
 

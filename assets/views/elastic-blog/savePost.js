@@ -2,9 +2,9 @@ $(document).ready(function() {
 
 	$('#save-button').click(function() {
 
+		var group = $('#group').val();
 		var uri = $('#uri').val();
 		var content = $('#content').val();
-		var summary = $('#summary').val();
 
 		var isLive = false;
 
@@ -12,7 +12,12 @@ $(document).ready(function() {
 			isLive = true;
 		}
 	
-		var savePost = $.post('{{pages.apiSavePost.uri}}', {'uri' : uri, 'summary' : summary, 'content' : content, 'live' : isLive});
+		var savePost = $.post('{{pages.apiSavePost.uri}}', {
+			'uri' : uri, 
+			'content' : content, 
+			'live' : isLive, 
+			'group' : group
+		});
 
 		savePost.success(function(result) {
 
@@ -34,28 +39,6 @@ $(document).ready(function() {
 		});
 
 		savePost.error(errorHandler);
-	});
-
-	$('#summary-button').click(function() {
-
-		$(this).addClass('blog-button-active');
-		$('#full-button').removeClass('blog-button-active');
-
-		$('#summary').show();
-		$('#content').hide();
-
-		convert_text();
-	});
-
-	$('#full-button').click(function() {
-
-		$(this).addClass('blog-button-active');
-		$('#summary-button').removeClass('blog-button-active');
-
-		$('#content').show();
-		$('#summary').hide();
-
-		convert_text();
 	});
 
 	$('#live-button').click(function() {
@@ -158,8 +141,6 @@ $(document).ready(function() {
 	$('#content').bind( 'keyup', onInput ).focus();
 
 	$('#summary').bind( 'keyup', onInput ).focus();
-
-	$('#content').hide();
 
 	convert_text();
 });

@@ -26,9 +26,9 @@ $.EBGetByURI = function(self, uri, index, type, callback)
 			callback({success: false, message: "An error has occurred."});
 		}
 	});
-}
+};
 
-$.EBGetMany = function(self, last, index, type, limit, callback)
+$.EBGetMany = function(self, last, index, type, group, limit, callback)
 {
 	var body = {
 		"query" : {
@@ -38,6 +38,8 @@ $.EBGetMany = function(self, last, index, type, limit, callback)
 		}
 	};
 
+	body.query.bool.must.push({"match" : { "group" : group }});
+	
 	if(self.user == null) {
 
 		body.query.bool.must.push({"match" : { "live" : true }});
@@ -57,6 +59,8 @@ $.EBGetMany = function(self, last, index, type, limit, callback)
 
                 limit = defaultLimit;
         } 
+
+	console.log(body.query.bool.must);
 
 	db.client.search({
 		index: index,
@@ -82,9 +86,9 @@ $.EBGetMany = function(self, last, index, type, limit, callback)
 			callback({success: false, message: "An error has occurred."});
 		}
 	});
-}
+};
 
-$.EBGetManyByDateRange = function(self, from, to, last, index, type, limit, callback)
+$.EBGetManyByDateRange = function(self, from, to, last, index, type, group, limit, callback)
 {
 	var body = {
 		"query" : {
@@ -140,7 +144,7 @@ $.EBGetManyByDateRange = function(self, from, to, last, index, type, limit, call
 			callback({success: false, message: "An error has occurred."});
 		}
 	});
-}
+};
 
 $.EBSave = function(self, data, index, type, callback)
 {
@@ -190,7 +194,7 @@ $.EBSave = function(self, data, index, type, callback)
 			}
 		});
 	});
-}
+};
 
 $.EBDelete = function(self, uri, index, type, callback)
 {
@@ -210,4 +214,4 @@ $.EBDelete = function(self, uri, index, type, callback)
 			callback({success: false, message: "Failed to delete."});
 		}
 	});
-}
+};

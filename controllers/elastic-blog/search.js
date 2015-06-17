@@ -10,8 +10,6 @@ function getSearchPage(query)
 {
 	var self = this;
 
-	console.log(query);
-
 	common.model = {};
 	common.model.query = query;
 	common.model.pages = pages;
