@@ -1,0 +1,27 @@
+{
+  "name": "Elastic-Blog",
+  "version": "1.0.0",
+  "description": "A simple blog website using total.js and elastic-search.",
+  "main": "index.js",
+  "dependencies": {
+    "cuid": "^1.2.4",
+    "bcrypt-nodejs": "^0.0.3",
+    "rho": "^0.2.3",
+    "textile-js": "^0.1.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neonnds/Elastic-Blog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neonnds/Elastic-Blog/issues"
+  },
+  "homepage": "https://github.com/neonnds/Elastic-Blog#readme"
+}
