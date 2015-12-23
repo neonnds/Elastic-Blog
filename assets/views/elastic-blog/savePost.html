@@ -2,6 +2,25 @@
 	{{{savePostjs}}}
 </script>
 
+<div id="load-lightbox" class="lightbox">
+	<div class="lightbox-details">
+		<select id="load-type" name="load-type" class="panel">
+			<option value="quote" selected="selected">QUOTE</option>
+			<option value="summary">SUMMARY</option>
+			<option value="article">ARTICLE</option>
+		</select>
+	
+		<select id="default-load-select" name="load-select" class="panel">
+			<option id="default-load-select-item" value="#">NO ITEMS FOUND!</option>
+		</select>
+	
+		<br/>
+
+		<div class="blog-button" id="load-cancel-button"><span>Cancel</span></div>
+		<div class="blog-button" id="load-submit-button"><span>Load</span></div>
+	</div>
+</div>
+
 <div id="delete-lightbox" class="lightbox">
 	<div class="lightbox-details">
 		<h4>Really delete this post?</h4>
@@ -22,17 +41,16 @@
 	{{#is pages.updatePost.uri "===" page.uri}}
 
 		{{#is post.live "===" "true"}}
-
 			<div class="blog-button blog-button-active" id="live-button"><span>Live</span></div>
-
 		{{else}}
-
 			<div class="blog-button" id="live-button"><span>Live</span></div>
 		{{/is}}
 
 		<div class="blog-button" id="delete-button"><span>Delete</span></div>
 
 	{{else}}
+
+		<div class="blog-button" id="load-button"><span>Load</span></div>
 
 		<div class="blog-button" id="live-button"><span>Live</span></div>
 
@@ -49,10 +67,7 @@
 
 <input type="text" id="uri" class="panel" name="uri" placeholder="URI" value="{{post.uri}}" />
 
-<div class="tx-shadow panel"></div>
+<textarea id="content" name="content" class="tx-input panel">{{post.content}}</textarea>
 
-<textarea id="content" class="tx-input panel" name="content" placeholder="CONTENT">{{post.content}}</textarea>
-
-<div id="preview" class="tx-preview panel portfolio-item"></div>
-
+<div id="preview" class="tx-input panel portfolio-item"></div>
 

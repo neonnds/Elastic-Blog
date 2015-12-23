@@ -1,8 +1,8 @@
 var common = require('../../elastic-blog/common.js');
 var pages = require('../../elastic-blog/pages.js');
 
-exports.install = function(framework) {
-	framework.route(pages.search.uri, getSearchPage, pages.search.options);
+exports.install = function() {
+	F.route(pages.search.uri, getSearchPage, pages.search.options);
 };
 
 // GET Search Page

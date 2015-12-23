@@ -10,16 +10,26 @@ var $ = module.exports = require('../elastic-core/common.js');
 
 $.EBGetByURI = function(self, uri, index, type, callback)
 {
-	db.client.get({
+	var body = {};
+	
+	body.query = {
+		"match" : { 
+			"uri" : uri 
+		}
+	};
+
+	db.client.search({
 		index: index,
 		type: type,
-		size: 1,
-		id: uri
+		size: 10,
+		body: body
 	}, function (error, response) {
+	
+		console.log(response);
 
-		if(error == null && response != null && response._source !=  null) {
+		if(error == null && response.hits.hits.length == 1) {
 
-			callback({success: true, message: response._source}); 
+			callback({ success: true, message: response.hits.hits.pop()._source }); 
 
 		} else {
 
@@ -60,7 +70,6 @@ $.EBGetMany = function(self, last, index, type, group, limit, callback)
                 limit = defaultLimit;
         } 
 
-	console.log(body.query.bool.must);
 
 	db.client.search({
 		index: index,
@@ -173,9 +182,10 @@ $.EBSave = function(self, data, index, type, callback)
 		db.client.index({
 			index: index,
 			type: type,
+			id: body.key,
 			body: body,
 			refresh: true
-		}, function (err, response) {
+		}, function(err, response) {
 
 			if(err == null) {
 				

@@ -9,20 +9,15 @@ db.client.indices.create({
 	body : {
 		"mappings" : {
 			"post" : {
-				"_id" : {
-					"path" : "uri",
-					"store" : "true",
-					"index" : "analyzed"
-				},
 				"properties" : {
-					"key" : {"type" : "string", "index" : "analyzed", "null_value" : "na"},
-					"uri" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
-					"user" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
-					"live" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
-					"group" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
+					"key" : {"type" : "string", "index" : "not_analyzed", "null_value" : "na"},
+					"uri" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
+					"user" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
+					"live" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
+					"group" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
 					"content" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},
-					"updated" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "analyzed", "null_value" : "na"},
-					"created" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "analyzed", "null_value" : "na"}
+					"updated" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "not_analyzed", "null_value" : "na"},
+					"created" : {"type" : "date", "format" : "yyyy/MM/dd", "index" : "not_analyzed", "null_value" : "na"}
 				}
 			}
 		}
@@ -38,11 +33,6 @@ db.client.indices.create({
 	body : {
 		"mappings" : {
 			"comment" : {
-				_id : {
-					"path" : "uri",
-					"store" : "true",
-					"index" : "analyzed"
-				},
 				"properties" : {
 					"key" : {"type" : "string", "index" : "not_analyzed", "null_value" : "na"},
 					"uri" : {"type" : "string", "null_value" : "na", "index" : "analyzed"},

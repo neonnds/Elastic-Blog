@@ -193,7 +193,7 @@
 
 .container {
 	margin: 0 auto;
-	max-width: 1000px;
+	min-width: 600px;
 	padding: 40px 20px;
 }
 
@@ -252,7 +252,6 @@
 	}
 
 	.portfolio-item p {
-		font-weight: bold;
 		font-family: Helvetica,arial,sans-serif;
 		font-size: 1.4rem;
 		line-height: 1.8;
@@ -366,32 +365,28 @@
 	outline: medium none;
 	padding: 4px;
 	width: 100%;
+	margin-top: 10px;
 }
 
 .tx-input {
-	height: 200px;
-	min-height: 200px;
-	max-height: 200px;
-	top: 250px;
 	bottom: 0;
-	position: fixed;
-	width: 1000px;	
-	min-width: 1000px;
-	max-width: 1000px;
-	margin-top: 50px;
+	display: inline-block;
+	top: 250px;
+	width: 49.5%;
+	height: 60%;
+	overflow-y: scroll;
+	vertical-align: top;
+	margin-top: 10px;
 }
 
-.tx-shadow {
-	background-color: #fff;
-	border: none;
-	height: 200px;
-	margin-top: 20px;
-}
+	#content {
+		min-height: 400px;
+		float: left;
+	} 
 
-.tx-preview {
-	min-height: 200px;
-	margin-top: 20px;
-}
+	#preview {
+		float: right;
+	}
 
 .search {
 	display: inline-block;

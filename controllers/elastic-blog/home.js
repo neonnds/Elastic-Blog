@@ -1,9 +1,11 @@
 var common = require('../../elastic-blog/common.js');
 var pages = require('../../elastic-blog/pages.js');
 
-exports.install = function(framework) {
-	framework.route(pages.home.uri, getHomePage, pages.home.options);
-	framework.route(pages.homeByYear.uri, getHomeByYear, pages.homeByYear.options);
+var db = require('../../elastic-blog/database.js');
+
+exports.install = function() {
+	F.route(pages.home.uri, getHomePage, pages.home.options);
+	F.route(pages.homeByYear.uri, getHomeByYear, pages.homeByYear.options);
 };
 
 // GET Home Page
@@ -29,6 +31,8 @@ function getHomeByYear(year)
 	common.model.year = year;
 	common.model.pages = pages;
 	common.model.page = pages.homeByYear;
+
+	var body = {};
 
 	var page = common.make(self, pages.homeByYear.views);
 

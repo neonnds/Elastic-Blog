@@ -1,9 +1,9 @@
 var common = require('../../elastic-blog/common.js');
 var pages = require('../../elastic-blog/pages.js');
 
-exports.install = function(framework) {
-	framework.route(pages.newPost.uri, newPost, pages.newPost.options);
-	framework.route(pages.updatePost.uri, updatePost, pages.updatePost.options);
+exports.install = function() {
+	F.route(pages.newPost.uri, newPost, pages.newPost.options);
+	F.route(pages.updatePost.uri, updatePost, pages.updatePost.options);
 };
 
 function newPost()

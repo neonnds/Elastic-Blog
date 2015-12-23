@@ -25,12 +25,6 @@ $.apiSavePost = {
 	label: 'API Save Post.'
 };
 
-$.apiSaveQuote = {
-	uri: '/api/save-quote',
-	options: ['post', 'authorize'],
-	label: 'API Save Quote.'
-};
-
 $.apiDeleteByURI = {
 	uri: '/api/delete',
 	options: ['post', 'authorize'],
@@ -108,35 +102,6 @@ $.updatePost = {
 	below: []
 };
 
-$.newQuote = {
-	uri: '/save-quote',
-	label: 'Save Quote',
-	views: [
-		{'saveQuotejs' : 'elastic-blog/saveQuote.js'}, 
-		{'body' : 'elastic-blog/saveQuote.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
-		{'default' : 'elastic-blog/default.html'}
-	],
-	options: ['authorize', 'get'],
-	above: [],
-	below: []
-};
-
-$.updateQuote = {
-	uri: '/save-quote/{uri}',
-	base: '/save-quote',
-	label: 'Save Quote',
-	views: [
-		{'saveQuotejs' : 'elastic-blog/saveQuote.js'}, 
-		{'body' : 'elastic-blog/saveQuote.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
-		{'default' : 'elastic-blog/default.html'}
-	],
-	options: ['authorize', 'get'],
-	above: [],
-	below: []
-};
-
 $.viewPost = {
 	uri: '/view-post/{uri}',
 	label: 'View Post',
@@ -147,20 +112,6 @@ $.viewPost = {
 		{'default' : 'elastic-blog/default.html'}
 	],
 	options: ['get'],
-	above: [],
-	below: []
-};
-
-$.viewQuotes = {
-	uri: '/view-quotes',
-	options: ['authorize'],
-	label: 'View Quotes',
-	views: [
-		{'homejs' : 'elastic-blog/home.js'}, 
-		{'body' : 'elastic-blog/home.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
-		{'default' : 'elastic-blog/default.html'}
-	],
 	above: [],
 	below: []
 };
@@ -186,17 +137,11 @@ $.search = {
 $.home.below = [
 	$.search, 
 	$.newPost, 
-	$.newQuote, 
 	$.updatePost, 
-	$.updateQuote, 
-	$.viewPost, 
-	$.viewQuotes
+	$.viewPost
 ];
 
 $.search.above = [$.home];
 $.newPost.above = [$.home];
-$.newQuote.above = [$.home];
 $.updatePost.above = [$.home];
-$.updateQuote.above = [$.home];
 $.viewPost.above = [$.home];
-$.viewQuotes.above = [$.home];

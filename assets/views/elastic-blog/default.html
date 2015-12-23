@@ -14,9 +14,11 @@
 
 		<link rel="stylesheet" type="text/css" href="/styles/elastic-blog/core.css">
 
+		<link rel="stylesheet" type="text/css" href="/styles/elastic-blog/content.css">
+
 		<script type="text/javascript" src="/libs/elastic-core/jquery/jquery.min.js" charset="utf-8"></script>
 
-		<script type="text/javascript" src="/libs/elastic-blog/textile.js" charset="utf-8"></script>
+		<script type="text/javascript" src="/libs/elastic-blog/rho.js" charset="utf-8"></script>
 
 		<script type="text/javascript" src="/scripts/elastic-core/shared.js" charset="utf-8"></script>
 
@@ -92,14 +94,8 @@
 
 							{{#if user}}
 
-								<li id="admin-menu-item" class="menu-item">
-									<a href="#" class="sf-with-ul">ADMIN</a>
-									<ul class="admin-menu">
-										<li class="menu-item"><a href="{{{pages.newPost.uri}}}">NEW POST</a></li>
-										<li class="menu-item"><a href="{{{pages.newQuote.uri}}}">NEW QUOTE</a></li>
-										<li class="menu-item"><a href="{{{pages.viewQuotes.uri}}}">VIEW QUOTES</a></li>
-										<!--<li class="menu-item"><a href="{{{pages.viewComments.uri}}}">VIEW COMMENTS</a></li>-->
-									</ul>
+								<li id="editor-menu-item" class="menu-item">
+									<a href="{{{pages.newPost.uri}}}">EDITOR</a>
 								</li>
 
 								<li id="logout-menu-item" class="menu-item">

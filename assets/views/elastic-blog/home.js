@@ -6,13 +6,13 @@ $(document).ready(function() {
 
 			var portfolioItem = $('#default-portfolio-item').clone();
 
+			$(portfolioItem).html("");
 			$(portfolioItem).removeAttr('id');
 
 			$(portfolioItem).show();
 
 			$(portfolioItem).attr('data-id', dataItem.key);
-			$(portfolioItem).find('#edit-button').attr('href', '{{pages.newPost.uri}}/' + dataItem.uri);
-			$(portfolioItem).append(textile.parse(dataItem.content)).after('#portfolio-header');
+			$(portfolioItem).append(rho.toHtml(dataItem.content)).after('#portfolio-header');
 
 			$('#section .portfolio-item:last').after(portfolioItem)
 		});
@@ -80,6 +80,7 @@ $(document).ready(function() {
 
 								var portfolioItem = $('#default-portfolio-item').clone();
 
+								$(portfolioItem).html("");
 								$(portfolioItem).removeAttr('id');
 
 								$(portfolioItem).addClass('portfolio-quote');
@@ -90,9 +91,7 @@ $(document).ready(function() {
 
 console.log(dataItem);
 								
-								$(portfolioItem).find('#edit-button').attr('href', '{{pages.newPost.uri}}/' + dataItem.uri);
-
-								$(portfolioItem).append(textile.parse(dataItem.content));
+								$(portfolioItem).append(rho.toHtml(dataItem.content));
 				
 								$('#section .portfolio-item:first').after(portfolioItem)
 

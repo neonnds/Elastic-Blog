@@ -1,9 +1,10 @@
 var common = require('../../elastic-blog/common.js');
 var pages = require('../../elastic-blog/pages.js');
 var textile = require('textile-js');
+var rho = require("rho");
 
-exports.install = function(framework) {
-	framework.route(pages.viewPost.uri, getViewPost, pages.viewPost.options);
+exports.install = function() {
+	F.route(pages.viewPost.uri, getViewPost, pages.viewPost.options);
 };
 
 // GET Post Item
@@ -23,12 +24,16 @@ function getViewPost(uri)
 
 			common.model.pages = pages;
 			common.model.page = pages.view;
-			common.model.content = textile.parse(results.message.content);
 			common.model.uri = results.message.uri;
 
-			var page = common.make(self, pages.viewPost.views);
+			rho.render(results.message.content, function(err, html) {
 
-			self.html(page);
+				common.model.content = html;
+
+				var page = common.make(self, pages.viewPost.views);
+
+				self.html(page);
+			});
 		}
 	});
 }
