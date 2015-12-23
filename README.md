@@ -6,32 +6,33 @@ A simple blog website using total.js and elastic-search.
 * [Version 2015.03](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz)
 * [Version 2015.04](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-04.tar.gz)
 * [Version 2015.05](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-05.tar.gz)
+* [Version 2015.12](TBA)
 
 ## Getting Started
 
 Get Elastic Blog
 
-    $> wget https://github.com/neonnds/Elastic-Blog/raw/master/elastic-blog-2015-05.tar.gz
+    $> wget https://github.com/neonnds/Elastic-Blog/raw/master/elastic-blog-2015-12.tar.gz
     
 Extract Elastic Blog
 
-    $> tar -zxf elastic-blog-2015-05.tar.gz
+    $> tar -zxf elastic-blog-2015-12.tar.gz
     
 Enter the Elastic-Blog project
 
-    $> cd ./elastic-blog-2015-05
+    $> cd ./elastic-blog-2015-12
 
 Get ElasticSearch from the offical site
 
-    $> wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.0.tar.gz
+    $> wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.1.0.tar.gz
     
 Extract ElasticSearch
 
-    $> tar -zxf elasticsearch-1.5.0.tar.gz
+    $> tar -zxf elasticsearch-2.1.0.tar.gz
     
 Start Elastic Search
 
-    $> ./elasticsearch-1.5.0/bin/elasticsearch
+    $> ./elasticsearch-2.1.0/bin/elasticsearch
 
 Start Elastic-Blog
 
@@ -50,7 +51,7 @@ Visit in a modern web browser:
 
 * [CUID](https://github.com/ericelliott/cuid)
 
-* [Textile-js](https://github.com/borgar/textile-js)
+* [Rho.js](http://inca.github.io/rho)
 
 
 ### Linux Installation
@@ -73,7 +74,7 @@ Install the following node modules
     
     $> npm install cuid --save
     
-    $> npm install textile-js --save
+    $> npm install rho --save
 
 Enter the Elastic-Core project
 
@@ -81,7 +82,7 @@ Enter the Elastic-Core project
 
 Start Elastic Search
 
-    $> ./elasticsearch-1.5.0/bin/elasticsearch
+    $> ./elasticsearch-2.1.0/bin/elasticsearch
 
 Start Elastic-Blog
 
