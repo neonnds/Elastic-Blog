@@ -19,7 +19,7 @@ $.updatePost = function(uri) {
 
 	common.model = {};
 	
-	common.EBGetByURI(self, uri, 'posts', 'post', function(results) {
+	common.EBGetById(self, uri, 'posts', 'post', function(results) {
 
 		if(results.success == false) {
 			

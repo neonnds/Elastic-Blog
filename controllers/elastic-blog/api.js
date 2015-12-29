@@ -14,7 +14,7 @@ $.apiSavePost = function() {
 
 	var data = {'uri' : uri, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
 
-	common.EBSave(self, data, 'posts', 'post', function(results) {
+	common.EBSave(self, data, function(results) {
 
 		if(results.success == false) {
 	
@@ -27,30 +27,7 @@ $.apiSavePost = function() {
 	});
 };
 
-$.apiGetByURI = function() {
-
-	var self = this;
-
-	var uri = self.post.uri;
-       	var index = self.post.index;
-        var type = self.post.type;
-
-	common.EBGetByURI(self, uri, index, type, function(results) {
-
-		if(results.success == false) {
-			
-			self.view500(results.message);
-			
-		} else {
-
-			self.json(results.message);
-		}
-	});
-};
-
 $.apiGetMany = function() {
-
-	console.log("GET MANY!!");
 
 	var self = this;
 
@@ -91,27 +68,6 @@ $.apiGetManyByDateRange = function() {
 			
 			self.view500(results.message);
 			
-		} else {
-
-			self.json(results);
-		}
-	});
-};
-
-$.apiDeleteByURI = function() {
-
-	var self = this;
-
-	var uri = self.post.uri;
-	var index = self.post.index;
-	var type = self.post.type;
-
-	common.EBDelete(self, uri, index, type, function(results) {
-
-		if(results.success == false) {
-	
-			self.view500(results.message);
-
 		} else {
 
 			self.json(results);

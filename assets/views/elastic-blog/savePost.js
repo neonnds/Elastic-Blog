@@ -155,8 +155,8 @@ $(document).ready(function() {
 
 			var uri = $('#uri').val();
 
-			var deletePost = $.post('{{pages.apiDeleteByURI.uri}}', {
-				'uri' : uri, 
+			var deletePost = $.post('{{pages.apiDeleteById.uri}}', {
+				'id' : uri, 
 				'index' : 'posts', 
 				'type' : 'post'
 			});

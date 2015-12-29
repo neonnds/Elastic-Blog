@@ -19,7 +19,7 @@ $(document).ready(function() {
 		
 		{{#if user}}
 
-			$('#admin-menu-item').hide();
+			$('#editor-menu-item').hide();
 			$('#logout-menu-item').hide();
 
 		{{else}}
@@ -42,7 +42,7 @@ $(document).ready(function() {
 		
 		{{#if user}}
 
-			$('#admin-menu-item').show();
+			$('#editor-menu-item').show();
 			$('#logout-menu-item').show();
 
 		{{else}}

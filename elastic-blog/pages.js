@@ -14,25 +14,11 @@ $.apiGetManyByDateRange = {
 	label: 'API Get Many By Date Range.'
 };
 
-$.apiGetByURI = {
-	uri: '/api/get-by-uri',
-	controller: 'elastic-blog/api.js',
-	flags: ['post'],
-	label: 'API Get By URI'
-};
-
 $.apiSavePost = {
 	uri: '/api/save-post',
 	controller: 'elastic-blog/api.js',
 	flags: ['post', 'authorize'],
 	label: 'API Save Post.'
-};
-
-$.apiDeleteByURI = {
-	uri: '/api/delete',
-	controller: 'elastic-blog/api.js',
-	flags: ['post', 'authorize'],
-	label: 'Delete.'
 };
 
 $.error = {

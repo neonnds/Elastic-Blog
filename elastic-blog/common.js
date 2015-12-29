@@ -11,36 +11,6 @@ var $ = module.exports = require('../elastic-core/common.js');
 $.registerPages(pages);
 
 
-$.EBGetByURI = function(self, uri, index, type, callback)
-{
-	var body = {};
-	
-	body.query = {
-		"match" : { 
-			"uri" : uri 
-		}
-	};
-
-	db.client.search({
-		index: index,
-		type: type,
-		size: 10,
-		body: body
-	}, function (error, response) {
-	
-		console.log(response);
-
-		if(error == null && response.hits.hits.length == 1) {
-
-			callback({ success: true, message: response.hits.hits.pop()._source }); 
-
-		} else {
-
-			callback({success: false, message: "An error has occurred."});
-		}
-	});
-};
-
 $.EBGetMany = function(self, last, index, type, group, limit, callback)
 {
 	var body = {
@@ -158,20 +128,11 @@ $.EBGetManyByDateRange = function(self, from, to, last, index, type, group, limi
 	});
 };
 
-$.EBSave = function(self, data, index, type, callback)
+$.EBSave = function(self, body, callback)
 {
-	var body = {};
-
-	var keys = Object.keys(data);
-
-        for(var i = 0; i < keys.length; i++) {
-	
-		body[keys[i]] = data[keys[i]];
-	}
-
 	body.updated = new Date().format('yyyy/MM/dd');
 
-	$.EBGetByURI(self, body.uri, index, type, function(result) { 
+	$.EBGetById(self, body.uri, 'posts', 'post', function(result) { 
 
 		//Exists		
 		if(result.success == false) {
@@ -183,9 +144,9 @@ $.EBSave = function(self, data, index, type, callback)
 		}
 		
 		db.client.index({
-			index: index,
-			type: type,
-			id: body.key,
+			index: 'posts',
+			type: 'post',
+			id: body.uri,
 			body: body,
 			refresh: true
 		}, function(err, response) {
@@ -206,25 +167,5 @@ $.EBSave = function(self, data, index, type, callback)
 				callback({success: false, message: "An error has occurred.", created: false});
 			}
 		});
-	});
-};
-
-$.EBDelete = function(self, uri, index, type, callback)
-{
-	db.client.delete({
-		index: index,
-		type: type,
-		id: uri,
-		refresh: true
-	}, function (err, response) {
-
-		if(err == null) {
-
-			callback({success: true, message: "Deleted."});
-
-		} else {
-
-			callback({success: false, message: "Failed to delete."});
-		}
 	});
 };
