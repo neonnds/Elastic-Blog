@@ -41,7 +41,7 @@
 			</div>
 		</div>
 
-		{{#if pages.register.active}}
+		{{#compare pages.apiRegister.active "==" true}}
 			<div id="register-lightbox" class="lightbox">
 				<div class="lightbox-details">
 					<input id="register-email" name="register-email"  type="text" class="panel" placeholder="Email" value="">
@@ -52,7 +52,7 @@
 					<div class="blog-button" id="register-submit-button"><span>Register</span></div>
 				</div>
 			</div>
-		{{/if}}
+		{{/compare}}
 
 		<div id="error-lightbox" class="lightbox">
 			<div class="lightbox-details">
@@ -104,11 +104,11 @@
 
 							{{else}}
 
-								{{#if pages.register.active}}
+								{{#compare pages.apiRegister.active "==" true}}
 									<li id="register-menu-item" class="menu-item">
 										<span id="menu-register-button">REGISTER</span>
 									</li>
-								{{/if}}
+								{{/compare}}
 
 								<li id="login-menu-item" class="menu-item">
 									<span id="menu-login-button">LOGIN</span>

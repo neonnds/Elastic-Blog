@@ -1,16 +1,9 @@
+var $ = exports;
+
 var common = require('../../elastic-blog/common.js');
-var pages = require('../../elastic-blog/pages.js');
 
-exports.install = function() {
-	F.route(pages.apiGetByURI.uri, getByURI, pages.apiGetByURI.options);
-	F.route(pages.apiGetMany.uri, getMany, pages.apiGetMany.options);
-	F.route(pages.apiGetManyByDateRange.uri, getManyByDateRange, pages.apiGetManyByDateRange.options);
-	F.route(pages.apiSavePost.uri, savePost, pages.apiSavePost.options);
-	F.route(pages.apiDeleteByURI.uri, deleteByURI, pages.apiDeleteByURI.options);
-};
+$.apiSavePost = function() {
 
-function savePost()
-{
 	var self = this;
 
 	var uri = self.post.uri;
@@ -32,10 +25,10 @@ function savePost()
 			self.json(results);
 		}
 	});
-}
+};
 
-function getByURI()
-{
+$.apiGetByURI = function() {
+
 	var self = this;
 
 	var uri = self.post.uri;
@@ -53,10 +46,12 @@ function getByURI()
 			self.json(results.message);
 		}
 	});
-}
+};
 
-function getMany()
-{
+$.apiGetMany = function() {
+
+	console.log("GET MANY!!");
+
 	var self = this;
 
 	var last = self.post.last;
@@ -76,10 +71,10 @@ function getMany()
 			self.json(results);
 		}
 	});
-}
+};
 
-function getManyByDateRange()
-{
+$.apiGetManyByDateRange = function() {
+
 	var self = this;
 
 	var from = self.post.from;
@@ -101,10 +96,10 @@ function getManyByDateRange()
 			self.json(results);
 		}
 	});
-}
+};
 
-function deleteByURI()
-{
+$.apiDeleteByURI = function() {
+
 	var self = this;
 
 	var uri = self.post.uri;
@@ -122,4 +117,4 @@ function deleteByURI()
 			self.json(results);
 		}
 	});
-}
+};

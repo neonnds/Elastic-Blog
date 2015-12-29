@@ -1,39 +1,44 @@
-//Override elastic-core pages
-var $ = module.exports = require('../elastic-core/pages.js');
+var $ = exports;
 
 $.apiGetMany = {
 	uri: '/api/get-many',
-	options: ['post'],
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
 	label: 'API Get Many.'
 };
 
 $.apiGetManyByDateRange = {
 	uri: '/api/get-many-by-date-range',
-	options: ['post'],
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
 	label: 'API Get Many By Date Range.'
 };
 
 $.apiGetByURI = {
 	uri: '/api/get-by-uri',
-	options: ['post'],
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
 	label: 'API Get By URI'
 };
 
 $.apiSavePost = {
 	uri: '/api/save-post',
-	options: ['post', 'authorize'],
+	controller: 'elastic-blog/api.js',
+	flags: ['post', 'authorize'],
 	label: 'API Save Post.'
 };
 
 $.apiDeleteByURI = {
 	uri: '/api/delete',
-	options: ['post', 'authorize'],
+	controller: 'elastic-blog/api.js',
+	flags: ['post', 'authorize'],
 	label: 'Delete.'
 };
 
 $.error = {
 	uri: '/error',
-	options: [],
+	controller: 'elastic-core/default.js',
+	flags: [],
 	label: 'Error Occured',
 	views: [
 		{"body" : 'elastic-blog/error.html'},
@@ -46,6 +51,9 @@ $.error = {
 
 $.home = {
 	uri: '/',
+	controller: 'elastic-blog/home.js',
+	flags: ['get'],
+	priority: 1,
 	label: 'Home',
 	views: [
 		{'homejs' : 'elastic-blog/home.js'}, 
@@ -53,13 +61,13 @@ $.home = {
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
-	options: ['get'],
 	above: [],
 	below: []
 };
 
 $.homeByYear = {
 	uri: '/year/{year}',
+	controller: 'elastic-blog/home.js',
 	base: '/year',
 	label: 'Home',
 	views: [
@@ -68,13 +76,14 @@ $.homeByYear = {
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
-	options: ['get'],
+	flags: ['get'],
 	above: [],
 	below: []
 };
 
 $.newPost = {
 	uri: '/save-post',
+	controller: 'elastic-blog/savePost.js',
 	label: 'Save Post',
 	views: [
 		{'savePostjs' : 'elastic-blog/savePost.js'}, 
@@ -82,13 +91,14 @@ $.newPost = {
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
-	options: ['authorize', 'get'],
+	flags: ['authorize', 'get'],
 	above: [],
 	below: []
 };
 
 $.updatePost = {
 	uri: '/save-post/{uri}',
+	controller: 'elastic-blog/savePost.js',
 	base: '/save-post',
 	label: 'Save Post',
 	views: [
@@ -97,13 +107,14 @@ $.updatePost = {
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
-	options: ['authorize', 'get'],
+	flags: ['authorize', 'get'],
 	above: [],
 	below: []
 };
 
 $.viewPost = {
 	uri: '/view-post/{uri}',
+	controller: 'elastic-blog/viewPost.js',
 	label: 'View Post',
 	views: [
 		{'viewjs' : 'elastic-blog/view.js'}, 
@@ -111,13 +122,14 @@ $.viewPost = {
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
-	options: ['get'],
+	flags: ['get'],
 	above: [],
 	below: []
 };
 
 $.search = {
 	uri: '/search/{query}',
+	controller: 'elastic-blog/search.js',
 	base: '/search',
 	label: 'Search',
 	views: [
@@ -126,10 +138,31 @@ $.search = {
 		{'defaultjs' : 'elastic-blog/default.js'}, 
 		{'default' : 'elastic-blog/default.html'}
 	],
-	options: ['get'],
+	flags: ['get'],
 	above: [],
 	below: []
 };
+
+$.getLogin = {
+	active: false,
+	priority: 1
+};
+
+$.getRegister = {
+	active: false,
+	priority: 1
+};
+
+/*
+$.apiRegister = {
+	uri: '/api/register',
+	flags: ['post', 'unauthorize'],
+	label: 'API Register',
+	priority: 1,
+	active: false
+};
+*/
+
 
 
 //RELATIONSHIPS

@@ -138,7 +138,7 @@ $(document).ready(function() {
 		}
 	});
 
-	{{#is pages.updatePost.uri "===" page.uri}}
+	{{#compare pages.updatePost.uri "==" page.uri}}
 
 		$('#delete-button').click(function() {
 
@@ -179,7 +179,7 @@ $(document).ready(function() {
 			deletePost.error(errorHandler);
 		});
 		
-	{{/is}}
+	{{/compare}}
 
 	function convertText() {
 

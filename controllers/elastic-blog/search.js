@@ -1,21 +1,16 @@
-var common = require('../../elastic-blog/common.js');
-var pages = require('../../elastic-blog/pages.js');
+var $ = exports;
 
-exports.install = function() {
-	F.route(pages.search.uri, getSearchPage, pages.search.options);
-};
+var common = require('../../elastic-blog/common.js');
 
 // GET Search Page
-function getSearchPage(query)
-{
+$.getSearchPage = function(query) {
+
 	var self = this;
 
 	common.model = {};
 	common.model.query = query;
-	common.model.pages = pages;
-	common.model.page = pages.search;
 
-	var page = common.make(self, pages.search.views);
+	var page = common.make(self, common.pages.search);
 
 	self.html(page);
-}
+};

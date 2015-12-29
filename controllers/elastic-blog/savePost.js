@@ -1,26 +1,20 @@
+var $ = exports;
+
 var common = require('../../elastic-blog/common.js');
-var pages = require('../../elastic-blog/pages.js');
 
-exports.install = function() {
-	F.route(pages.newPost.uri, newPost, pages.newPost.options);
-	F.route(pages.updatePost.uri, updatePost, pages.updatePost.options);
-};
+$.newPost = function() {
 
-function newPost()
-{
 	var self = this;
 
 	common.model = {};
-	common.model.pages = pages;
-	common.model.page = pages.newPost;
 
-	var page = common.make(self, pages.newPost.views);
+	var page = common.make(self, common.pages.newPost);
 
 	self.html(page);
-}
+};
 
-function updatePost(uri)
-{
+$.updatePost = function(uri) {
+
 	var self = this;
 
 	common.model = {};
@@ -33,13 +27,11 @@ function updatePost(uri)
 			
 		} else {
 
-			common.model.pages = pages;
-			common.model.page = pages.updatePost;
 			common.model.post = results.message;
 
-			var page = common.make(self, pages.updatePost.views);
+			var page = common.make(self, common.pages.updatePost);
 
 			self.html(page);
 		}
 	});
-}
+};

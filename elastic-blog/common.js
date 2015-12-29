@@ -2,10 +2,13 @@ var framework = require('total.js');
 var cuid = require('cuid');
 
 var db = require('./database.js');
+var pages = require('./pages.js');
 
 var defaultLimit = framework.config["default-item-limit"];
 
 var $ = module.exports = require('../elastic-core/common.js');
+
+$.registerPages(pages);
 
 
 $.EBGetByURI = function(self, uri, index, type, callback)

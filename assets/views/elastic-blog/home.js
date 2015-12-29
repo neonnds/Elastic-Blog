@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 		var getPosts;
 
-		{{#is pages.home.uri "===" page.uri}}
+		{{#compare pages.home.uri "===" page.uri}}
 
 			getPosts = $.ajax({
 				type: "POST", 
@@ -108,7 +108,7 @@ console.log(dataItem);
 
 		{{else}}
 
-			{{#is pages.homeByYear.uri "===" page.uri}}
+			{{#compare pages.homeByYear.uri "===" page.uri}}
 
 				getPosts = $.ajax({
 					type: "POST", 
@@ -126,7 +126,7 @@ console.log(dataItem);
 
 			{{else}}
 
-				{{#is pages.search.uri "===" page.uri}}
+				{{#compare pages.search.uri "===" page.uri}}
 
 					getPosts = $.ajax({
 						type: "POST", 
@@ -140,10 +140,10 @@ console.log(dataItem);
 							limit  : 5
 						}
 					});
-				{{/is}}
-			{{/is}}
+				{{/compare}}
+			{{/compare}}
 
-		{{/is}}
+		{{/compare}}
 
 		getPosts.done(function(result) {
 
