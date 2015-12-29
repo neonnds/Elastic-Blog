@@ -105,7 +105,7 @@ $.EBGetManyByDateRange = function(self, from, to, last, index, type, group, limi
 	var body = {
 		"query" : {
 			"bool" : {
-				"must" : []
+				"must" : [{"match" : { "group" : "summary" }}]
 			}
 		}
 	};

@@ -153,6 +153,11 @@ $.getRegister = {
 	priority: 1
 };
 
+$.postLogin = {
+	active: false,
+	priority: 1
+};
+
 /*
 $.apiRegister = {
 	uri: '/api/register',

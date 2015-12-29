@@ -3,7 +3,7 @@ var $ = exports;
 var common = require('../../elastic-blog/common.js');
 
 // GET Search Page
-$.getSearchPage = function(query) {
+$.search = function(query) {
 
 	var self = this;
 

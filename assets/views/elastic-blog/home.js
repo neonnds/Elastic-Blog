@@ -18,7 +18,6 @@ $(document).ready(function() {
 		});
 	};
 
-
 	function getItems() {
 
 		var lastItem = $('#section .portfolio-item').not('#default-portfolio-item').last(); 
@@ -134,7 +133,7 @@ console.log(dataItem);
 						data: { 
 							query  : '{{query}}', 
 							last   : lastItem, 
-							fields : ['uri', 'content'],
+							fields : ['content'],
 							index  : 'posts',
 							type   : 'post',
 							limit  : 5

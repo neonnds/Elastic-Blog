@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 			$('#login-menu-item').hide();
 
-			{{#compare pages.apiRegister.active "==" false}}
+			{{#compare pages.apiRegister.active "==" true}}
 				$('#register-menu-item').hide();
 			{{/compare}}
 
