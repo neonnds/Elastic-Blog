@@ -74,3 +74,30 @@ $.apiGetManyByDateRange = function() {
 		}
 	});
 };
+
+$.apiSearch = function() {
+
+	var self = this;
+
+	var filter = {
+		"bool" : {
+			"must" : [
+				{ "match" : { "live" : "true" }},
+				{ "match" : { "group" : "summary" }}
+			]
+		}
+	};
+
+	common.EBSearch(self, filter, function(results) {
+
+		if(results.success == false) {
+			
+			self.view500(results.message);
+			
+		} else {
+
+			self.json(results);
+		}
+	});
+};
+

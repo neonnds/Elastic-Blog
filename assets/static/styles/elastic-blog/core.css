@@ -197,6 +197,10 @@
 	padding: 40px 20px;
 }
 
+	.fixed {
+		max-width: 1000px;
+	}
+
 .post-item {}
 	
 #portfolio-header {

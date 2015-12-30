@@ -1,5 +1,13 @@
 var $ = exports;
 
+$.apiSearch = {
+	uri: '/api/search',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	priority: 1,
+	label: 'Search.'
+};
+
 $.apiGetMany = {
 	uri: '/api/get-many',
 	controller: 'elastic-blog/api.js',
@@ -25,6 +33,7 @@ $.error = {
 	uri: '/error',
 	controller: 'elastic-core/default.js',
 	flags: [],
+	priority: 1,
 	label: 'Error Occured',
 	views: [
 		{"body" : 'elastic-blog/error.html'},
@@ -143,6 +152,7 @@ $.postLogin = {
 	active: false,
 	priority: 1
 };
+
 
 /*
 $.apiRegister = {

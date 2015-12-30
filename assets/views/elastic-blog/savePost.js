@@ -2,6 +2,9 @@ $(document).ready(function() {
 
 	$('#default-load-select').hide();
 
+	$('#mainHeader .container').removeClass('fixed');
+	$('#mainBody .container').removeClass('fixed');
+
 	function getItems() {
 
 		$('#load-submit-button').show();
