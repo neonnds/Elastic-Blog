@@ -11,81 +11,26 @@ var $ = module.exports = require('../elastic-core/common.js');
 $.registerPages(pages);
 
 
-$.EBGetMany = function(self, last, index, type, group, limit, callback)
+$.EBGetMany = function(self, from, to, last, index, type, group, limit, callback)
 {
 	var body = {
 		"query" : {
 			"bool" : {
-				"must" : []
+				"must" : [ 
+					{ "match" : { "group" : group }} 
+				]
 			}
 		}
 	};
 
-	body.query.bool.must.push({"match" : { "group" : group }});
-	
-	if(self.user == null) {
-
-		body.query.bool.must.push({"match" : { "live" : true }});
+	if(from != "" && to != "") {
+		body.query.bool.must.push({"range" : { "created" : { "from" : from, "to" : to }}});
 	}
-
-	if(last != null && last != "") {
-
-		body.query.bool.must.push({"range" : { "key" : { "lt" : last }}});
-	}
-
-	if(limit == null || limit == "") {
-		limit = 0;
-	}
-
-	 //Check if submitted limit is within specified bounds
-        if(limit < 1 || limit > defaultLimit) {
-
-                limit = defaultLimit;
-        } 
-
-
-	db.client.search({
-		index: index,
-		type: type,
-		sort: "key:desc",
-		size: limit,
-		body: body
-	}, function (error, response) {
-
-		if(error == null) {
-
-			var items = [];
-
-			for(var i = 0; i < response.hits.hits.length; i++) {
-
-				items.push(response.hits.hits[i]._source);
-			}
-
-			callback({success: true, message: items}); 
-
-		} else {
-
-			callback({success: false, message: "An error has occurred."});
-		}
-	});
-};
-
-$.EBGetManyByDateRange = function(self, from, to, last, index, type, group, limit, callback)
-{
-	var body = {
-		"query" : {
-			"bool" : {
-				"must" : [{"match" : { "group" : "summary" }}]
-			}
-		}
-	};
 
 	if(self.user == null) {
 
 		body.query.bool.must.push({"match" : { "live" : true }});
 	}
-
-	body.query.bool.must.push({"range" : { "created" : { "from" : from, "to" : to }}});
 
 	if(last != null && last != "") {
 

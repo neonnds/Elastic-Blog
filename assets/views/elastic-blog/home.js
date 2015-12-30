@@ -40,6 +40,8 @@ $(document).ready(function() {
 				type: "POST", 
 				url: '{{pages.apiGetMany.uri}}', 
 				data: { 
+					from  : "",
+					to    : "",
 					last  : lastItem,
 					index : 'posts',
 					type  : 'post',
@@ -55,6 +57,8 @@ $(document).ready(function() {
 					type: "POST", 
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
+						from   : '',
+						to     : '',
 						last   : '',
 						index  : 'posts',
 						type   : 'post',
@@ -111,7 +115,7 @@ console.log(dataItem);
 
 				getPosts = $.ajax({
 					type: "POST", 
-					url: '{{pages.apiGetManyByDateRange.uri}}', 
+					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
 						 from  :  '{{year}}/01/01', 
 						   to  :  '{{year}}/12/31', 
