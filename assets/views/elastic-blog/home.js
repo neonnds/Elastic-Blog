@@ -43,10 +43,9 @@ $(document).ready(function() {
 					from  : "",
 					to    : "",
 					last  : lastItem,
-					index : 'posts',
-					type  : 'post',
 					group : 'summary',
-					limit : 8
+					limit : 8,
+					sort  : "key:desc"
 				}
 			});
 
@@ -60,10 +59,9 @@ $(document).ready(function() {
 						from   : '',
 						to     : '',
 						last   : '',
-						index  : 'posts',
-						type   : 'post',
 						group  : 'quote',
-						limit  : 1
+						limit  : 1,
+						sort   : "key:desc"
 					}
 				});
 
@@ -120,10 +118,9 @@ console.log(dataItem);
 						 from  :  '{{year}}/01/01', 
 						   to  :  '{{year}}/12/31', 
 						 last  :  lastItem,
-						index  :  'posts',
-						 type  :  'post',
 						group  :  'summary',
-						limit  :  8
+						limit  :  8,
+						 sort  :  "key:desc"
 					}
 				});
 
@@ -138,9 +135,8 @@ console.log(dataItem);
 							query  : '{{query}}', 
 							last   : lastItem, 
 							fields : ['content'],
-							index  : 'posts',
-							type   : 'post',
-							limit  : 5
+							limit  : 5,
+							sort   : "key:desc"
 						}
 					});
 				{{/compare}}

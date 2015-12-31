@@ -34,10 +34,9 @@ $.apiGetMany = function() {
 	var from = self.post.from;
 	var to = self.post.to;
 	var last = self.post.last;
-       	var index = self.post.index;
-        var type = self.post.type;
 	var limit = self.post.limit;
 	var group = self.post.group;
+	var sort = self.post.sort;
 	
 	var body = {
 		"query" : {
@@ -61,7 +60,7 @@ $.apiGetMany = function() {
 		body.query.bool.must.push({"range" : { "key" : { "lt" : last }}});
 	}
 
-	common.EBGetMany(index, type, body, limit, function(results) {
+	common.EBGetMany('posts', 'post', body, limit, sort, function(results) {
 
 		if(results.success == false) {
 			
@@ -78,6 +77,12 @@ $.apiSearch = function() {
 
 	var self = this;
 
+	var query = self.post.query;
+	var last = self.post.last;
+	var fields = self.post["fields[]"];
+	var limit = self.post.limit;
+	var sort = self.post.sort;
+
 	var filter = {
 		"bool" : {
 			"must" : [
@@ -87,7 +92,7 @@ $.apiSearch = function() {
 		}
 	};
 
-	common.EBSearch(self, filter, function(results) {
+	common.EBSearch(query, last, limit, fields, sort, 'posts', 'post', filter, function(results) {
 
 		if(results.success == false) {
 			

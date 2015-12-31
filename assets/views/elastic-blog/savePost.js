@@ -27,10 +27,9 @@ $(document).ready(function() {
 			url: '{{pages.apiGetMany.uri}}',
 			data: {
 				last  : '',
-				index : 'posts',
-				type  : 'post',
 				group : type,
-				limit : 1000
+				limit : 1000,
+				sort  : "key:desc"
 			}
 		});
 
