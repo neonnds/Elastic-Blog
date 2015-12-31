@@ -14,7 +14,7 @@ $.apiSavePost = function() {
 
 	var data = {'uri' : uri, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
 
-	common.EBSave(self, data, function(results) {
+	common.EBSave(data, function(results) {
 
 		if(results.success == false) {
 	
@@ -39,7 +39,29 @@ $.apiGetMany = function() {
 	var limit = self.post.limit;
 	var group = self.post.group;
 	
-	common.EBGetMany(self, from, to, last, index, type, group, limit, function(results) {
+	var body = {
+		"query" : {
+			"bool" : {
+				"must" : [ 
+					{ "match" : { "group" : group }} 
+				]
+			}
+		}
+	};
+
+	if(from != "" && to != "") {
+		body.query.bool.must.push({"range" : { "created" : { "from" : from, "to" : to }}});
+	}
+
+	if(self.user == null) {
+		body.query.bool.must.push({"match" : { "live" : true }});
+	}
+
+	if(last != null && last != "") {
+		body.query.bool.must.push({"range" : { "key" : { "lt" : last }}});
+	}
+
+	common.EBGetMany(index, type, body, limit, function(results) {
 
 		if(results.success == false) {
 			

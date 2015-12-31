@@ -12,6 +12,7 @@ $.apiGetMany = {
 	uri: '/api/get-many',
 	controller: 'elastic-blog/api.js',
 	flags: ['post'],
+	priority: 1,
 	label: 'API Get Many.'
 };
 
