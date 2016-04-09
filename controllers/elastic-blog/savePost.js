@@ -13,13 +13,13 @@ $.newPost = function() {
 	self.html(page);
 };
 
-$.updatePost = function(uri) {
+$.updatePost = function(id) {
 
 	var self = this;
 
 	common.model = {};
 	
-	common.EBGetById(uri, 'posts', 'post', function(results) {
+	common.EBGetById(id, 'posts', 'post', function(results) {
 
 		if(results.success == false) {
 			

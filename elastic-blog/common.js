@@ -15,7 +15,7 @@ $.EBSave = function(body, callback)
 {
 	body.updated = new Date().format('yyyy/MM/dd');
 
-	$.EBGetById(body.uri, 'posts', 'post', function(result) { 
+	$.EBGetById(body.id, 'posts', 'post', function(result) { 
 
 		//Exists		
 		if(result.success == false) {

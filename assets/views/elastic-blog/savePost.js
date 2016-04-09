@@ -55,9 +55,9 @@ $(document).ready(function() {
 			for(var i = 0; i < message.length; i++) {
 				var item = $('#default-load-select-item').clone();	
 
-				$(item).attr('value', message[i].uri);
+				$(item).attr('value', message[i].id);
 				$(item).removeAttr('id');
-				$(item).text(message[i].uri);
+				$(item).text(message[i].id);
 
 				$('#load-select').append(item);
 			}
@@ -82,15 +82,15 @@ $(document).ready(function() {
 
 	$('#load-submit-button').click(function() {
 
-		var uri = $('#load-select').val();
+		var id = $('#load-select').val();
 
-		window.location.replace("{{pages.updatePost.base}}/" + uri);	
+		window.location.replace("{{pages.updatePost.base}}/" + id);	
 	});
 
 	$('#save-button').click(function() {
 
 		var group = $('#group').val();
-		var uri = $('#uri').val();
+		var id = $('#id').val();
 		var content = $('#content').val();
 
 		var isLive = false;
@@ -155,10 +155,10 @@ $(document).ready(function() {
 
 		$('#delete-submit-button').click(function() {
 
-			var uri = $('#uri').val();
+			var id = $('#id').val();
 
 			var deletePost = $.post('{{pages.apiDeleteById.uri}}', {
-				'id' : uri, 
+				'id' : id, 
 				'index' : 'posts', 
 				'type' : 'post'
 			});

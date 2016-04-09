@@ -10,8 +10,8 @@ db.client.indices.create({
 		"mappings" : {
 			"post" : {
 				"properties" : {
+					"id" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
 					"key" : {"type" : "string", "index" : "not_analyzed", "null_value" : "na"},
-					"uri" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
 					"user" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
 					"live" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},
 					"group" : {"type" : "string", "null_value" : "na", "index" : "not_analyzed"},

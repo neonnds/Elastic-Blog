@@ -60,7 +60,7 @@ $(document).ready(function() {
 						to     : '',
 						last   : '',
 						group  : 'quote',
-						limit  : 1,
+						limit  : 2,
 						sort   : "key:desc"
 					}
 				});
@@ -79,22 +79,23 @@ $(document).ready(function() {
 
 								$('#section .portfolio-quote').remove();
 
-								var portfolioItem = $('#default-portfolio-item').clone();
+								for(var i = 0, len = result.message.length; i < len; i++) {
 
-								$(portfolioItem).html("");
-								$(portfolioItem).removeAttr('id');
+									var portfolioItem = $('#default-portfolio-item').clone();
 
-								$(portfolioItem).addClass('portfolio-quote');
+									$(portfolioItem).html("");
+									$(portfolioItem).removeAttr('id');
 
-								$(portfolioItem).show();
+									$(portfolioItem).addClass('portfolio-quote');
 
-								var dataItem = result.message.pop();
+									$(portfolioItem).show();
 
-console.log(dataItem);
-								
-								$(portfolioItem).append(rho.toHtml(dataItem.content));
-				
-								$('#section .portfolio-item:first').after(portfolioItem)
+									var dataItem = result.message.pop();
+
+									$(portfolioItem).append(rho.toHtml(dataItem.content));
+					
+									$('#section .portfolio-item:first').after(portfolioItem)
+								}
 
 							} else {
 
@@ -139,6 +140,7 @@ console.log(dataItem);
 							sort   : "key:desc"
 						}
 					});
+
 				{{/compare}}
 			{{/compare}}
 
