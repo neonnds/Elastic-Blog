@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>{{locale "site-title"}}</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+		<link type="image/x-icon" rel="icon" href="/images/elastic-core/favicon.ico">
+
+		<link rel="stylesheet" type="text/css" href="/styles/elastic-core/font-awesome.css"/>
+
+		<link rel="stylesheet" type="text/css" href="/styles/elastic-core/core.css">
+
+		<link rel="stylesheet" type="text/css" href="/styles/bloowm/core.css">
+
+		<link rel="stylesheet" type="text/css" href="/styles/elastic-blog/content.css">
+
+		<script type="text/javascript" src="/libs/elastic-core/jquery/jquery.min.js" charset="utf-8"></script>
+
+		<script type="text/javascript" src="/libs/elastic-blog/rho.js" charset="utf-8"></script>
+
+		<script type="text/javascript" src="/scripts/elastic-core/shared.js" charset="utf-8"></script>
+
+		<script type="text/javascript" src="/scripts/elastic-blog/shared.js" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			{{{defaultjs}}}
+		</script>
+	</head>
+
+	<body>
+
+		<div id="login-lightbox" class="lightbox">
+			<div class="lightbox-details">
+				<input id="login-email" name="login-email"  type="text" class="panel" placeholder="Email" value="">
+				<input id="login-password" name="login-password" type="password" class="panel" placeholder="Password" value="">
+
+				<div class="blog-button" id="login-cancel-button"><span>Cancel</span></div>
+				<div class="blog-button" id="login-submit-button"><span>Login</span></div>
+			</div>
+		</div>
+
+		{{#compare pages.apiRegister.active "==" true}}
+			<div id="register-lightbox" class="lightbox">
+				<div class="lightbox-details">
+					<input id="register-email" name="register-email"  type="text" class="panel" placeholder="Email" value="">
+					<input id="register-password" name="register-password" type="password" class="panel" placeholder="Password" value="">
+					<input id="register-confirm" name="register-confirm" type="password" class="panel" placeholder="Confirm Password" value="">
+
+					<div class="blog-button" id="register-cancel-button"><span>Cancel</span></div>
+					<div class="blog-button" id="register-submit-button"><span>Register</span></div>
+				</div>
+			</div>
+		{{/compare}}
+
+		<div id="error-lightbox" class="lightbox">
+			<div class="lightbox-details">
+				<h4>&nbsp;</h4>
+				<div class="blog-button" id="error-ok-button"><span>Ok</span></div>
+			</div>
+		</div>
+
+		<div id="pageWrap">
+			<div id="mainHeader">
+			
+				<div class="container fixed">
+
+					<div class="header-title">
+						{{locale "site-banner"}}
+					</div>
+
+					<div class="menuPC">
+						<ul class="sf-menu">
+
+							<li class="menu-item">
+								<i id="cancel-search-button" class="fa fa-times-circle menu-button">&nbsp;</i>
+								<input type="text" name="search-field" id="search-field" autocomplete="off" placeholder="SEARCH" value="">
+								<i id="search-button" class="fa fa-search menu-button">&nbsp;</i>
+							</li>
+
+							<li id="home-menu-item" class="menu-item">
+								<a href="{{{pages.home.uri}}}">HOME</a>
+							</li>
+
+							<li id="posts-menu-item" class="menu-item">
+								<a href="#" class="sf-with-ul">POSTS</a>
+								<ul class="posts-menu">
+									<li class="menu-item"><a href="{{pages.homeByYear.base}}/2013">YEAR 2013</a></li>
+									<li class="menu-item"><a href="{{pages.homeByYear.base}}/2014">YEAR 2014</a></li>
+									<li class="menu-item"><a href="{{pages.homeByYear.base}}/2015">YEAR 2015</a></li>
+									<li class="menu-item"><a href="{{pages.homeByYear.base}}/2016">YEAR 2016</a></li>
+								</ul>
+							</li>
+
+							{{#if user}}
+
+								<li id="editor-menu-item" class="menu-item">
+									<a href="{{{pages.newPost.uri}}}">EDITOR</a>
+								</li>
+
+								<li id="logout-menu-item" class="menu-item">
+									<a href="{{{pages.logout.uri}}}">LOGOUT</a>
+								</li>
+
+							{{else}}
+
+								{{#compare pages.apiRegister.active "==" true}}
+									<li id="register-menu-item" class="menu-item">
+										<span id="menu-register-button">REGISTER</span>
+									</li>
+								{{/compare}}
+
+								<li id="login-menu-item" class="menu-item">
+									<span id="menu-login-button">LOGIN</span>
+								</li>
+
+							{{/if}}
+
+						</ul>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+
+			<div id="mainBody">
+				<div class="container fixed">
+					<div id="section">
+						{{{body}}}
+					</div> 
+				</div>
+			</div>
+
+			<div id="mainCopyright">
+				<div class="container">
+					<p>{{{locale "site-footer"}}}</p>
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

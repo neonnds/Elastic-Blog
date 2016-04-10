@@ -1,14 +1,25 @@
-var framework = require('total.js');
+var F = require('total.js');
 var cuid = require('cuid');
-
-var db = require('./database.js');
-var pages = require('./pages.js');
-
-var defaultLimit = framework.config["default-item-limit"];
 
 var $ = module.exports = require('../elastic-core/common.js');
 
-$.registerPages(pages);
+var db = require('./database.js');
+
+
+F.once('load', function() {
+ 
+	$.defaultLimit = F.config['default-item-limit'];
+
+	$.defaultTheme = F.config['default-theme'];
+
+	var pages = require('./' + $.defaultTheme + '-pages.js');
+
+	$.registerPages(pages);
+
+	$.processRoutes();	
+
+	console.log("LOADED ELASTIC-BLOG!");
+});
 
 
 $.EBSave = function(body, callback)
@@ -26,6 +37,6 @@ $.EBSave = function(body, callback)
 			body.created = result.message.created;
 		}
 		
-		$.EBIndex(body.uri, body, 'posts', 'post', callback); 
+		$.EBIndex(body.id, body, 'posts', 'post', callback); 
 	});
 };

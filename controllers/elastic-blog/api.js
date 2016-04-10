@@ -6,13 +6,13 @@ $.apiSavePost = function() {
 
 	var self = this;
 
-	var uri = self.post.uri;
+	var id = self.post.id;
 	var content = self.post.content;
 	var user = self.user.id;
 	var live = self.post.live;
 	var group = self.post.group;	
 
-	var data = {'uri' : uri, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
+	var data = {'id' : id, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
 
 	common.EBSave(data, function(results) {
 

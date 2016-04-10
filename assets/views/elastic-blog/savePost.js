@@ -92,7 +92,6 @@ $(document).ready(function() {
 		var group = $('#group').val();
 		var id = $('#id').val();
 		var content = $('#content').val();
-
 		var isLive = false;
 
 		if($('#live-button').hasClass('blog-button-active') == true) {
@@ -100,7 +99,7 @@ $(document).ready(function() {
 		}
 	
 		var savePost = $.post('{{pages.apiSavePost.uri}}', {
-			'uri' : uri, 
+			'id' : id, 
 			'content' : content, 
 			'live' : isLive, 
 			'group' : group
@@ -119,7 +118,7 @@ $(document).ready(function() {
 					$('#save-lightbox').show();
 
 					$('#save-close-button').click(function() {
-						window.location.replace("{{pages.updatePost.base}}/" + uri);	
+						window.location.replace("{{pages.updatePost.base}}/" + id);	
 					});
 				}
 			}
