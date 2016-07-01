@@ -30,9 +30,9 @@ $.error = {
 	priority: 1,
 	label: 'Error Occured',
 	views: [
-		{"body" : 'bloowm/error.html'},
-		{'defaultjs' : 'bloowm/default.js'},
-		{'default' : 'bloowm/default.html'}
+		{"body" : 'gloowm/error.html'},
+		{'defaultjs' : 'elastic-blog/default.js'},
+		{'default' : 'gloowm/default.html'}
 	],
 	above: [],
 	below: []
@@ -45,10 +45,11 @@ $.home = {
 	priority: 1,
 	label: 'Home',
 	views: [
-		{'homejs' : 'bloowm/home.js'}, 
-		{'body' : 'bloowm/home.html'}, 
-		{'defaultjs' : 'bloowm/default.js'}, 
-		{'default' : 'bloowm/default.html'}
+		{'homejs' : 'elastic-blog/home.js'}, 
+		{'body' : 'gloowm/home.html'}, 
+		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'default' : 'gloowm/default.html'}
+
 	],
 	above: [],
 	below: []
@@ -60,10 +61,10 @@ $.homeByYear = {
 	base: '/year',
 	label: 'Home',
 	views: [
-		{'homejs' : 'bloowm/home.js'}, 
-		{'body' : 'bloowm/home.html'}, 
-		{'defaultjs' : 'bloowm/default.js'}, 
-		{'default' : 'bloowm/default.html'}
+		{'homejs' : 'elastic-blog/home.js'}, 
+		{'body' : 'gloowm/home.html'}, 
+		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['get'],
 	above: [],
@@ -75,10 +76,11 @@ $.newPost = {
 	controller: 'elastic-blog/savePost.js',
 	label: 'Save Post',
 	views: [
-		{'savePostjs' : 'elastic-blog/savePost.js'}, 
-		{'body' : 'elastic-blog/savePost.html'}, 
+		{'savePostjs' : 'gloowm/savePost.js'}, 
+		{'menu' : 'gloowm/savePostMenu.html'},
+		{'body' : 'gloowm/savePost.html'}, 
 		{'defaultjs' : 'elastic-blog/default.js'}, 
-		{'default' : 'elastic-blog/default.html'}
+		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['authorize', 'get'],
 	above: [],
@@ -91,10 +93,12 @@ $.updatePost = {
 	base: '/save-post',
 	label: 'Save Post',
 	views: [
-		{'savePostjs' : 'elastic-blog/savePost.js'}, 
-		{'body' : 'elastic-blog/savePost.html'}, 
+		{'savePostjs' : 'gloowm/savePost.js'}, 
+		{'menu' : 'gloowm/savePostMenu.html'},
+		{'body' : 'gloowm/savePost.html'}, 
 		{'defaultjs' : 'elastic-blog/default.js'}, 
-		{'default' : 'elastic-blog/default.html'}
+		{'default' : 'gloowm/default.html'}
+
 	],
 	flags: ['authorize', 'get'],
 	above: [],
@@ -103,13 +107,14 @@ $.updatePost = {
 
 $.viewPost = {
 	uri: '/view-post/{uri}',
+	base: '/view-post',
 	controller: 'elastic-blog/viewPost.js',
 	label: 'View Post',
 	views: [
-		{'viewjs' : 'bloowm/view.js'}, 
-		{'body' : 'bloowm/view.html'}, 
-		{'defaultjs' : 'bloowm/default.js'}, 
-		{'default' : 'bloowm/default.html'}
+		{'viewjs' : 'gloowm/view.js'}, 
+		{'body' : 'gloowm/view.html'}, 
+		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['get'],
 	above: [],
@@ -122,10 +127,10 @@ $.search = {
 	base: '/search',
 	label: 'Search',
 	views: [
-		{'homejs' : 'bloowm/home.js'}, 
-		{'body' : 'bloowm/home.html'}, 
-		{'defaultjs' : 'bloowm/default.js'}, 
-		{'default' : 'bloowm/default.html'}
+		{'homejs' : 'elastic-blog/home.js'}, 
+		{'body' : 'gloowm/home.html'}, 
+		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['get'],
 	above: [],
@@ -137,12 +142,17 @@ $.getLogin = {
 	priority: 1
 };
 
+$.postLogin = {
+	active: false,
+	priority: 1
+};
+
 $.getRegister = {
 	active: false,
 	priority: 1
 };
 
-$.postLogin = {
+$.postRegister = {
 	active: false,
 	priority: 1
 };

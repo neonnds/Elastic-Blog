@@ -1,0 +1,12 @@
+//
+// Buttons
+// =============================================================================
+
+.button--sm {
+	font-size: pxToEm(14);
+	font-weight: normal;
+	color: $white;
+	line-height: unitSize(4);
+	padding: 0 2em;
+	font-family: $font-family-headings;
+}

@@ -1,59 +1,22 @@
-			
 $(document).ready(function() {
 	
-	$('#search-button').click(function() {
-
-		if($('#search-field').is(":visible") == true) {
-			var query = $('#search-field').val();
-
-			window.location.replace("{{pages.search.base}}/" + query);
-
-			return;
-		}
-
-		$('#search-field').show();
-		$('#cancel-search-button').css('display', 'inline-block');
-
-		$('#home-menu-item').hide();
-		$('#posts-menu-item').hide();
-		
-		{{#if user}}
-
-			$('#editor-menu-item').hide();
-			$('#logout-menu-item').hide();
-
-		{{else}}
-
-			$('#login-menu-item').hide();
-
-			{{#compare pages.apiRegister.active "==" true}}
-				$('#register-menu-item').hide();
-			{{/compare}}
-
-		{{/if}}
+	$('.close-window').click(function(e) {
+		$(this).parent().parent().parent().hide();
+		e.preventDefault();
 	});
 
-	$('#cancel-search-button').click(function() {
+	$('.open-window').click(function(e) {
+		$($(this).attr('href')).show();
+		e.preventDefault();
+	});
 
-		$('#home-menu-item').show();
-		$('#posts-menu-item').show();
-		$('#search-field').hide();
-		$('#cancel-search-button').hide();
-		
-		{{#if user}}
+	$('#search-submit-button').click(function() {
 
-			$('#editor-menu-item').show();
-			$('#logout-menu-item').show();
+		var query = $('#search-terms').val();
 
-		{{else}}
+		window.location.replace("{{pages.search.base}}/" + query);
 
-			$('#login-menu-item').show();
-
-			{{#compare pages.apiRegister.active "==" true}}
-				$('#register-menu-item').show();
-			{{/compare}}
-
-		{{/if}}
+		return;
 	});
 
 	$('#login-submit-button').click(function() {
@@ -97,10 +60,8 @@ $(document).ready(function() {
 				} else {
 
 					if(result.success == true) {
-
-						//window.location.replace("{{pages.home.uri}}");	
-						$('#register-lightbox').hide();
-						$('#login-lightbox').show();
+						$('#register-window').hide();
+						$('#login-window').show();
 					}
 				}
 			});
@@ -108,23 +69,7 @@ $(document).ready(function() {
 			registerPost.error(errorHandler);
 		});
 
-		$('#menu-register-button').click(function() {
-			$('#register-lightbox').show();	
-		});
-
-		$('#register-cancel-button').click(function() {
-			$('#register-lightbox').hide();
-		});
-
 	{{/compare}}
-
-	$('#menu-login-button').click(function() {
-		$('#login-lightbox').show();	
-	});
-
-	$('#login-cancel-button').click(function() {
-		$('#login-lightbox').hide();
-	});
 
 	$('#error-ok-button').click(function() {
 		$('#error-lightbox').hide();

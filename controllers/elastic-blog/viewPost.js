@@ -16,18 +16,25 @@ $.viewPost = function(uri) {
 			
 			self.view500("Failed to get post.");
 			
-		} else {
-
-			common.model.uri = results.message.uri;
-
-			rho.render(results.message.content, function(err, html) {
-
-				common.model.content = html;
-
-				var page = common.make(self, common.pages.viewPost);
-
-				self.html(page);
-			});
+			return
 		}
+			
+		if(self.user == null && results.message.live == 'false') {
+		
+			self.view401("You do not have access to view this post.");		
+
+			return;
+		}
+
+		common.model.uri = results.message.uri;
+
+		rho.render(results.message.content, function(err, html) {
+
+			common.model.content = html;
+
+			var page = common.make(self, common.pages.viewPost);
+
+			self.html(page);
+		});
 	});
 };

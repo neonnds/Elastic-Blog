@@ -1,0 +1,66 @@
+<script type="text/javascript">
+	{{{savePostjs}}}
+</script>
+
+<main container>
+
+	<div id="load-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<select id="load-type" name="load-type">
+					<option value="quote" selected="selected">QUOTE</option>
+					<option value="summary">SUMMARY</option>
+					<option value="article">ARTICLE</option>
+				</select>
+			
+				<select id="default-load-select" name="load-select">
+					<option id="default-load-select-item" value="#">NO ITEMS FOUND!</option>
+				</select>
+
+				<button class="button bg--error button--sm close-window">Cancel</button>
+				<button class="button bg--success button--sm" id="load-submit-button">Load</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="delete-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<h4>Really delete this post?</h4>
+				<button class="button bg--error button--sm close-window">Cancel</button>
+				<button class="button bg--success button--sm" id="delete-submit-button">Delete</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="save-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<h4>Saving...please wait.</h4>
+				<button id="save-close-button" class="button bg--error button--sm close-window">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<div row>
+		<div column="6 +3" class="low-section">
+			<select id="group" name="group">
+				<option value="quote" {{#compare post.group "===" "quote"}}selected="selected"{{/compare}}>QUOTE</option>
+				<option value="summary" {{#compare post.group "===" "summary"}}selected="selected"{{/compare}}>SUMMARY</option>
+				<option value="article" {{#compare post.group "===" "article"}}selected="selected"{{/compare}}>ARTICLE</option>
+			</select>
+
+			<input type="text" id="id" name="id" placeholder="URI" value="{{post.id}}" />
+		</div>
+	</div>
+
+</main>
+
+<div row>
+	<div column="6" class="content-panel">
+		<textarea id="content" name="content" class="panel">{{post.content}}</textarea>
+	</div>
+	<div column="6" class="preview-panel">
+		<div id="preview" class="panel portfolio-item"></div>
+	</div>
+</div>

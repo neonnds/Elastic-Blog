@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<title>{{locale "site-title"}}</title>
+
+		<meta name="description" content="Elastic-Blog">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" type="text/css" href="/styles/gloowm/gloowm.scss">
+		<link rel="icon" href="/images/gloowm/favicon.png">
+
+		<script type="text/javascript" src="/libs/elastic-core/jquery/jquery.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="/libs/elastic-blog/rho.js" charset="utf-8"></script>
+		<script type="text/javascript" src="/scripts/elastic-core/shared.js" charset="utf-8"></script>
+		<script type="text/javascript" src="/scripts/elastic-blog/shared.js" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			{{{defaultjs}}}
+		</script>
+	</head>
+
+	<body>
+
+		<div id="login-window" class="modal modal--flat">
+			<div class="modal-container">
+				<div class="modal-body">
+					<input id="login-email" name="login-email" type="text" class="panel" placeholder="Email" value="">
+					<input id="login-password" name="login-password" type="password" class="panel" placeholder="Password" value="">
+					<button class="button bg--error button--sm close-window">Cancel</button>
+					<button class="button bg--success button--sm" id="login-submit-button">Login</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="search-window" class="modal modal--flat">
+			<div class="modal-container">
+				<div class="modal-body">
+					<input id="search-terms" name="search-terms" type="text" class="panel" placeholder="Keywords" value="">
+					<button class="button bg--error button--sm close-window">Cancel</button>
+					<button class="button bg--success button--sm" id="search-submit-button">Search</button>
+				</div>
+			</div>
+		</div>
+
+		{{#compare pages.apiRegister.active "==" true}}
+			<div id="register-window" class="modal modal--flat">
+				<div class="modal-container">
+					<div class="modal-body">
+						<input id="register-email" name="login-email" type="text" class="panel" placeholder="Email" value="">
+						<input id="register-password" name="login-password" type="password" class="panel" placeholder="Password" value="">
+						<input id="register-confirm" name="login-password" type="password" class="panel" placeholder="Confirm Password" value="">
+						<button class="button bg--error button--sm close-window">Cancel</button>
+						<button class="button bg--success button--sm" id="register-submit-button">Register</button>
+					</div>
+				</div>
+			</div>
+		{{/compare}}
+
+		<header class="mainHeader">
+
+			<a href="/" class="logo animated">
+				<img src="/images/gloowm/logo2.svg" alt="Concise Logo">
+			</a>
+
+			<a href="#" id="nav-button" class="nav-button">Menu<span class="nav-icon"></span></a>
+		</header>
+
+		{{{body}}}
+
+		<footer class="main-footer">
+			<div container>
+				<p>{{{locale "site-footer"}}}</a>
+
+				<ul>
+					<li>
+						<a href="https://github.com/neonnds/Elastic-Blog/issues">Support</a>
+					</li>
+					<li>
+						<a href="https://github.com/neonnds/Elastic-Blog/releases">Changelog</a>
+					</li>
+					<li>
+						<a href="https://github.com/neonnds/Elastic-Blog">Github</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+
+		<div class="nav">
+			<div class="nav-wrapper">
+				<a href="/" class="logo animated"><img src="/images/gloowm/logo2.svg" alt="Concise Logo"></a>
+
+				<nav>
+					<ul>
+						{{#compare pages.home.uri "===" page.uri}}
+							<li><a href="/" class="active">HOME</a></li>
+						{{else}}
+							<li><a href="/">HOME</a></li>
+						{{/compare}}	
+
+						{{#compare pages.search.uri "===" page.uri}}
+							<li><a href="#search-window" class="active open-window">SEARCH</a></li>
+						{{else}}
+							<li><a href="#search-window" class="open-window">SEARCH</a></li>
+						{{/compare}}	
+
+						{{#if user}}
+
+							{{#compare pages.newPost.uri "===" page.uri}}
+								<li><a href="{{{pages.newPost.uri}}}" class="active open-window">EDITOR</a></li>
+							{{else}}
+								<li><a href="{{{pages.newPost.uri}}}" class="open-window">EDITOR</a></li>
+							{{/compare}}	
+
+								<li><a href="{{{pages.logout.uri}}}" class="open-window">LOGOUT</a></li>
+
+						{{else}}
+
+							{{#compare pages.apiRegister.active "==" true}}
+								<li><a href="#register-window" class="open-window">REGISTER</a></li>
+							{{/compare}}
+
+							<li><a href="#login-window" class="open-window">LOGIN</a></li>
+
+						{{/if}}
+					</ul>
+
+					{{{menu}}}
+
+					<h2>POSTS BY YEAR</h2>
+					<nav>
+						<ul>
+							<li><a href="{{pages.homeByYear.base}}/2013">YEAR 2013</a></li>
+							<li><a href="{{pages.homeByYear.base}}/2014">YEAR 2014</a></li>
+							<li><a href="{{pages.homeByYear.base}}/2015">YEAR 2015</a></li>
+							<li><a href="{{pages.homeByYear.base}}/2016">YEAR 2016</a></li>
+						</ul>
+					</nav>
+				</nav>
+			</div>
+		</div>
+
+		<script src="/scripts/gloowm/main.js"></script>
+
+	</body>
+</html>

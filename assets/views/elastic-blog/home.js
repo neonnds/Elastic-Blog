@@ -23,16 +23,14 @@ $(document).ready(function() {
 		var lastItem = $('#section .portfolio-item').not('#default-portfolio-item').last(); 
 
 		if(lastItem.length == 0) {
-
 			lastItem = '';
-
 		} else {
-
 			lastItem = $(lastItem).attr('data-id');
 		}
 
-
 		var getPosts;
+
+		console.log("{{page.uri}}");
 
 		{{#compare pages.home.uri "===" page.uri}}
 
@@ -61,7 +59,7 @@ $(document).ready(function() {
 						last   : '',
 						group  : 'quote',
 						limit  : 2,
-						sort   : "key:desc"
+						sort   : "updated:desc"
 					}
 				});
 
@@ -129,6 +127,8 @@ $(document).ready(function() {
 
 				{{#compare pages.search.uri "===" page.uri}}
 
+					console.log("here");
+
 					getPosts = $.ajax({
 						type: "POST", 
 						url: '{{pages.apiSearch.uri}}', 
@@ -178,7 +178,6 @@ $(document).ready(function() {
 	}
 
 	$('#more-button').click(function() {
-
 		getItems();
 	});
 
