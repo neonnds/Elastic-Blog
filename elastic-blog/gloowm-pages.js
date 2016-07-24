@@ -31,7 +31,7 @@ $.error = {
 	label: 'Error Occured',
 	views: [
 		{"body" : 'gloowm/error.html'},
-		{'defaultjs' : 'elastic-blog/default.js'},
+		{'defaultjs' : 'gloowm/default.js'},
 		{'default' : 'gloowm/default.html'}
 	],
 	above: [],
@@ -45,9 +45,9 @@ $.home = {
 	priority: 1,
 	label: 'Home',
 	views: [
-		{'homejs' : 'elastic-blog/home.js'}, 
+		{'homejs' : 'gloowm/home.js'}, 
 		{'body' : 'gloowm/home.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
 
 	],
@@ -61,9 +61,9 @@ $.homeByYear = {
 	base: '/year',
 	label: 'Home',
 	views: [
-		{'homejs' : 'elastic-blog/home.js'}, 
+		{'homejs' : 'gloowm/home.js'}, 
 		{'body' : 'gloowm/home.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['get'],
@@ -79,7 +79,7 @@ $.newPost = {
 		{'savePostjs' : 'gloowm/savePost.js'}, 
 		{'menu' : 'gloowm/savePostMenu.html'},
 		{'body' : 'gloowm/savePost.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['authorize', 'get'],
@@ -96,7 +96,7 @@ $.updatePost = {
 		{'savePostjs' : 'gloowm/savePost.js'}, 
 		{'menu' : 'gloowm/savePostMenu.html'},
 		{'body' : 'gloowm/savePost.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
 
 	],
@@ -113,7 +113,7 @@ $.viewPost = {
 	views: [
 		{'viewjs' : 'gloowm/view.js'}, 
 		{'body' : 'gloowm/view.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['get'],
@@ -127,9 +127,9 @@ $.search = {
 	base: '/search',
 	label: 'Search',
 	views: [
-		{'homejs' : 'elastic-blog/home.js'}, 
+		{'homejs' : 'gloowm/home.js'}, 
 		{'body' : 'gloowm/home.html'}, 
-		{'defaultjs' : 'elastic-blog/default.js'}, 
+		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
 	],
 	flags: ['get'],

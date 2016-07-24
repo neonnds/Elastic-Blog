@@ -18,7 +18,7 @@ F.once('load', function() {
 
 	$.processRoutes();	
 
-	console.log("LOADED ELASTIC-BLOG!");
+	console.log("LOADED ELASTIC-BLOG WITH THEME " + $.defaultTheme);
 });
 
 

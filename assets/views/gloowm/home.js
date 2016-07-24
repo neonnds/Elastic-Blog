@@ -30,8 +30,6 @@ $(document).ready(function() {
 
 		var getPosts;
 
-		console.log("{{page.uri}}");
-
 		{{#compare pages.home.uri "===" page.uri}}
 
 			getPosts = $.ajax({

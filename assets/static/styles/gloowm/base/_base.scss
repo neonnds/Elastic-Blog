@@ -13,12 +13,13 @@
 
 html {
 	min-height: 100vh;
-	background-color: $white;
+	background-color: #2e2e2e;
+
 }
 
 body {
 	line-height: 1.6;
-	border: pxToEm($gutter / 5) solid white;
+	border: pxToEm($gutter / 5) solid #2e2e2e;
 	transition: border $transition-duration;
 
 	@media (min-width: $bp-small) {
@@ -83,6 +84,14 @@ body {
 	}
 }
 
+	.modal p, .modal ul {
+		display: none;
+	}
+
+	.modal ul li {
+		display: none;
+		list-style: none;
+	}
 
 //
 // Add top margin to section
