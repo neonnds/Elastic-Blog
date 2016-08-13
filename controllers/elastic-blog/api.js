@@ -12,19 +12,37 @@ $.apiSavePost = function() {
 	var live = self.post.live;
 	var group = self.post.group;	
 
-	var data = {'id' : id, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
+	var data = {'uri' : id, 'id' : id, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
 
-	common.EBSave(data, function(results) {
+	var constraints = {
+		"uri": {
+			presence: true,
+	  		length: {
+				minimum: 5
+	  		}
+	  	}
+	};
 
-		if(results.success == false) {
-	
-			self.view500(results.message);
+	var failed = common.validate(data, constraints, {format: "flat"});
 
-		} else {
+	if(failed == undefined) {
 
-			self.json(results);
-		}
-	});
+		common.EBSave(data, function(results) {
+
+			if(results.success == false) {
+		
+				self.view500(results.message);
+
+			} else {
+
+				self.json(results);
+			}
+		});
+
+	} else {
+
+		self.json({success: false, message: failed});
+	}
 };
 
 $.apiGetMany = function() {

@@ -48,7 +48,6 @@ $(document).ready(function() {
 
 				arrayIntoUL($("#login-message"), ["An error occured!"]);
 
-
 			} else {
 
 				arrayIntoUL($("#login-message"), result.message);

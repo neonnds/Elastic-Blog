@@ -13,13 +13,14 @@
 
 html {
 	min-height: 100vh;
-	background-color: #2e2e2e;
+	background-color: getColor(background, body);
 
 }
 
 body {
 	line-height: 1.6;
-	border: pxToEm($gutter / 5) solid #2e2e2e;
+	border: pxToEm($gutter / 5) solid getColor(background, body);
+	background-color: getColor(background, light);
 	transition: border $transition-duration;
 
 	@media (min-width: $bp-small) {

@@ -98,22 +98,24 @@ $(document).ready(function() {
 
 		savePost.success(function(result) {
 
-			if(result == null || result.success == false) {
+			if(result == null) {
 
-				window.location.replace("/error");
+				arrayIntoUL($("#save-message"), ["An error occured!"]);
 
 			} else {
 
+				arrayIntoUL($("#save-message"), result.message);
+
 				if(result.success == true) {
 
-					$('#save-window').find('h4').text('Your post has been saved!');
+					arrayIntoUL($("#save-message"), ["Your post has been saved!"]);
 
-					$('#save-close-button').click(function() {
-
-						if(result.created == true) {
+					if(result.created == true) {
+						
+						$('#save-close-button').click(function() {
 							window.location.replace("{{pages.updatePost.base}}/" + id);	
-						}
-					});
+						});
+					}
 				}
 			}
 		});
