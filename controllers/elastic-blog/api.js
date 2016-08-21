@@ -17,6 +17,11 @@ $.apiSavePost = function() {
 	var constraints = {
 		"uri": {
 			presence: true,
+			format: {
+				pattern: "[a-z0-9\-]+",
+				flags: "i",
+				message: "can only contain a-z and 0-9"
+			},
 	  		length: {
 				minimum: 5
 	  		}
