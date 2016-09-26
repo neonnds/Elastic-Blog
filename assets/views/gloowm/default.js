@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	
 	$('.close-window').click(function(e) {
+
 		$('.message-list').children().not('.default-item').remove();
 
 		var targetWindow = $(this).parent();
@@ -13,6 +14,7 @@ $(document).ready(function() {
 	});
 
 	$('.open-window').click(function(e) {
+
 		$('.message-list').children().not('.default-item').remove();
 
 		var targetWindow = $($(this).attr('href'));
@@ -42,10 +44,16 @@ $(document).ready(function() {
 
 		var loginPost = $.post('{{pages.apiLogin.uri}}', {'email' : email, 'password' : password});
 
+		$('#login-window .modal-body').children().hide();
+
+		arrayIntoUL($("#login-message"), ["Checking..."]);
+
 		loginPost.success(function(result) {
 
 			if(result == null) {
 
+				$('#login-window .modal-body').children().show();
+		
 				arrayIntoUL($("#login-message"), ["An error occured!"]);
 
 			} else {
@@ -55,6 +63,10 @@ $(document).ready(function() {
 				if(result.success == true) {
 
 					window.location.replace("{{pages.home.uri}}");	
+
+				} else {
+
+					$('#login-window .modal-body').children().show();
 				}
 			}
 		});

@@ -4,6 +4,7 @@ $(document).ready(function() {
 
 		data.forEach(function(dataItem) {
 
+			console.log(dataItem);
 			var portfolioItem = $('#default-portfolio-item').clone();
 
 			$(portfolioItem).html("");
@@ -11,8 +12,8 @@ $(document).ready(function() {
 
 			$(portfolioItem).show();
 
-			$(portfolioItem).attr('data-id', dataItem.key);
-			$(portfolioItem).append(rho.toHtml(dataItem.content)).after('#portfolio-header');
+			$(portfolioItem).attr('data-id', dataItem["_key"]);
+			$(portfolioItem).append(rho.toHtml(dataItem["_content"])).after('#portfolio-header');
 
 			$('#section .portfolio-item:last').after(portfolioItem)
 		});
@@ -36,12 +37,12 @@ $(document).ready(function() {
 				type: "POST", 
 				url: '{{pages.apiGetMany.uri}}', 
 				data: { 
-					from  : "",
-					to    : "",
-					last  : lastItem,
-					group : 'summary',
-					limit : 8,
-					sort  : "key:desc"
+					from     : "",
+					to       : "",
+					last     : lastItem,
+					category : 'summary',
+					limit    : 8,
+					order    : "desc"
 				}
 			});
 
@@ -52,56 +53,42 @@ $(document).ready(function() {
 					type: "POST", 
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
-						from   : '',
-						to     : '',
-						last   : '',
-						group  : 'quote',
-						limit  : 2,
-						sort   : "updated:desc"
+						from     : '',
+						to       : '',
+						last     : '',
+						category : 'quote',
+						limit    : 1,
+						order    : "desc"
 					}
 				});
 
 				getQuote.done(function(result) {
 
-					if(result == null) {
+					$('#section .portfolio-quote').remove();
 
-						window.location.replace("/error");
+					for(var i = 0, len = result.message.length; i < len; i++) {
 
-					} else {
+						var portfolioItem = $('#default-portfolio-item').clone();
 
-						if(result.success == true) {
+						$(portfolioItem).html("");
+						$(portfolioItem).removeAttr('id');
 
-							if(result.message.length > 0) {
+						$(portfolioItem).addClass('portfolio-quote');
 
-								$('#section .portfolio-quote').remove();
+						$(portfolioItem).show();
 
-								for(var i = 0, len = result.message.length; i < len; i++) {
+						var dataItem = result.message.pop();
 
-									var portfolioItem = $('#default-portfolio-item').clone();
-
-									$(portfolioItem).html("");
-									$(portfolioItem).removeAttr('id');
-
-									$(portfolioItem).addClass('portfolio-quote');
-
-									$(portfolioItem).show();
-
-									var dataItem = result.message.pop();
-
-									$(portfolioItem).append(rho.toHtml(dataItem.content));
-					
-									$('#section .portfolio-item:first').after(portfolioItem)
-								}
-
-							} else {
-
-								$('#empty-quote-portfolio-item').show();
-							}
-						}
+						$(portfolioItem).append(rho.toHtml(dataItem["_content"]));
+		
+						$('#section .portfolio-item:first').after(portfolioItem)
 					}
 				});
 
-				getQuote.fail(errorHandler);
+				getQuote.fail(function(jqXHR, status, error) {
+
+					$('#empty-quote-portfolio-item').show();
+				});
 			}
 
 		{{else}}
@@ -112,12 +99,12 @@ $(document).ready(function() {
 					type: "POST", 
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
-						 from  :  '{{year}}/01/01', 
-						   to  :  '{{year}}/12/31', 
-						 last  :  lastItem,
-						group  :  'summary',
-						limit  :  8,
-						 sort  :  "key:desc"
+						from     :  '{{year}}-01', 
+						to       :  '{{year}}-12', 
+						last     :  lastItem,
+						category :  'summary',
+						limit    :  8,
+						order    :  "desc"
 					}
 				});
 
@@ -125,54 +112,38 @@ $(document).ready(function() {
 
 				{{#compare pages.search.uri "===" page.uri}}
 
-					console.log("here");
-
 					getPosts = $.ajax({
 						type: "POST", 
 						url: '{{pages.apiSearch.uri}}', 
 						data: { 
 							query  : '{{query}}', 
 							last   : lastItem, 
-							fields : ['content'],
 							limit  : 5,
-							sort   : "key:desc"
+							sort   : "desc"
 						}
 					});
 
 				{{/compare}}
+
 			{{/compare}}
 
 		{{/compare}}
 
 		getPosts.done(function(result) {
-
-			if(result == null) {
-
-				window.location.replace("{{pages.error.uri}}");
-
-			} else {
-
-				if(result.success == true) {
-
-					if(result.message.length > 0) {
-					
-						generateGrid(result.message);
-
-					} else {
-
-						$('#more-button').hide();
-
-						var itemCount = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-quote-portfolio-item').not('#empty-post-portfolio-item').length;	
-
-						if(itemCount == 0) {
-							$('#empty-post-portfolio-item').show();		
-						}
-					}
-				}
-			}
+	
+			generateGrid(result.message);
 		});
 
-		getPosts.fail(errorHandler);
+		getPosts.fail(function(jqXHR, status, error) {
+
+			$('#more-button').hide();
+
+			var itemCount = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-quote-portfolio-item').not('#empty-post-portfolio-item').length;	
+
+			if(itemCount == 0) {
+				$('#empty-post-portfolio-item').show();		
+			}
+		});
 	}
 
 	$('#more-button').click(function() {

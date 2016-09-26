@@ -1,19 +1,10 @@
 <h2>ACTIONS</h2>
 <nav>
 	<ul>
-		<li><a href="#load-window" id="load-button" class="open-window">LOAD</a></li>
-		
-		{{#compare pages.updatePost.uri "===" page.uri}}
-			<li><a href="#delete-window" class="open-window">DELETE</a></li>
-			<li><a href="{{{pages.viewPost.base}}}/{{post.id}}" target="_new">PREVIEW</a></li>
-		{{/compare}}
-
-		{{#compare post.live "===" "true"}}
-			<li><a href="#" id="public-button">PRIVATE</a></li>
-		{{else}}
-			<li><a href="#" id="public-button">PUBLIC</a></li>
-		{{/compare}}
-
-		<li><a href="#save-window" id="save-button" class="open-window">SAVE</a></li>
+		<li><a href="#load-window" id="menu-load-button" class="open-window">LOAD</a></li>
+		<li><a href="#delete-window" id="menu-delete-button" class="open-window">DELETE</a></li>
+		<li><a href="#" id="menu-preview-button">PREVIEW</a></li>
+		<li><a href="#" id="menu-live-button">PRIVATE</a></li>
+		<li><a href="#save-window" id="menu-save-button" class="open-window">SAVE</a></li>
 	</ul>
 </nav>

@@ -6,6 +6,8 @@ $(document).ready(function() {
 
 		$('#load-select').remove();
 
+		$('#load-submit-button').hide();
+
 		var loadSelect = $('#default-load-select').clone();
 
 		$(loadSelect).attr("id", 'load-select');
@@ -16,16 +18,18 @@ $(document).ready(function() {
 
 		$(loadSelect).show();
 
-		var type = $('#load-type').val();
+		var category = $('#load-category').val();
 
 		var getItems = $.ajax({
 			type: "POST",
-			url: '{{pages.apiGetMany.uri}}',
+			url: '{{pages.apiGetMyPosts.uri}}',
 			data: {
-				last  : '',
-				group : type,
-				limit : 1000,
-				sort  : "key:desc"
+				from      : '',
+				to        : '',
+				last      : '',
+				category  : category,
+				limit     : 1000,
+				order     : "asc"
 			}
 		});
 
@@ -33,148 +37,228 @@ $(document).ready(function() {
 
 			var message = result.message;
 
-			if(message.length == 0) {
-
-				var item = $('#default-load-select-item').clone();	
-
-				$(item).removeAttr('id');
-				$(item).text("NO ITEMS FOUND!");
-
-				$('#load-select').append(item);
-
-				$('#load-submit-button').hide();
-
-				return;
-			}
-
 			for(var i = 0; i < message.length; i++) {
 				var item = $('#default-load-select-item').clone();	
 
-				$(item).attr('value', message[i].id);
+				$(item).attr('value', message[i]["_uri"]);
 				$(item).removeAttr('id');
-				$(item).text(message[i].id);
+				$(item).text(message[i]["_uri"]);
 
 				$('#load-select').append(item);
 			}
+
+			$('#load-submit-button').show();
 		});
 
-		getItems.fail(errorHandler);
+		getItems.fail(function(jqXHR, status, error) {
+
+			var item = $('#default-load-select-item').clone();	
+
+			$(item).removeAttr('id');
+			$(item).text("NO ITEMS FOUND!");
+
+			$('#load-select').append(item);
+
+			return;
+		});
 
 		$('#load-window').show();
 	}
 
-	$('#load-button').click(function() {
+	$('#menu-load-button').click(function() {
 		getItems();
 	});
 
-	$("#load-type").change(function() {
+	$("#load-category").change(function() {
 		getItems();
 	});
 
 	$('#load-submit-button').click(function() {
 
-		var id = $('#load-select').val();
+		var uri = $('#load-select').val();
 
-		window.location.replace("{{pages.updatePost.base}}/" + id);	
+		var getPost = $.ajax({
+			type: "POST",
+			url: '{{pages.apiGetPost.uri}}',
+			data: {
+				uri : uri
+			}
+		});
+
+		getPost.done(function(result) {
+
+			var message = result.message.pop();
+
+			$('#uri').val(message._uri);
+			$('#content').val(message._content);
+
+			$('#load-window').hide();
+
+			$("#uri").trigger("input");
+		});
+
+		getPost.fail(errorHandler);
 	});
 
-	$('#save-button').click(function() {
+	$('#menu-save-button').click(function() {
 
-		var group = $('#group').val();
-		var id = $('#id').val();
+		var category = $('#category').val();
+		var uri = $('#uri').val();
 		var content = $('#content').val();
 		var isLive = false;
 
-		if($('#public-button').text() == 'PRIVATE') {
+		if($('#live-button').text() == 'PRIVATE') {
 			isLive = true;
 		}
 	
 		var savePost = $.post('{{pages.apiSavePost.uri}}', {
-			'id' : id, 
-			'content' : content, 
-			'live' : isLive, 
-			'group' : group
+			'uri'      : uri, 
+			'content'  : content, 
+			'live'     : isLive, 
+			'category' : category
 		});
 
 		savePost.success(function(result) {
 
-			if(result == null) {
-
-				arrayIntoUL($("#save-message"), ["An error occured!"]);
-
-			} else {
-
-				arrayIntoUL($("#save-message"), result.message);
-
-				if(result.success == true) {
-
-					arrayIntoUL($("#save-message"), ["Your post has been saved!"]);
-
-					if(result.created == true) {
-						
-						$('#save-close-button').click(function() {
-							window.location.replace("{{pages.updatePost.base}}/" + id);	
-						});
-					}
-				}
-			}
+			arrayIntoUL($("#save-message"), ["Your post has been saved!"]);
 		});
 
 		savePost.error(errorHandler);
 	});
 
-	$('#public-button').click(function() {
+	$('#menu-live-button').click(function(event) {
 
-		if($(this).text() == "PUBLIC") {
+		var uri = $('#uri').val();
+
+		var getPost = $.ajax({
+			type: "POST",
+			url: '{{pages.apiGetPost.uri}}',
+			data: {
+				uri : uri
+			}
+		});
+
+		getPost.done(function(result) {
+
+			if($(this).text() == "PUBLIC") {
+		
+				$(this).text("PRIVATE");
+
+			} else {
 	
-			$(this).text("PRIVATE");
+				$(this).text("PUBLIC");
+			}
+		});
+
+		getPost.fail(function(jqXHR, status, error) {
+
+			arrayIntoUL($("#live-message"), ["You need to save the post first!"]);
+		});
+		
+   		event.preventDefault();
+	});
+
+	$('#menu-preview-button').click(function(event) {
+
+		var uri = $('#uri').val();
+
+		var getPost = $.ajax({
+			type: "POST",
+			url: '{{pages.apiGetPost.uri}}',
+			data: {
+				uri : uri
+			}
+		});
+
+		getPost.done(function(result) {
+
+			window.open(`{{pages.viewPost.base}}/${uri}`, '_blank');
+		});
+
+		getPost.fail(function(jqXHR, status, error) {
+
+			$('#preview-window').show();
+
+			arrayIntoUL($("#preview-message"), ["You need to save the post first!"]);
+		});
+
+   		event.preventDefault();
+	});
+
+	$('#menu-delete-button').click(function(event) {
+
+		var uri = $('#uri').val();
+
+		$('#delete-window .modal-body').children().hide();
+
+		var getPost = $.ajax({
+			type: "POST",
+			url: '{{pages.apiGetPost.uri}}',
+			data: {
+				uri : uri
+			}
+		});
+
+		getPost.done(function(result) {
+
+			$('#delete-submit-button').show();
+			$('#delete-cancel-button').show();
+
+			arrayIntoUL($("#delete-message"), ["Really delete this post?"]);
+		});
+
+		getPost.fail(function(jqXHR, status, error) {
+
+			$('#delete-close-button').show();
+
+			arrayIntoUL($("#delete-message"), ["You need to save the post first!"]);
+		});
+
+   		event.preventDefault();
+	});
+
+	$('#delete-submit-button').click(function() {
+
+		var uri = $('#uri').val();
+
+		$('#delete-window .modal-body').children().hide();
+		$('#delete-close-button').show();
+
+		var deletePost = $.post('{{pages.apiDeletePost.uri}}', {
+			'uri' : uri
+		});
+
+		deletePost.success(function(result) {
+
+			$('#uri').val('');
+			$('#content').val('');
+
+			updateFire();
+
+			arrayIntoUL($("#delete-message"), ["Your post has been deleted!"]);
+		});
+
+		deletePost.error(errorHandler);
+	});
+	
+	/* Based on the state of the URI and CONTENT fields update page */
+	function updateFire() {
+
+		var uri = $('#uri').val();
+		var content = $('#content').val();
+
+		if(uri == "" && content == "") {
+	
+			$('#menu-delete-button').hide();
+			$('#menu-preview-button').hide();
+			$('#menu-live-button').hide();
 
 		} else {
 
-			$(this).text("PUBLIC");
+			$('#menu-delete-button').show();
+			$('#menu-preview-button').show();
+			$('#menu-live-button').show();
 		}
-	});
-
-	{{#compare pages.updatePost.uri "==" page.uri}}
-
-		$('#delete-button').click(function() {
-
-			console.log('deleting...');
-
-			$('#delete-window').show();
-		});
-
-		$('#delete-submit-button').click(function() {
-
-			var id = $('#id').val();
-
-			var deletePost = $.post('{{pages.apiDeleteById.uri}}', {
-				'id' : id, 
-				'index' : 'posts', 
-				'type' : 'post'
-			});
-
-			deletePost.success(function(result) {
-
-				if(result == null || result.success == false) {
-
-					window.location.replace("{{pages.home.uri}}");
-
-				} else {
-
-					if(result.success == true) {
-
-						window.location.replace('{{pages.home.uri}}');	
-					}
-				}
-			});
-
-			deletePost.error(errorHandler);
-		});
-		
-	{{/compare}}
-
-	function convertText() {
 
 		var contentText = $('#content').val();
 
@@ -186,24 +270,19 @@ $(document).ready(function() {
 
 		last = contentText;
 
-		var startTime = new Date() * 1;	
-
 		var previewHTML = rho.toHtml(contentText);
 		
-		var endTime = new Date() * 1;
-
-		processing_time = endTime - startTime;
-
-		var count = 0;
-
 		$('#preview').html(previewHTML);
 	}
 
-	$('#content').bind( 'keyup', function(e) {
-		clearTimeout(convertTextTimer);
-		defer_time = Math.min(processing_time, max_delay);
-		convertTextTimer = setTimeout(convertText, defer_time);
+	$('#content').on('input', function() {
+		updateFire();
 	}).focus();
 
-	convertText();
+	$('#uri').on('input', function() {
+		updateFire();
+	});
+
+	$("#content").trigger("input");
+	$("#uri").trigger("input");
 });

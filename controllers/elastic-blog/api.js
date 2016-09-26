@@ -2,20 +2,21 @@ var $ = exports;
 
 var common = require('../../elastic-blog/common.js');
 
+
 $.apiSavePost = function() {
 
 	var self = this;
 
-	var id = self.post.id;
+	var uri = self.post.uri;
 	var content = self.post.content;
-	var user = self.user.id;
 	var live = self.post.live;
-	var group = self.post.group;	
+	var category = self.post.category;	
+	var user = self.user._id;
 
-	var data = {'uri' : id, 'id' : id, 'content' : content, 'user' : user, 'live' : live, 'group' : group};
+	var data = {'_key' : '', '_type' : 'post', '_category' : category, '_uri' : uri, '_content' : content, '_user' : user, '_live' : live};
 
 	var constraints = {
-		"uri": {
+		"_uri": {
 			presence: true,
 			format: {
 				pattern: "[a-z0-9\-]+",
@@ -32,62 +33,109 @@ $.apiSavePost = function() {
 
 	if(failed == undefined) {
 
-		common.EBSave(data, function(results) {
+		common.ECGet({"_type" : 'post', "_uri" : uri}, 1, '', '', '', '', function(result) {
 
-			if(results.success == false) {
-		
-				self.view500(results.message);
+			if(result.error == true) {
 
-			} else {
+				self.view500("An unexpected error occured!");
 
-				self.json(results);
+				return;
 			}
+
+			/* Existing document so do merge update */
+			if(result.success == true) {
+				
+				var post = result.message[0];
+
+				/* Can only update what you own */
+				if(post._user == user) {
+
+					data._key = post._key;
+
+				} else {
+
+					self.view500("The URI is already in use!");
+
+					return;
+				}
+			}
+
+			common.ECStore(data._key, data, function(results) {
+
+				if(results.success == false) {
+			
+					self.view500("Failed to save post!");
+
+				} else {
+
+					self.json(results);
+				}
+			});
 		});
 
 	} else {
 
-		self.json({success: false, message: failed});
+		self.view500(failed);
 	}
 };
 
+
+$.apiDeletePost = function() {
+
+	var self = this;
+
+	var uri = self.post.uri;
+	var user = self.user._id;
+
+	var query = {'_type' : 'post', '_uri' : uri, '_user' : user};
+
+	common.ECGet(query, 1, '', '', '', '', function(result) {
+
+		if(result.success == false) {
+			
+			self.view500("Failed to find post with the provided URI.");
+
+		} else {
+	
+			var post = result.message[0];
+
+			common.ECDelete(post._key, function(result) {
+
+				if(result.success == false) {
+			
+					self.view500("Failed to delete post!");
+
+				} else {
+
+					self.json(result);
+				}
+			});
+		}
+	});
+};
+
+
+/*
+ * Get live posts.
+ */
 $.apiGetMany = function() {
 
 	var self = this;
 
-	var from = self.post.from;
-	var to = self.post.to;
 	var last = self.post.last;
 	var limit = self.post.limit;
-	var group = self.post.group;
-	var sort = self.post.sort;
-	
-	var body = {
-		"query" : {
-			"bool" : {
-				"must" : [ 
-					{ "match" : { "group" : group }} 
-				]
-			}
-		}
-	};
+	var from = self.post.from;
+	var to = self.post.to;
+	var category = self.post.category;
+	var order = self.post.order;
 
-	if(from != "" && to != "") {
-		body.query.bool.must.push({"range" : { "created" : { "from" : from, "to" : to }}});
-	}
+	var query = {'_type' : 'post', '_category' : category, '_live' : true};
 
-	if(self.user == null) {
-		body.query.bool.must.push({"match" : { "live" : true }});
-	}
-
-	if(last != null && last != "") {
-		body.query.bool.must.push({"range" : { "key" : { "lt" : last }}});
-	}
-
-	common.EBGetMany('posts', 'post', body, limit, sort, function(results) {
+	common.ECGet(query, limit, last, from, to, order, function(results) {
 
 		if(results.success == false) {
 			
-			self.view500(results.message);
+			self.view500("Failed to get posts!");
 			
 		} else {
 
@@ -96,6 +144,75 @@ $.apiGetMany = function() {
 	});
 };
 
+
+/*
+ * Get posts based on the users identity.
+ */
+$.apiGetMyPosts = function() {
+
+	var self = this;
+
+	var last = self.post.last;
+	var limit = self.post.limit;
+	var from = self.post.from;
+	var to = self.post.to;
+	var category = self.post.category;
+	var order = self.post.order;
+	var user = self.user["_id"];
+
+	var query = {'_type' : 'post', '_category' : category, '_user' : user};
+
+	common.ECGet(query, limit, last, from, to, order, function(results) {
+
+		if(results.success == false) {
+			
+			self.view500("Failed to get posts!");
+			
+		} else {
+
+			self.json(results);
+		}
+	});
+};
+
+
+/*
+ * Get a single post.
+ */
+$.apiGetPost = function() {
+
+	var self = this;
+
+	var uri = self.post.uri;
+
+	common.ECGet({"_type" : 'post', "_uri" : uri}, 1, '', '', '', '', function(result) {
+
+		if(result.success == false) {
+			
+			self.view500("Failed to get post with given URI!");
+			
+		} else {
+
+			var post = result.message[0];
+
+			/*
+			 * If you own the post then you can view it. 
+			 * If you do not own it then it has to be live to view. 
+			 */
+			if((self.user == null || self.user._id != post._user) && post.live == 'false') {
+			
+				self.view401("You do not have access to view this post.");		
+
+				return;
+			}
+
+			self.json(result);
+		}
+	});
+};
+
+
+/*
 $.apiSearch = function() {
 
 	var self = this;
@@ -127,4 +244,4 @@ $.apiSearch = function() {
 		}
 	});
 };
-
+*/

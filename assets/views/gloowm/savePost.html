@@ -7,7 +7,7 @@
 	<div id="load-window" class="modal modal--flat">
 		<div class="modal-container">
 			<div class="modal-body">
-				<select id="load-type" name="load-type">
+				<select id="load-category" name="load-category">
 					<option value="quote" selected="selected">QUOTE</option>
 					<option value="summary">SUMMARY</option>
 					<option value="article">ARTICLE</option>
@@ -26,9 +26,10 @@
 	<div id="delete-window" class="modal modal--flat">
 		<div class="modal-container">
 			<div class="modal-body">
-				<h4>Really delete this post?</h4>
-				<button class="button bg--error button--sm close-window">Cancel</button>
-				<button class="button bg--success button--sm" id="delete-submit-button">Delete</button>
+				<ul id="delete-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+				<button id="delete-close-button" class="button bg--error button--sm close-window">Close</button>
+				<button id="delete-cancel-button" class="button bg--error button--sm close-window">Cancel</button>
+				<button id="delete-submit-button" class="button bg--success button--sm">Delete</button>
 			</div>
 		</div>
 	</div>
@@ -42,15 +43,33 @@
 		</div>
 	</div>
 
+	<div id="preview-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<ul id="preview-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+				<button id="preview-close-button" class="button bg--error button--sm close-window">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="live-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+				<ul id="live-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+				<button id="live-close-button" class="button bg--error button--sm close-window">Close</button>
+			</div>
+		</div>
+	</div>
+
 	<div row>
 		<div column="6 +3" class="low-section">
-			<select id="group" name="group">
-				<option value="quote" {{#compare post.group "===" "quote"}}selected="selected"{{/compare}}>QUOTE</option>
-				<option value="summary" {{#compare post.group "===" "summary"}}selected="selected"{{/compare}}>SUMMARY</option>
-				<option value="article" {{#compare post.group "===" "article"}}selected="selected"{{/compare}}>ARTICLE</option>
+			<select id="category" name="category">
+				<option value="quote" {{#compare post._category "===" "quote"}}selected="selected"{{/compare}}>QUOTE</option>
+				<option value="summary" {{#compare post._category "===" "summary"}}selected="selected"{{/compare}}>SUMMARY</option>
+				<option value="article" {{#compare post._category "===" "article"}}selected="selected"{{/compare}}>ARTICLE</option>
 			</select>
 
-			<input type="text" id="id" name="id" placeholder="URI" value="{{post.id}}" />
+			<input type="text" id="uri" name="uri" placeholder="URI" value="{{post._uri}}" />
 		</div>
 	</div>
 
@@ -58,7 +77,7 @@
 
 <div row>
 	<div column="6" class="content-panel">
-		<textarea id="content" name="content" class="panel">{{post.content}}</textarea>
+		<textarea id="content" name="content" class="panel">{{post._content}}</textarea>
 	</div>
 	<div column="6" class="preview-panel">
 		<div id="preview" class="panel portfolio-item"></div>

@@ -3,6 +3,7 @@ var $ = exports;
 var common = require('../../elastic-blog/common.js');
 var rho = require("rho");
 
+
 // GET Post Item
 $.viewPost = function(uri) {
 
@@ -10,25 +11,31 @@ $.viewPost = function(uri) {
 
 	common.model = {};
 
-	common.EBGetById(uri, 'posts', 'post', function(results) {
+	common.ECGet({"_type" : 'post', "_uri" : uri}, 1, '', '', '', '', function(result) {
 
-		if(results.success == false) {
+		if(result.success == false) {
 			
-			self.view500("Failed to get post.");
+			self.view404("Failed to get post with given URI!");
 			
 			return
 		}
-			
-		if(self.user == null && results.message.live == 'false') {
+
+		var post = result.message[0];
+
+		/*
+		 * If you own the post then you can view it. 
+		 * If you do not own it then it has to be live to view.
+		 */
+		if((self.user == null || self.user._id != post._user) && post.live == 'false') {
 		
 			self.view401("You do not have access to view this post.");		
 
 			return;
 		}
 
-		common.model.uri = results.message.uri;
+		common.model.uri = post._uri;
 
-		rho.render(results.message.content, function(err, html) {
+		rho.render(post._content, function(err, html) {
 
 			common.model.content = html;
 

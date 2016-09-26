@@ -16,12 +16,44 @@ $.apiGetMany = {
 	label: 'API Get Many.'
 };
 
+$.apiGetMyPosts = {
+	uri: '/api/get-my-posts',
+	controller: 'elastic-blog/api.js',
+	flags: ['post', 'authorize'],
+	priority: 1,
+	label: 'API Get My Posts.'
+};
+
+$.apiGetPost = {
+	uri: '/api/get-post',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Get Post.'
+};
+
 $.apiSavePost = {
 	uri: '/api/save-post',
 	controller: 'elastic-blog/api.js',
 	flags: ['post', 'authorize'],
 	label: 'API Save Post.'
 };
+
+$.apiDeletePost = {
+	uri: '/api/delete-post',
+	controller: 'elastic-blog/api.js',
+	flags: ['post', 'authorize'],
+	label: 'API Delete Post.'
+};
+
+$.apiGetById = {
+	active: false,
+	priority: 1
+};
+
+$.apiDeleteById = {
+	active: false,
+	priority: 1
+}
 
 $.error = {
 	uri: '/error',
@@ -88,7 +120,7 @@ $.newPost = {
 };
 
 $.updatePost = {
-	uri: '/save-post/{uri}',
+	uri: '/save-post/{type}/{uri}',
 	controller: 'elastic-blog/savePost.js',
 	base: '/save-post',
 	label: 'Save Post',
@@ -157,17 +189,12 @@ $.postRegister = {
 	priority: 1
 };
 
-
 /*
 $.apiRegister = {
-	uri: '/api/register',
-	flags: ['post', 'unauthorize'],
-	label: 'API Register',
-	priority: 1,
-	active: false
+	active: false,
+	priority: 1
 };
 */
-
 
 
 //RELATIONSHIPS
