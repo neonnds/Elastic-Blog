@@ -126,39 +126,7 @@ $(document).ready(function() {
 		savePost.error(errorHandler);
 	});
 
-	$('#menu-live-button').click(function(event) {
-
-		var uri = $('#uri').val();
-
-		var getPost = $.ajax({
-			type: "POST",
-			url: '{{pages.apiGetPost.uri}}',
-			data: {
-				uri : uri
-			}
-		});
-
-		getPost.done(function(result) {
-
-			if($(this).text() == "PUBLIC") {
-		
-				$(this).text("PRIVATE");
-
-			} else {
-	
-				$(this).text("PUBLIC");
-			}
-		});
-
-		getPost.fail(function(jqXHR, status, error) {
-
-			arrayIntoUL($("#live-message"), ["You need to save the post first!"]);
-		});
-		
-   		event.preventDefault();
-	});
-
-	$('#menu-preview-button').click(function(event) {
+	$('#menu-preview-button').click(function() {
 
 		var uri = $('#uri').val();
 
@@ -173,19 +141,17 @@ $(document).ready(function() {
 		getPost.done(function(result) {
 
 			window.open(`{{pages.viewPost.base}}/${uri}`, '_blank');
+
+			$('#preview-window').hide();
 		});
 
 		getPost.fail(function(jqXHR, status, error) {
 
-			$('#preview-window').show();
-
 			arrayIntoUL($("#preview-message"), ["You need to save the post first!"]);
 		});
-
-   		event.preventDefault();
 	});
 
-	$('#menu-delete-button').click(function(event) {
+	$('#menu-delete-button').click(function() {
 
 		var uri = $('#uri').val();
 
@@ -213,8 +179,6 @@ $(document).ready(function() {
 
 			arrayIntoUL($("#delete-message"), ["You need to save the post first!"]);
 		});
-
-   		event.preventDefault();
 	});
 
 	$('#delete-submit-button').click(function() {
@@ -251,13 +215,13 @@ $(document).ready(function() {
 	
 			$('#menu-delete-button').hide();
 			$('#menu-preview-button').hide();
-			$('#menu-live-button').hide();
+			$('#menu-save-button').hide();
 
 		} else {
 
 			$('#menu-delete-button').show();
 			$('#menu-preview-button').show();
-			$('#menu-live-button').show();
+			$('#menu-save-button').show();
 		}
 
 		var contentText = $('#content').val();
