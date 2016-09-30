@@ -54,18 +54,25 @@
 
 	<div row>
 		<div column="6 +3" class="low-section">
-			<select id="category" name="category">
-				<option value="quote" {{#compare post._category "===" "quote"}}selected="selected"{{/compare}}>QUOTE</option>
-				<option value="summary" {{#compare post._category "===" "summary"}}selected="selected"{{/compare}}>SUMMARY</option>
-				<option value="article" {{#compare post._category "===" "article"}}selected="selected"{{/compare}}>ARTICLE</option>
-			</select>
 
-			<select id="live-select" name="live-select">
-				<option id="live-select-item" value="public">PUBLIC</option>
-				<option id="live-select-item" value="private">PRIVATE</option>
-			</select>
+			<div row>
+				<div column="6">
+					<select id="category" name="category">
+						<option value="quote">QUOTE</option>
+						<option value="summary">SUMMARY</option>
+						<option value="article">ARTICLE</option>
+					</select>
+				</div>
 
-			<input type="text" id="uri" name="uri" placeholder="URI" value="{{post._uri}}" />
+				<div column="6">
+					<select id="live" name="live">
+						<option value="true">PUBLIC</option>
+						<option value="false">PRIVATE</option>
+					</select>
+				</div>
+			</div>
+
+			<input type="text" id="uri" name="uri" placeholder="URI" value="" />
 		</div>
 	</div>
 
@@ -73,7 +80,7 @@
 
 <div row>
 	<div column="6" class="content-panel">
-		<textarea id="content" name="content" class="panel">{{post._content}}</textarea>
+		<textarea id="content" name="content" class="panel" height="100%"></textarea>
 	</div>
 	<div column="6" class="preview-panel">
 		<div id="preview" class="panel portfolio-item"></div>

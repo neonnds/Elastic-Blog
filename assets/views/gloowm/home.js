@@ -4,7 +4,6 @@ $(document).ready(function() {
 
 		data.forEach(function(dataItem) {
 
-			console.log(dataItem);
 			var portfolioItem = $('#default-portfolio-item').clone();
 
 			$(portfolioItem).html("");

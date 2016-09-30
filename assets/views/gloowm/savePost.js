@@ -91,6 +91,8 @@ $(document).ready(function() {
 
 			$('#uri').val(message._uri);
 			$('#content').val(message._content);
+			$('#category').val(message._category);
+			$('#live').val(message._live);
 
 			$('#load-window').hide();
 
@@ -105,16 +107,12 @@ $(document).ready(function() {
 		var category = $('#category').val();
 		var uri = $('#uri').val();
 		var content = $('#content').val();
-		var isLive = false;
-
-		if($('#live-button').text() == 'PRIVATE') {
-			isLive = true;
-		}
+		var live = $('#live').val();
 	
 		var savePost = $.post('{{pages.apiSavePost.uri}}', {
 			'uri'      : uri, 
 			'content'  : content, 
-			'live'     : isLive, 
+			'live'     : live, 
 			'category' : category
 		});
 
@@ -205,6 +203,14 @@ $(document).ready(function() {
 		deletePost.error(errorHandler);
 	});
 	
+	function updateEditorSize() {
+
+		var windowHeight = $(window).height() - 350;
+
+		$("#content").height(windowHeight);
+		$('#preview').height(windowHeight);
+	}
+
 	/* Based on the state of the URI and CONTENT fields update page */
 	function updateFire() {
 
@@ -224,9 +230,9 @@ $(document).ready(function() {
 			$('#menu-save-button').show();
 		}
 
-		var contentText = $('#content').val();
+		updateEditorSize();
 
-		$('#preview').height($('#content').height());
+		var contentText = $('#content').val();
 
 		if(contentText && contentText == last) {
 			return; 
@@ -238,6 +244,10 @@ $(document).ready(function() {
 		
 		$('#preview').html(previewHTML);
 	}
+
+	$(window).resize(function() {
+		updateEditorSize();
+	});
 
 	$('#content').on('input', function() {
 		updateFire();
