@@ -20,12 +20,12 @@ $(document).ready(function() {
 
 	function getItems() {
 
-		var lastItem = $('#section .portfolio-item').not('#default-portfolio-item').last(); 
+		var lastItem = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-post-portfolio-item').not('#empty-quote-portfolio-item').last(); 
 
 		if(lastItem.length == 0) {
-			lastItem = '';
+			lastItem = [];
 		} else {
-			lastItem = $(lastItem).attr('data-id');
+			lastItem = ["_key", "<", $(lastItem).attr('data-id')];
 		}
 
 		var getPosts;
@@ -36,12 +36,11 @@ $(document).ready(function() {
 				type: "POST", 
 				url: '{{pages.apiGetMany.uri}}', 
 				data: { 
-					from     : "",
-					to       : "",
+					range    : [],
 					last     : lastItem,
 					category : 'summary',
 					limit    : 8,
-					order    : "desc"
+					order    : ["_key", "DESC"]
 				}
 			});
 
@@ -52,12 +51,11 @@ $(document).ready(function() {
 					type: "POST", 
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
-						from     : '',
-						to       : '',
-						last     : '',
+						range    : [],
+						last     : [],
 						category : 'quote',
 						limit    : 1,
-						order    : "desc"
+						order    : ["_key", "DESC"]
 					}
 				});
 
@@ -98,12 +96,11 @@ $(document).ready(function() {
 					type: "POST", 
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
-						from     :  '{{year}}-01', 
-						to       :  '{{year}}-12', 
+						range    :  ["_created", '{{year}}-01', '{{year}}-12'] 
 						last     :  lastItem,
 						category :  'summary',
 						limit    :  8,
-						order    :  "desc"
+						order    :  ["_key", "DESC"]
 					}
 				});
 

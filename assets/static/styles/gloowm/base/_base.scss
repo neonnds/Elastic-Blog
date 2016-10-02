@@ -59,6 +59,11 @@ body {
 	@media (max-width: $bp-medium) {
 		padding-right: 23px;
 	}
+
+	.portfolio-item {
+		border: 1px solid #aaaaaa;
+		margin-bottom: 0;
+	}
 } 
 
 .preview-panel {
@@ -71,6 +76,7 @@ body {
 	}
 
 	.portfolio-item {
+		border: 1px solid #aaaaaa;
 		margin-bottom: 0;
 	}
 }
@@ -449,15 +455,26 @@ body {
 // Inputs
 // ===========
 
-input,select {
+input,select,textarea {
 	font-family: $font-family-headings;
-	text-transform: uppercase;	
 	background-color: $white;
+}
+
+textarea {
+	font-size: pxToEm(16);
 }
 
 input, select {
 
 	&:not([type="submit"]) {
 		margin-bottom: 10px; 
+	}
+}
+
+.view-post {
+	margin-top: unitSize(11);
+
+	.portfolio-item {
+		border-bottom: none;
 	}
 }

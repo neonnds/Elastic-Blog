@@ -24,12 +24,11 @@ $(document).ready(function() {
 			type: "POST",
 			url: '{{pages.apiGetMyPosts.uri}}',
 			data: {
-				from      : '',
-				to        : '',
-				last      : '',
-				category  : category,
-				limit     : 1000,
-				order     : "asc"
+				range    : [],
+				last     : [],
+				category : category,
+				limit    : 1000,
+				order    : ["_updated", "DESC"]
 			}
 		});
 
@@ -205,7 +204,7 @@ $(document).ready(function() {
 	
 	function updateEditorSize() {
 
-		var windowHeight = $(window).height() - 350;
+		var windowHeight = $(window).height() - 420;
 
 		$("#content").height(windowHeight);
 		$('#preview').height(windowHeight);

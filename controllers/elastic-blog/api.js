@@ -19,9 +19,9 @@ $.apiSavePost = function() {
 		"_uri": {
 			presence: true,
 			format: {
-				pattern: "[a-z0-9\-]+",
+				pattern: "[aA-zZ0-9\-]+",
 				flags: "i",
-				message: "can only contain a-z and 0-9"
+				message: "can only contain a-z, -, 0-9"
 			},
 	  		length: {
 				minimum: 5
@@ -33,7 +33,7 @@ $.apiSavePost = function() {
 
 	if(failed == undefined) {
 
-		common.ECGet({"_type" : 'post', "_uri" : uri}, 1, '', '', '', '', function(result) {
+		common.ECGet({"_type" : 'post', "_uri" : uri}, 1, [], [], [], function(result) {
 
 			if(result.error == true) {
 
@@ -89,7 +89,7 @@ $.apiDeletePost = function() {
 
 	var query = {'_type' : 'post', '_uri' : uri, '_user' : user};
 
-	common.ECGet(query, 1, '', '', '', '', function(result) {
+	common.ECGet(query, 1, [], [], [], function(result) {
 
 		if(result.success == false) {
 			
@@ -122,16 +122,15 @@ $.apiGetMany = function() {
 
 	var self = this;
 
-	var last = self.post.last;
-	var limit = self.post.limit;
-	var from = self.post.from;
-	var to = self.post.to;
+	var range = self.post["range[]"];
+	var last = self.post["last[]"];
 	var category = self.post.category;
-	var order = self.post.order;
+	var order = self.post["order[]"];
+	var limit = self.post.limit;
 
 	var query = {'_type' : 'post', '_category' : category, '_live' : true};
 
-	common.ECGet(query, limit, last, from, to, order, function(results) {
+	common.ECGet(query, limit, last, range, order, function(results) {
 
 		if(results.success == false) {
 			
@@ -152,17 +151,16 @@ $.apiGetMyPosts = function() {
 
 	var self = this;
 
-	var last = self.post.last;
-	var limit = self.post.limit;
-	var from = self.post.from;
-	var to = self.post.to;
+	var range = self.post["range[]"];
+	var last = self.post["last[]"];
 	var category = self.post.category;
-	var order = self.post.order;
+	var order = self.post["order[]"];
+	var limit = self.post.limit;
 	var user = self.user["_id"];
 
 	var query = {'_type' : 'post', '_category' : category, '_user' : user};
 
-	common.ECGet(query, limit, last, from, to, order, function(results) {
+	common.ECGet(query, limit, last, range, order, function(results) {
 
 		if(results.success == false) {
 			
@@ -185,7 +183,7 @@ $.apiGetPost = function() {
 
 	var uri = self.post.uri;
 
-	common.ECGet({"_type" : 'post', "_uri" : uri}, 1, '', '', '', '', function(result) {
+	common.ECGet({"_type" : 'post', "_uri" : uri}, 1, [], [], [], function(result) {
 
 		if(result.success == false) {
 			
