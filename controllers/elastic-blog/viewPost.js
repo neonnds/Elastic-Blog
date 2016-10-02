@@ -11,7 +11,7 @@ $.viewPost = function(uri) {
 
 	common.model = {};
 
-	common.ECGet({"_type" : 'post', "_uri" : uri}, 1, '', '', '', '', function(result) {
+	common.ECGet({"_type" : 'post', "_uri" : uri}, 1, [], [], [], function(result) {
 
 		if(result.success == false) {
 			
