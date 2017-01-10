@@ -30,7 +30,7 @@
 			<div class="modal-container">
 				<div class="modal-body">
 					<ul id="error-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
-					<button class="button bg--success button--sm close-window">Ok</button>
+					<button class="-success close-window">Ok</button>
 				</div>
 			</div>
 		</div>
@@ -39,8 +39,8 @@
 			<div class="modal-container">
 				<div class="modal-body">
 					<input id="search-terms" type="text" class="panel" placeholder="Keywords" value="">
-					<button class="button bg--error button--sm close-window">Cancel</button>
-					<button class="button bg--success button--sm" id="search-submit-button">Search</button>
+					<button class="-error close-window">Cancel</button>
+					<button class="-success" id="search-submit-button">Search</button>
 				</div>
 			</div>
 		</div>
@@ -51,8 +51,8 @@
 					<ul id="login-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
 					<input id="login-email" type="text" class="panel" placeholder="Email" value="">
 					<input id="login-password" type="password" class="panel" placeholder="Password" value="">
-					<button class="button bg--error button--sm close-window">Cancel</button>
-					<button class="button bg--success button--sm" id="login-submit-button">Login</button>
+					<button class="-error close-window">Cancel</button>
+					<button class="-success" id="login-submit-button">Login</button>
 				</div>
 			</div>
 		</div>
@@ -65,14 +65,14 @@
 						<input id="register-email" type="text" class="panel" placeholder="Email" value="">
 						<input id="register-password" type="password" class="panel" placeholder="Password" value="">
 						<input id="register-confirm" type="password" class="panel" placeholder="Confirm Password" value="">
-						<button class="button bg--error button--sm close-window">Cancel</button>
-						<button class="button bg--success button--sm" id="register-submit-button">Register</button>
+						<button class="-error close-window">Cancel</button>
+						<button class="-success" id="register-submit-button">Register</button>
 					</div>
 				</div>
 			</div>
 		{{/compare}}
 
-		<header class="mainHeader">
+		<header class="main-header">
 
 			<a href="/" class="logo animated">
 				<img src="/images/gloowm/logo2.svg" alt="Concise Logo">
@@ -142,7 +142,8 @@
 
 					{{{menu}}}
 
-					<h2>POSTS BY YEAR</h2>
+					<p>POSTS BY YEAR</p>
+					
 					<nav>
 						<ul>
 							<li><a href="{{pages.homeByYear.base}}/2013">YEAR 2013</a></li>

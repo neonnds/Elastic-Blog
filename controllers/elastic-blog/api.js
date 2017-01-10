@@ -209,6 +209,60 @@ $.apiGetPost = function() {
 	});
 };
 
+/*
+ * Need to implement:
+ *	-IP post limits
+ *	-Allow reaction +1/-1
+ *	-Generate Identicon based on email hash (identicon.js)
+ *	-Email confirmation required for each post (nodemailer)
+ */
+$.apiSaveComment = function() {
+
+	var self = this;
+
+	var postKey = self.post.postKey;
+	var content = self.post.content;
+	var email = self.post.email;
+
+	var data = { '_key' : '', '_type' : 'comment', '_parent_post' : postKey, '_content' : content, '_email' : email, '_verified' : false };
+
+	var constraints = {
+		"_content": {
+			presence: true,
+			format: {
+				pattern: "[aA-zZ0-9\-]+",
+				flags: "i",
+				message: "can only contain a-z, -, 0-9"
+			},
+	  		length: {
+				minimum: 5
+	  		}
+	  	}
+	};
+
+	var failed = common.validate(data, constraints, {format: "flat"});
+
+	if(failed == undefined) {
+
+		common.ECStore(data._key, data, function(results) {
+
+			if(results.success == false) {
+		
+				self.view500("Failed to save post!");
+
+			} else {
+
+				self.json(results);
+			}
+		});
+
+	} else {
+
+		self.view500(failed);
+	}
+};
+
+
 
 /*
 $.apiSearch = function() {

@@ -7,7 +7,7 @@
 
 	h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .giga, .mega, .kilo {
  
-		line-height: pxToEm(30);
+		line-height: typeScale(5);
 
 		a {
 			color: getColor(text, heading);
@@ -19,7 +19,6 @@
 		}
 	}
 
-
 	video {
                 margin: 0;
                 margin: auto;
@@ -29,17 +28,17 @@
         }
 	
 	ul, li, p {
-		font-family: $font-family-headings;
-		font-size: pxToRem(16);
-		line-height: 1.8;
+		font-family: $font-secondary;
+		font-size: typeScale(2);
+		line-height: typeScale(5);
 		margin: 0 0 10px;
 	}
 
 	.red-under {
 		letter-spacing: 0.05em;
-		margin-bottom: unitSize(3);
-		margin-top: unitSize(1);
-		padding-bottom: unitSize(2);
+		margin-bottom: typeScale(3);
+		margin-top: typeScale(1);
+		padding-bottom: typeScale(2);
 		position: relative;
 		text-transform: uppercase;
 
@@ -221,14 +220,14 @@
 	}
 
 	.linebreak {
-		padding-top: unitSize(2);
+		padding-top: typeScale(2);
 	}
 
 	.small-linebreak {
-		padding-top: unitSize(1);
+		padding-top: typeScale(1);
 	}
 	
 	.indent {
-		padding-left: unitSize(3);
+		padding-left: typeScale(3);
 	}
 }

@@ -96,7 +96,7 @@ $(document).ready(function() {
 					type: "POST", 
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
-						range    :  ["_created", '{{year}}-01', '{{year}}-12'] 
+						range    :  ["_created", '{{year}}-01', '{{year}}-12'], 
 						last     :  lastItem,
 						category :  'summary',
 						limit    :  8,

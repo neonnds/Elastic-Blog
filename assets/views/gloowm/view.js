@@ -71,4 +71,24 @@ $(document).ready(function() {
 
 	getItems();
 */
+
+	var hash = 'd6fe8c82fb0abac17a702fd2a94eff37';
+  	var data = new Identicon(hash).toString();
+	
+	console.log(data);
+
+	$('.comment-image').attr('src', `data:image/png;base64,${data}`);
+	
+
+	$('#comment-submit').click(function() {
+		
+		console.log("HERE");
+
+		var name = $('#comment-name').val();
+		var email = $('#comment-email').val();
+
+		console.log
+
+
+	});
 });

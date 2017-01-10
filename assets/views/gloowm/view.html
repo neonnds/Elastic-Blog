@@ -1,12 +1,91 @@
+<script type="text/javascript" src="/libs/gloowm/identicon/pnglib.js" charset="utf-8"></script>
+<script type="text/javascript" src="/libs/gloowm/identicon/identicon.js" charset="utf-8"></script>
+
 <script type="text/javascript">
 	{{{viewjs}}}
 </script>
 
 <main container>
-	<div class="view-post" row>
+	<div class="view-post" grid>
 		<div column="10 +1" class="portfolio-item">
 			{{{content}}}
 		</div>
 	</div>
 
 </main>
+
+<div grid id="comment-area">
+
+	<div column="6 +3">
+	       
+		<div class="comment-panel">
+
+			<div grid="top justify-start">
+				<div column="12">
+					<textarea id="comment" name="comment" class="panel portfolio-item" placeholder="COMMENT..."></textarea>
+				</div>
+			</div>
+
+			<div grid="top justify-start">
+				<div column="4">
+					<input type="text" id="comment-name" name="email-address" placeholder="NAME" value="" />
+				</div>
+
+				<div column="4">
+					<input type="text" id="comment-email" name="email-address" placeholder="EMAIL" value="" />
+				</div>
+
+				<div column="2">
+					<button id="notify-submit" class="-affix -warning">
+						NOTIFY ME
+						<span class="affix">ON</span>	 
+					</button>
+				</div>
+
+				<div column="2" class="_text-right">
+					<button id="comment-submit" class="-success">OK</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="comment-items">
+
+			<div grid class="portfolio-item comment-item">
+
+				<div column="1">
+					<img class="comment-image" src="#" width="60" height="60">
+				</div>
+
+				<div column="11" class="comment-block">
+
+					<p>
+						<b>Jesus Balls</b>
+						<i>3 hours ago</i>
+					</p>
+
+					<p>
+						Hillary put me in a half nelson, flipped me over and power-bombed me to the ground. As I was in a daze she squatted over my face and gave me a little smack on the cheek. As I came to, she let out the most hellacious queef into my face. It may have been a fart, I don't know for sure. Either way, before she left she grabbed my balls and whispered in my ear, "This is my election now!" Then she vanished. 
+					</p>
+				</div>
+
+			</div>
+
+			<div grid class="portfolio-item comment-item">
+
+				<div column="1">
+					<img class="comment-image" src="#" width="60" height="60">
+				</div>
+
+				<div column="11" class="comment-block">
+
+					<p>
+						<b>Jesus Balls</b>
+						<i>3 hours ago</i>
+					</p>
+
+					<p>This is a comment.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
