@@ -6,7 +6,6 @@ A simple blog website using total.js and elastic-search.
 * [Version 2015.03](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz)
 * [Version 2015.04](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-04.tar.gz)
 * [Version 2015.05](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-05.tar.gz)
-* [Version 2015.12](TBA)
 
 ## Getting Started
 
@@ -22,17 +21,9 @@ Enter the Elastic-Blog project
 
     $> cd ./elastic-blog-2015-12
 
-Get ElasticSearch from the offical site
+Get Couchbase from the offical site, install and run
 
-    $> wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.1.0.tar.gz
-    
-Extract ElasticSearch
-
-    $> tar -zxf elasticsearch-2.1.0.tar.gz
-    
-Start Elastic Search
-
-    $> ./elasticsearch-2.1.0/bin/elasticsearch
+    https://www.couchbase.com/
 
 Start Elastic-Blog
 
@@ -79,11 +70,7 @@ Install the following node modules
 Enter the Elastic-Core project
 
     $> cd ./Elastic-Core
-
-Start Elastic Search
-
-    $> ./elasticsearch-2.1.0/bin/elasticsearch
-
+    
 Start Elastic-Blog
 
     $> ./run Elastic-Blog
