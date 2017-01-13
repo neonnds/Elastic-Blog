@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+	var commentText = "NO COMMENTS!";
+
 	function getItems() {
 
 		var lastItem = $('#comment-items .portfolio-item').not('#default-comment-item').last(); 
@@ -23,6 +25,10 @@ $(document).ready(function() {
 
 		getComments.done(function(result) {
 		
+			commentText = "NO MORE COMMENTS!";
+
+			$('#more-item p').html("VIEW MORE COMMENTS!");
+
 			var data = result.message;
 
 			data.forEach(function(dataItem) {
@@ -48,7 +54,7 @@ $(document).ready(function() {
 
 		getComments.fail(function(jqXHR, status, error) {
 
-			$('#more-item').hide();
+			$('#more-item p').html(commentText);
 		});
 	}
 
