@@ -1,94 +1,95 @@
 $(document).ready(function() {
-/*
-	var lastItem = $('#section .portfolio-item').not('#default-portfolio-item').last(); 
 
-	if(lastItem.length == 0) {
+	function getItems() {
 
-		lastItem = '';
+		var lastItem = $('#comment-items .portfolio-item').not('#default-comment-item').last(); 
 
-	} else {
+		if(lastItem.length == 0) {
+			lastItem = [];
+		} else {
+			lastItem = ["_key", ">", $(lastItem).attr('data-id')];
+		}
 
-		lastItem = $(lastItem).attr('data-id');
+		var getComments = $.ajax({
+			type: "POST", 
+			url: '{{pages.apiGetComments.uri}}',
+			data: { 
+				last   : lastItem,
+				key    : '{{key}}',
+				limit  : 10,
+				order  : ["_key", "ASC"]
+			}
+		});
+
+		getComments.done(function(result) {
+		
+			var data = result.message;
+
+			data.forEach(function(dataItem) {
+
+				var commentItem = $('#default-comment-item').clone();
+
+				$(commentItem).removeAttr('id');
+
+				$(commentItem).css('display', 'flex');
+
+				$(commentItem).attr('data-id', dataItem._key);
+
+ 		 		var data = new Identicon(dataItem._email_hash).toString();
+			
+				$(commentItem).find('.comment-image').attr('src', `data:image/png;base64,${data}`);
+				$(commentItem).find('.comment-block b').html(dataItem._name);
+				$(commentItem).find('.comment-block i').html(dataItem._created);
+				$(commentItem).find('p:last').html(dataItem._comment);	
+
+				$('#comment-items').append(commentItem);
+			});
+		});
+
+		getComments.fail(function(jqXHR, status, error) {
+
+			$('#more-item').hide();
+		});
 	}
 
-	var getComments = $.ajax({
-		type: "POST", 
-		url: '{{pages.apiGetMany.uri}}', 
-		data: { 
-			last   : lastItem,
-			index  : 'comments',
-			type   : 'comment',
-			limit  : 15
-		}
-	});
-
-	getComments.done(function(result) {
-
-		if(result == null) {
-
-			window.location.replace("/error");
-
-		} else {
-
-			if(result.success == true) {
-
-				if(result.message.length > 0) {
-
-					$('#section .portfolio-quote').remove();
-
-					var portfolioItem = $('#default-portfolio-item').clone();
-
-					$(portfolioItem).removeAttr('id');
-
-					$(portfolioItem).addClass('portfolio-quote');
-
-					$(portfolioItem).show();
-
-					var dataItem = result.message.pop();
-					
-					$(portfolioItem).find('#edit-button').attr('href', '{{pages.newQuote.uri}}/' + dataItem.uri);
-
-					$(portfolioItem).append(textile.parse(dataItem.content));
-	
-					$('#section .portfolio-item:first').after(portfolioItem)
-				} else {
-
-					$('#more-button').hide();
-
-					$('#empty-portfolio-item').show();		
-				}
-			}
-		}
-	});
-
-	getComments.fail(errorHandler);
-
-
-	$('#more-button').click(function() {
+	$('#more-item').click(function() {
 
 		getItems();
 	});
 
-	getItems();
-*/
-
-	var hash = 'd6fe8c82fb0abac17a702fd2a94eff37';
-  	var data = new Identicon(hash).toString();
-	
-	console.log(data);
-
-	$('.comment-image').attr('src', `data:image/png;base64,${data}`);
-	
-
 	$('#comment-submit').click(function() {
 		
-		console.log("HERE");
-
+		var comment = $('#comment-text').val();
 		var name = $('#comment-name').val();
 		var email = $('#comment-email').val();
+		var notify = $('#notify-submit span').text();
+	
+		var saveComment = $.post('{{pages.apiSaveComment.uri}}', {
+			'key'      : '{{key}}', 
+			'comment'  : comment, 
+			'name'     : name, 
+			'email'    : email,
+			'notify'   : notify
+		});
 
-		console.log
+		saveComment.success(function(result) {
 
+			arrayIntoUL($("#verify-message"), ["Check your email and enter the pin to comment!"]);
 
+			$('#verify-window').show();
+		});
+
+		saveComment.error(errorHandler);
+	});
+
+	$('#notify-submit').click(function() {
+
+		var state = $('#notify-submit span').text();
+
+		if(state == "OFF") {
+			$('#notify-submit span').text("ON");
+		} else {
+			$('#notify-submit span').text("OFF");	
+		}
 	});
 });

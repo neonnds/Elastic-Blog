@@ -5,6 +5,17 @@
 	{{{viewjs}}}
 </script>
 
+<div id="verify-window" class="modal modal--flat">
+	<div class="modal-container">
+		<div class="modal-body">
+			<ul id="verify-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+			<input id="verify-pin" type="text" class="panel" placeholder="PIN CODE" value="">
+			<button class="-error close-window">Cancel</button>
+			<button class="-success close-window">Ok</button>
+		</div>
+	</div>
+</div>
+
 <main container>
 	<div class="view-post" grid>
 		<div column="10 +1" class="portfolio-item">
@@ -22,7 +33,7 @@
 
 			<div grid="top justify-start">
 				<div column="12">
-					<textarea id="comment" name="comment" class="panel portfolio-item" placeholder="COMMENT..."></textarea>
+					<textarea id="comment-text" name="comment" class="panel portfolio-item" placeholder="COMMENT..."></textarea>
 				</div>
 			</div>
 
@@ -50,7 +61,7 @@
 
 		<div id="comment-items">
 
-			<div grid class="portfolio-item comment-item">
+			<div id="default-comment-item" class="portfolio-item comment-item" data-id="#" grid>
 
 				<div column="1">
 					<img class="comment-image" src="#" width="60" height="60">
@@ -59,32 +70,21 @@
 				<div column="11" class="comment-block">
 
 					<p>
-						<b>Jesus Balls</b>
-						<i>3 hours ago</i>
+						<b>NAME</b>
+						<i>WHEN</i>
 					</p>
 
-					<p>
-						Hillary put me in a half nelson, flipped me over and power-bombed me to the ground. As I was in a daze she squatted over my face and gave me a little smack on the cheek. As I came to, she let out the most hellacious queef into my face. It may have been a fart, I don't know for sure. Either way, before she left she grabbed my balls and whispered in my ear, "This is my election now!" Then she vanished. 
-					</p>
+					<p>COMMENT</p>
 				</div>
 
 			</div>
 
-			<div grid class="portfolio-item comment-item">
+		</div>
 
-				<div column="1">
-					<img class="comment-image" src="#" width="60" height="60">
-				</div>
+		<div id="more-item" class="portfolio-item" data-id="#" grid>
 
-				<div column="11" class="comment-block">
-
-					<p>
-						<b>Jesus Balls</b>
-						<i>3 hours ago</i>
-					</p>
-
-					<p>This is a comment.</p>
-				</div>
+			<div column="12" class="_text-center">
+				<p>VIEW COMMENTS</p>
 			</div>
 		</div>
 	</div>

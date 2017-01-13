@@ -31,11 +31,25 @@ $.apiGetPost = {
 	label: 'API Get Post.'
 };
 
+$.apiGetComments = {
+	uri: '/api/get-post-comments',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Get Post Comments.'
+};
+
 $.apiSavePost = {
 	uri: '/api/save-post',
 	controller: 'elastic-blog/api.js',
 	flags: ['post', 'authorize'],
 	label: 'API Save Post.'
+};
+
+$.apiSaveComment = {
+	uri: '/api/save-comment',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Save Comment.'
 };
 
 $.apiDeletePost = {

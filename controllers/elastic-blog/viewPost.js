@@ -34,6 +34,7 @@ $.viewPost = function(uri) {
 		}
 
 		common.model.uri = post._uri;
+		common.model.key = post._key;
 
 		rho.render(post._content, function(err, html) {
 

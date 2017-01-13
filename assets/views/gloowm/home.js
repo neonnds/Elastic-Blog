@@ -11,8 +11,8 @@ $(document).ready(function() {
 
 			$(portfolioItem).show();
 
-			$(portfolioItem).attr('data-id', dataItem["_key"]);
-			$(portfolioItem).append(rho.toHtml(dataItem["_content"])).after('#portfolio-header');
+			$(portfolioItem).attr('data-id', dataItem._key);
+			$(portfolioItem).append(rho.toHtml(dataItem._content)).after('#portfolio-header');
 
 			$('#section .portfolio-item:last').after(portfolioItem)
 		});
@@ -44,7 +44,7 @@ $(document).ready(function() {
 				}
 			});
 
-			//If the quote has already been generated there is no need to fetch and generate again
+			/* If the quote has already been generated there is no need to fetch and generate again */
 			if($('#section .portfolio-quote').length == 0) {
 
 				var getQuote = $.ajax({

@@ -64,13 +64,7 @@ body {
 	transition: border $transition-duration;
 }
 
-#default-portfolio-item {
-	display: none;
-}
 
-.empty-portfolio-item {
-	display: none;
-}
 
 .panel {
     overflow-y: scroll;
@@ -122,9 +116,27 @@ body {
 
 #comment-area {
 
+	#default-comment-item {
+		display: none;
+	}
+
+	#comment-submit {
+
+	}
+
 	.comment-panel {
 
 		margin-bottom: 40px;
+
+		div[grid]:nth-of-type(1) {
+			padding-top: 15px;
+			background-color: white;
+		}	
+
+		div[grid]:nth-of-type(2) {
+			padding-bottom: 5px;
+			background-color: white;
+		}
 
 		.portfolio-item {
 			overflow: hidden;
@@ -142,6 +154,9 @@ body {
 
 		.comment-item {
 
+			background-color: white;
+			padding: 10px 0 10px 0;
+
 			p {
 				display: block;
 				text-align: justify;
@@ -149,14 +164,26 @@ body {
 			}
 
 			img {
+				margin-top: 2px;
 				border: 1px solid #cde;
 				display: inline-block;
 			}
 
 			.comment-block {
-				display: inline-block;
+
+				display: block;
+
+				p {
+					margin: 0;
+				}
 			}
 		}
+	}
+
+	#more-item {
+		background-color: white;
+		padding-top: 15px;
+		cursor: pointer;
 	}
 }
 
@@ -168,18 +195,40 @@ body {
 	.modal-body {
 		text-align: center;
 	}
-}
 
-	.modal p, .modal ul {
+	p, ul {
 		display: none;
+		padding-left: none;
 	}
 
-	.modal ul li {
+	ul li {
 		display: none;
 		list-style: none;
+		padding-bottom: typeScale(1);
 	}
+
+	button {
+		margin-top: typeScale(1);
+	}
+}
+
 	
-	
+
+//
+// Section
+// ============
+
+#section {
+
+	#default-portfolio-item {
+		display: none;
+	}
+
+	.empty-portfolio-item {
+		display: none;
+	}
+}
+
 //
 // Add top margin to section
 // =================
@@ -188,13 +237,12 @@ body {
 	margin-top: typeScale(10);
 }
 
-
 //
 // Home section
 // ============
 
 .home-section {
-    
+
 	text-align: center;
 
 	h1 {
@@ -317,6 +365,7 @@ button {
 
 
 .logo {
+
     height: typeScale(9);
     
     img { 
@@ -386,7 +435,7 @@ button {
 		color: white;
 		margin-bottom: typeScale(2);
 		margin-top: 0;
-        font-weight: bold;
+       		font-weight: bold;
 	}
 
 	.nav-wrapper {
@@ -594,6 +643,3 @@ input, select, textarea {
 	}
 }
 
-#comment-submit {
-
-}

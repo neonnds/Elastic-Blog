@@ -2,6 +2,8 @@ var $ = exports;
 
 var common = require('../../elastic-blog/common.js');
 
+var crypto = require('crypto');
+
 
 $.apiSavePost = function() {
 
@@ -156,7 +158,7 @@ $.apiGetMyPosts = function() {
 	var category = self.post.category;
 	var order = self.post["order[]"];
 	var limit = self.post.limit;
-	var user = self.user["_id"];
+	var user = self.user._id;
 
 	var query = {'_type' : 'post', '_category' : category, '_user' : user};
 
@@ -209,33 +211,128 @@ $.apiGetPost = function() {
 	});
 };
 
+
+/*
+ * Get comments for a single post.
+ * -Need to implement a page that correlates all comments based on email into a single page
+ */
+$.apiGetComments = function() {
+
+	var self = this;
+
+	var key = self.post.key;
+	var last = self.post["last[]"];
+	var order = self.post["order[]"];
+	var limit = self.post.limit;
+
+	common.ECGet({"_type" : 'post', "_key" : key}, 1, [], [], [], function(result) {
+
+		if(result.success == false) {
+			
+			self.view500("Failed to get the given post!");
+			
+		} else {
+
+			var post = result.message[0];
+
+			/*
+			 * If you own the post then you can view it. 
+			 * If you do not own it then it has to be live to view. 
+			 */
+			if((self.user == null || self.user._id != post._user) && post.live == 'false') {
+			
+				self.view401("You do not have access to view this post.");		
+
+				return;
+			}
+
+			common.ECGet({'_type' : 'comment', '_parent_post' : post._key, '_verified' : 'false'}, limit, last, [], order, function(result) {
+
+				if(result.success == false) {
+					
+					self.view500("Failed to get comments for the given post!");
+					
+				} else {
+
+					var cleanMessage = result.message;
+
+					for(var i = 0; i < cleanMessage.length; i++) {
+
+						/* We want a nice human readable format */
+						cleanMessage[i]._created = new Date(cleanMessage[i]._created).toDateString();
+
+						/* We want to protect emails for privacy and security */
+						cleanMessage[i]._email = "";
+					}
+
+					self.json(result);
+				}
+			});
+		}
+	});
+};
+
+
 /*
  * Need to implement:
  *	-IP post limits
  *	-Allow reaction +1/-1
- *	-Generate Identicon based on email hash (identicon.js)
  *	-Email confirmation required for each post (nodemailer)
  */
 $.apiSaveComment = function() {
 
 	var self = this;
 
-	var postKey = self.post.postKey;
-	var content = self.post.content;
+	var key = self.post.key;
+	var comment = self.post.comment;
+	var name = self.post.name;
 	var email = self.post.email;
+	var notify = self.post.notify;
 
-	var data = { '_key' : '', '_type' : 'comment', '_parent_post' : postKey, '_content' : content, '_email' : email, '_verified' : false };
+	if(notify == "ON") {
+		notify = true;
+	} else {
+		notify = false;
+	}
+
+	var data = { '_key' : '', 
+		     '_type' : 'comment', 
+		     '_parent_post' : key, 
+		     '_comment' : comment, 
+		     '_name' : name, 
+		     '_email' : email, 
+		     '_email_hash' : '', 
+		     '_verified' : 'false', 
+		     '_notify' : notify
+	};
 
 	var constraints = {
-		"_content": {
+		"_email": {
+			presence: true,
+	  		email: true,
+		},
+		"_name": {
 			presence: true,
 			format: {
-				pattern: "[aA-zZ0-9\-]+",
+				pattern: "[aA-zZ0-9\\s]+",
 				flags: "i",
-				message: "can only contain a-z, -, 0-9"
+				message: "can only contain a-z, A-Z, Space, 0-9"
 			},
 	  		length: {
-				minimum: 5
+				minimum: 2,
+				maximum: 20
+	  		}
+	  	},
+		"_comment": {
+			presence: true,
+			format: {
+				pattern: "[aA-zZ0-9\\s]+",
+				flags: "i",
+				message: "can only contain a-z, A-Z, Space, 0-9"
+			},
+	  		length: {
+				minimum: 5,
+				maximum: 280
 	  		}
 	  	}
 	};
@@ -244,6 +341,8 @@ $.apiSaveComment = function() {
 
 	if(failed == undefined) {
 
+		data._email_hash = crypto.createHash('md5').update(email).digest('hex');
+		    
 		common.ECStore(data._key, data, function(results) {
 
 			if(results.success == false) {
