@@ -229,7 +229,7 @@ $.apiGetComments = function() {
 
 		if(result.success == false) {
 			
-			self.view500("Failed to get the given post!");
+			self.view404("Could not find the given post!");
 			
 		} else {
 
@@ -246,11 +246,11 @@ $.apiGetComments = function() {
 				return;
 			}
 
-			common.ECGet({'_type' : 'comment', '_parent_post' : post._key, '_verified' : 'false'}, limit, last, [], order, function(result) {
+			common.ECGet({'_type' : 'comment', '_parent_post' : post._key, '_verified' : 'true'}, limit, last, [], order, function(result) {
 
 				if(result.success == false) {
 					
-					self.view500("Failed to get comments for the given post!");
+					self.view404("No comments found for the given post!");
 					
 				} else {
 
@@ -277,7 +277,6 @@ $.apiGetComments = function() {
  * Need to implement:
  *	-IP post limits
  *	-Allow reaction +1/-1
- *	-Email confirmation required for each post (nodemailer)
  */
 $.apiSaveComment = function() {
 
@@ -303,7 +302,8 @@ $.apiSaveComment = function() {
 		     '_email' : email, 
 		     '_email_hash' : '', 
 		     '_verified' : 'false', 
-		     '_notify' : notify
+		     '_notify' : notify,
+		     '_pin' : common.generatePin(5) 
 	};
 
 	var constraints = {
@@ -326,9 +326,9 @@ $.apiSaveComment = function() {
 		"_comment": {
 			presence: true,
 			format: {
-				pattern: "[aA-zZ0-9\\s]+",
+				pattern: "[aA-zZ0-9\\.\\s]+",
 				flags: "i",
-				message: "can only contain a-z, A-Z, Space, 0-9"
+				message: "can only contain a-z, A-Z, Period (.), Space ( ), 0-9"
 			},
 	  		length: {
 				minimum: 5,
@@ -351,6 +351,8 @@ $.apiSaveComment = function() {
 
 			} else {
 
+				common.sendEmail(data._email, 'Your PIN ✔', data._pin, data._pin); 
+
 				self.json(results);
 			}
 		});
@@ -361,6 +363,39 @@ $.apiSaveComment = function() {
 	}
 };
 
+
+$.apiVerifyComment = function() {
+
+	var self = this;
+
+	var pin = self.post.pin;
+
+	common.ECGet({'_type' : 'comment', '_pin' : pin, '_verified' : 'false'}, 1, [], [], [], function(result) {
+
+		if(result.success == false) {
+			
+			self.view404("No comment found with that pin!");
+			
+		} else {
+
+			var data = result.message.pop();
+
+			data._verified = 'true';
+
+			common.ECStore(data._key, data, function(result) {
+
+				if(result.success == false) {
+			
+					self.view500("Failed to verify comment!");
+
+				} else {
+
+					self.json(result);
+				}
+			});
+		}
+	});
+};
 
 
 /*

@@ -42,11 +42,14 @@ $(document).ready(function() {
 	
 		$("#login-password").val('');
 
-		var loginPost = $.post('{{pages.apiLogin.uri}}', {'email' : email, 'password' : password});
-
 		$('#login-window .modal-body').children().hide();
 
 		arrayIntoUL($("#login-message"), ["Checking..."]);
+
+		var loginPost = $.post('{{pages.apiLogin.uri}}', {
+			'email' : email, 
+			'password' : password
+		});
 
 		loginPost.success(function(result) {
 

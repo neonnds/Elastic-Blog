@@ -52,6 +52,13 @@ $.apiSaveComment = {
 	label: 'API Save Comment.'
 };
 
+$.apiVerifyComment = {
+	uri: '/api/verify-comment',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Verify Comment.'
+};
+
 $.apiDeletePost = {
 	uri: '/api/delete-post',
 	controller: 'elastic-blog/api.js',

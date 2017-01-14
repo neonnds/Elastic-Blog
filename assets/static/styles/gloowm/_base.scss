@@ -69,7 +69,6 @@ body {
 .panel {
     overflow-y: scroll;
     background: none repeat scroll 0 0 #fff;
-    border: 1px solid #aaaaaa;
     box-sizing: border-box;
     outline: medium none;
     padding: 4px;
@@ -138,7 +137,7 @@ body {
 			background-color: white;
 		}
 
-		.portfolio-item {
+		textarea {
 			overflow: hidden;
 			margin-bottom: 5px;
 			height: typeScale(10);
@@ -198,7 +197,7 @@ body {
 
 	p, ul {
 		display: none;
-		padding-left: none;
+		padding-left: 0px;
 	}
 
 	ul li {
@@ -639,7 +638,7 @@ input, select, textarea {
 	margin-top: typeScale(11);
 
 	.portfolio-item {
-		border-bottom: none;
+		border-bottom: 0px;
 	}
 }
 

@@ -67,6 +67,10 @@ Install the following node modules
     
     $> npm install rho --save
 
+    $> npm install crypto --save
+
+    $> npm install nodemailer --save
+
 Enter the Elastic-Core project
 
     $> cd ./Elastic-Core

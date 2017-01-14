@@ -27,3 +27,6 @@ default-language 		: en-US
 default-item-limit 		: 50
 default-theme			: gloowm
 max-file-size			: 104857600
+smtp-username			: username@gmail.com
+smtp-password			: password
+smtp-domain			: smtp.gmail.com

@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-	var commentText = "NO COMMENTS!";
+	var defaultCommentText = "VIEW COMMENTS!";
+	var emptyCommentText = "NO COMMENTS!";
 
 	function getItems() {
 
@@ -25,11 +26,12 @@ $(document).ready(function() {
 
 		getComments.done(function(result) {
 		
-			commentText = "NO MORE COMMENTS!";
-
-			$('#more-item p').html("VIEW MORE COMMENTS!");
-
 			var data = result.message;
+
+			if(data.length == 0) {
+
+				$('#more-item p').html(emptyCommentText);
+			}
 
 			data.forEach(function(dataItem) {
 
@@ -54,7 +56,7 @@ $(document).ready(function() {
 
 		getComments.fail(function(jqXHR, status, error) {
 
-			$('#more-item p').html(commentText);
+			$('#more-item p').html(emptyCommentText);
 		});
 	}
 
@@ -80,12 +82,37 @@ $(document).ready(function() {
 
 		saveComment.success(function(result) {
 
+			$('#more-item p').html(defaultCommentText);
+
+			$("#verify-pin").val('');
+			$('#comment-text').val('');
+			$('#comment-name').val('');
+		       	$('#comment-email').val('');
+
 			arrayIntoUL($("#verify-message"), ["Check your email and enter the pin to comment!"]);
 
 			$('#verify-window').show();
 		});
 
 		saveComment.error(errorHandler);
+	});
+
+	$('#verify-submit').click(function() {
+
+		var pin = $('#verify-pin').val();
+
+		var verifyComment = $.post('{{pages.apiVerifyComment.uri}}', {
+			'pin' : pin
+		});
+
+		verifyComment.success(function(result) {
+
+			$('#more-item p').html(defaultCommentText);
+
+			$('#verify-window').hide();
+		});
+
+		verifyComment.error(errorHandler);
 	});
 
 	$('#notify-submit').click(function() {
