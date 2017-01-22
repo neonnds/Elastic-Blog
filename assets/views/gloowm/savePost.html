@@ -11,6 +11,7 @@
 					<option value="quote" selected="selected">QUOTE</option>
 					<option value="summary">SUMMARY</option>
 					<option value="article">ARTICLE</option>
+					<option value="other">OTHER</option>
 				</select>
 			
 				<select id="default-load-select" name="load-select">
@@ -53,24 +54,19 @@
 	</div>
 
 	<div grid>
-		<div column="6 +3" class="low-section">
+		<div column="6 +3" class="low-section _text-center">
 
-			<div grid>
-				<div column="6">
-					<select id="category" name="category">
-						<option value="quote">QUOTE</option>
-						<option value="summary">SUMMARY</option>
-						<option value="article">ARTICLE</option>
-					</select>
-				</div>
+			<ul id="tags">
+				<li id="new-tag">
+					<div class="new-tag-text tag" unselectable="true" contentEditable="true">Add new tag...</div>
+					<i class="new-tag-button fa fa-plus-square"></i>
+				</li>
+				<li id="default-tag-item">
+					<div class="tag-text tag">&nbsp;</div>
+					<i class="remove-tag-button fa fa-minus-square"></i>
+				</li>
+			</ul>	
 
-				<div column="6">
-					<select id="live" name="live">
-						<option value="true">PUBLIC</option>
-						<option value="false">PRIVATE</option>
-					</select>
-				</div>
-			</div>
 
 			<input type="text" id="uri" name="uri" placeholder="URI" value="" />
 		</div>

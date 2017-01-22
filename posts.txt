@@ -1,0 +1,65 @@
+URI   interplanetary-transport-system-summary
+TAGS  summary
+      live
+      space
+
+## [SpaceX - Interplanetary Transport System](/view-post/SpaceX-Shows-Off-Its-Interplanetary-Transport-System-in-New-Video-Article) {.centered.red-under}
+
+##### Elon Musk's SpaceX plans to send humans to Mars with a ship called the Interplanetary Transport System, the company announced today in a video, revealing how the ITS will actually work. The ITS will be capable of carrying up to 100 tons of cargo -- people and supplies -- and it will utilize a slew of different power sources en route to Mars. {.centered.justified}
+
+{.small-linebreak}
+
+##### Tuesday September 27, 2016 @02:51PM {.centered}
+
+
+URI   interplanetary-transport-system-article
+TAGS  article
+      live
+      space
+
+## SpaceX - Interplanetary Transport System {.centered.red-under}
+
+##### Elon Musk's SpaceX plans to send humans to Mars with a ship called the Interplanetary Transport System, the company announced today in a video, revealing how the ITS will actually work. The ITS will be capable of carrying up to 100 tons of cargo -- people and supplies -- and it will utilize a slew of different power sources en route to Mars. From a report on TechCrunch: {.justified}
+
+SpaceX has released a new video showing a CG concept of its Interplanetary Transport System, the rocket and spacecraft combo it plans to use to colonize Mars. The video depicts a reusable rocket that can get the interplanetary spacecraft beyond Earth's orbit, and a craft that uses solar sails to coast on its way to a Mars entry. The booster returns to Earth after separating from the shuttlecraft to pick up a booster tank full of fuel, which it then returns to orbit to fuel up the waiting spaceship. The booster craft then also returns to Earth under its own power, presumably also for re-use. The solar arrays that the spacecraft employs provide 200 kW of power, according to captions in the video. The Verge is live blogging SpaceX's conference, and has details on specs. {.indent.justified}
+
+{.small-linebreak}
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0qo78R_yYFA" frameborder="0" allowfullscreen></iframe>{.centered}
+
+{.small-linebreak}
+
+##### Tuesday September 27, 2016 @02:51PM {.centered}
+
+
+---------
+
+URI   what-it-take-to-get-to-mars-summary
+TAGS  summary
+      live
+      space
+
+## [What it takes to get to mars](/view-post/Elon-Musk-First-Humans-Who-Journey-To-Mars-Must-Be-Prepared-To-Die-Article) {.centered.red-under}
+
+##### At a conference yesterday, Elon Musk outlined his company SpaceX's plan to send humans to Mars. The vehicle is called the Interplanetary Transport System and it is capable of carrying 100 tons of cargo (people and supplies). Musk added that this rocket ship could take people to Mars in just 80 days. But he also reminded that the first batch of people who are brave enough to go to Mars should be well aware that they are almost certainly going to die.  {.centered.justified}
+
+{.small-linebreak}
+
+##### Wednesday September 28, 2016 @ 12:45PM {.centered}
+
+
+URI   what-it-takes-to-get-to-mars-article
+TAGS  article
+      live
+      space
+
+## What it takes to get to mars {.centered.red-under}
+
+##### At a conference yesterday, Elon Musk outlined his company SpaceX's plan to send humans to Mars. The vehicle is called the Interplanetary Transport System and it is capable of carrying 100 tons of cargo (people and supplies). Musk added that this rocket ship could take people to Mars in just 80 days. But he also reminded that the first batch of people who are brave enough to go to Mars should be well aware that they are almost certainly going to die. The Verge adds: {.justified}
+
+During the Q&A session that followed, the question inevitably came up: what sort of person does Musk think will volunteer to get strapped to that big rocket and fired toward the Red Planet? "Who should these people be, carrying the light of humanity to Mars for all of us?" an audience member asked. "I think the first journeys to Mars will be really very dangerous," answered Musk. "The risk of fatality will be high. There's just no way around it." The journey itself would take around 80 days, according to the plan and ideas that Musk put forward. "Are you prepared to die? If that's okay, then you're a candidate for going," he added. But Musk didn't want to get stuck talking about the risks and immense danger. "This is less about who goes there first... the thing that really matters is making a self-sustaining civilization on Mars as fast as possible. This is different than Apollo. This is really about minimizing existential risk and having a tremendous sense of adventure," he said. {.indent.justified}
+
+{.small-linebreak}
+
+##### Wednesday September 28, 2016 @ 12:45PM {.centered}
+

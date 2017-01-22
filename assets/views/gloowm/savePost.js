@@ -37,6 +37,7 @@ $(document).ready(function() {
 			var message = result.message;
 
 			for(var i = 0; i < message.length; i++) {
+
 				var item = $('#default-load-select-item').clone();	
 
 				$(item).attr('value', message[i]["_uri"]);
@@ -76,6 +77,10 @@ $(document).ready(function() {
 
 		var uri = $('#load-select').val();
 
+		$('#uri').val("");
+		$('#content').val("");
+		$('#tags li').not('#new-tag').not('#default-tag-item').remove();
+
 		var getPost = $.ajax({
 			type: "POST",
 			url: '{{pages.apiGetPost.uri}}',
@@ -90,9 +95,18 @@ $(document).ready(function() {
 
 			$('#uri').val(message._uri);
 			$('#content').val(message._content);
-			$('#category').val(message._category);
-			$('#live').val(message._live);
 
+			for(var i = 0; i < message._tags.length; i++) {
+
+				var tagItem = $('#default-tag-item').clone();
+
+				$(tagItem).removeAttr('id');
+
+				$(tagItem).children('.tag-text').html(message._tags[i]);
+
+				$('#new-tag').after(tagItem);
+			}
+	
 			$('#load-window').hide();
 
 			$("#uri").trigger("input");
@@ -107,12 +121,16 @@ $(document).ready(function() {
 		var uri = $('#uri').val();
 		var content = $('#content').val();
 		var live = $('#live').val();
-	
+		var tags = [];	
+
+		$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
+			tags.push($(this).find('.tag-text').text().trim());
+		});
+
 		var savePost = $.post('{{pages.apiSavePost.uri}}', {
 			'uri'      : uri, 
 			'content'  : content, 
-			'live'     : live, 
-			'category' : category
+			'tags'     : tags
 		});
 
 		savePost.success(function(result) {
@@ -200,6 +218,58 @@ $(document).ready(function() {
 		});
 
 		deletePost.error(errorHandler);
+	});
+
+	$('.new-tag-text').click(function() {
+
+		$(this).html("&nbsp;");
+	});
+
+	$('.new-tag-button').click(function() {
+
+		var found = false;
+
+		var tag = $('.new-tag-text').text();
+
+		if(tag.trim().length == 0) {
+
+			$('.new-tag-text').html('Cannot have empty tags...');
+		
+			return;
+		}
+
+		$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
+
+			var existingTag = $(this).find('.tag-text').text();
+
+			if(tag == existingTag) {
+				found = true;
+			}
+		});
+
+		if(found == true) {
+		
+			$('.new-tag-text').html('Tag already exists...');
+
+			return;
+		}
+
+		$('.new-tag-text').html('Add new tag...');
+
+		var tagItem = $('#default-tag-item').clone();
+
+		$(tagItem).removeAttr('id');
+
+		$(tagItem).children('.tag-text').html(tag);
+
+		$('#new-tag').after(tagItem);
+	});
+
+	$('#tags').on('click', '.remove-tag-button', function() {
+
+		var selected = this;
+		
+		$(selected).parent().remove();
 	});
 	
 	function updateEditorSize() {

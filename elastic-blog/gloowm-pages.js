@@ -31,11 +31,25 @@ $.apiGetPost = {
 	label: 'API Get Post.'
 };
 
+$.apiGetPostsByTag = {
+	uri: '/api/get-posts-by-tag',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Get Posts By Tag.'
+};
+
 $.apiGetComments = {
 	uri: '/api/get-post-comments',
 	controller: 'elastic-blog/api.js',
 	flags: ['post'],
 	label: 'API Get Post Comments.'
+};
+
+$.apiGetTags = {
+	uri: '/api/get-tags',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Get Tags.'
 };
 
 $.apiSavePost = {
@@ -130,7 +144,6 @@ $.newPost = {
 	label: 'Save Post',
 	views: [
 		{'savePostjs' : 'gloowm/savePost.js'}, 
-		{'menu' : 'gloowm/savePostMenu.html'},
 		{'body' : 'gloowm/savePost.html'}, 
 		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
@@ -147,7 +160,6 @@ $.updatePost = {
 	label: 'Save Post',
 	views: [
 		{'savePostjs' : 'gloowm/savePost.js'}, 
-		{'menu' : 'gloowm/savePostMenu.html'},
 		{'body' : 'gloowm/savePost.html'}, 
 		{'defaultjs' : 'gloowm/default.js'}, 
 		{'default' : 'gloowm/default.html'}
@@ -179,6 +191,22 @@ $.search = {
 	controller: 'elastic-blog/search.js',
 	base: '/search',
 	label: 'Search',
+	views: [
+		{'homejs' : 'gloowm/home.js'}, 
+		{'body' : 'gloowm/home.html'}, 
+		{'defaultjs' : 'gloowm/default.js'}, 
+		{'default' : 'gloowm/default.html'}
+	],
+	flags: ['get'],
+	above: [],
+	below: []
+};
+
+$.tags = {
+	uri: '/tags/{tag}',
+	controller: 'elastic-blog/search.js',
+	base: '/tags',
+	label: 'Tags Search',
 	views: [
 		{'homejs' : 'gloowm/home.js'}, 
 		{'body' : 'gloowm/home.html'}, 

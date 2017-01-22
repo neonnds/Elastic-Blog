@@ -14,3 +14,16 @@ $.search = function(query) {
 
 	self.html(page);
 };
+
+// GET Tags Search Page
+$.tags = function(tag) {
+
+	var self = this;
+
+	common.model = {};
+	common.model.tag = tag;
+
+	var page = common.make(self, common.pages.tags);
+
+	self.html(page);
+};

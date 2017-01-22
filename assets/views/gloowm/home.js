@@ -74,9 +74,7 @@ $(document).ready(function() {
 
 						$(portfolioItem).show();
 
-						var dataItem = result.message.pop();
-
-						$(portfolioItem).append(rho.toHtml(dataItem["_content"]));
+						$(portfolioItem).append(rho.toHtml(result.message[i]._content));
 		
 						$('#section .portfolio-item:first').after(portfolioItem)
 					}
@@ -113,13 +111,27 @@ $(document).ready(function() {
 						url: '{{pages.apiSearch.uri}}', 
 						data: { 
 							query  : '{{query}}', 
-							last   : lastItem, 
-							limit  : 5,
-							sort   : "desc"
 						}
 					});
 
+				{{else}}
+
+					{{#compare pages.tags.uri "===" page.uri}}
+
+						$('#more-button').hide();
+
+						getPosts = $.ajax({
+							type: "POST", 
+							url: '{{pages.apiGetPostsByTag.uri}}', 
+							data: { 
+								tag  : '{{tag}}', 
+							}
+						});
+
+					{{/compare}}
+					
 				{{/compare}}
+
 
 			{{/compare}}
 

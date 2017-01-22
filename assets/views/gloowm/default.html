@@ -12,6 +12,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" type="text/css" href="/styles/gloowm/gloowm.scss">
+		<link rel="stylesheet" type="text/css" href="/styles/elastic-core/font-awesome.css">
 		<link rel="icon" href="/images/gloowm/favicon.png">
 
 		<script type="text/javascript" src="/libs/elastic-core/jquery/jquery.min.js" charset="utf-8"></script>
@@ -142,18 +143,38 @@
 						{{/if}}
 					</ul>
 
-					{{{menu}}}
+					{{#compare pages.newPost.uri "===" page.uri}}
 
-					<p>POSTS BY YEAR</p>
+						<p>ACTIONS</p>
+				
+						<ul>
+							<li><a href="#load-window" id="menu-load-button" class="open-window">LOAD</a></li>
+							<li><a href="#delete-window" id="menu-delete-button" class="open-window">DELETE</a></li>
+							<li><a href="#preview-window" id="menu-preview-button" class="open-window">PREVIEW</a></li>
+							<li><a href="#save-window" id="menu-save-button" class="open-window">SAVE</a></li>
+						</ul>
 
-					<nav>
+					{{else}}
+
+						<p>POSTS BY YEAR</p>
+
 						<ul>
 							<li><a href="{{pages.homeByYear.base}}/2013">YEAR 2013</a></li>
 							<li><a href="{{pages.homeByYear.base}}/2014">YEAR 2014</a></li>
 							<li><a href="{{pages.homeByYear.base}}/2015">YEAR 2015</a></li>
 							<li><a href="{{pages.homeByYear.base}}/2016">YEAR 2016</a></li>
+							<li><a href="{{pages.homeByYear.base}}/2017">YEAR 2017</a></li>
 						</ul>
-					</nav>
+
+						<p>POSTS BY TAGS</p>
+
+						<ul id="tags">
+							<li id="default-tag-item" class="tag"><a href="#">&nsbp;</a></li>
+						</ul>
+
+
+					{{/compare}}
+
 				</nav>
 			</div>
 		</div>

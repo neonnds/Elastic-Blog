@@ -11,11 +11,10 @@ $.apiSavePost = function() {
 
 	var uri = self.post.uri;
 	var content = self.post.content;
-	var live = self.post.live;
-	var category = self.post.category;	
+	var tags = self.post["tags[]"];
 	var user = self.user._id;
 
-	var data = {'_key' : '', '_type' : 'post', '_category' : category, '_uri' : uri, '_content' : content, '_user' : user, '_live' : live};
+	var data = {'_key' : '', '_type' : 'post', '_uri' : uri, '_content' : content, '_user' : user, '_tags' : tags};
 
 	var constraints = {
 		"_uri": {
@@ -35,7 +34,7 @@ $.apiSavePost = function() {
 
 	if(failed == undefined) {
 
-		common.ECGet({"_type" : 'post', "_uri" : uri}, 1, [], [], [], function(result) {
+		common.ECGet([`_type = "post"`, `_uri = "${uri}"`], 1, [], [], [], function(result) {
 
 			if(result.error == true) {
 
@@ -89,7 +88,7 @@ $.apiDeletePost = function() {
 	var uri = self.post.uri;
 	var user = self.user._id;
 
-	var query = {'_type' : 'post', '_uri' : uri, '_user' : user};
+	var query = [`_type = "post"`, `_uri = "${uri}"`, `_user = "${user}"`];
 
 	common.ECGet(query, 1, [], [], [], function(result) {
 
@@ -130,7 +129,7 @@ $.apiGetMany = function() {
 	var order = self.post["order[]"];
 	var limit = self.post.limit;
 
-	var query = {'_type' : 'post', '_category' : category, '_live' : true};
+	var query = [`_type = "post"`, `"${category}" IN _tags`, `"live" IN _tags`];
 
 	common.ECGet(query, limit, last, range, order, function(results) {
 
@@ -159,8 +158,13 @@ $.apiGetMyPosts = function() {
 	var order = self.post["order[]"];
 	var limit = self.post.limit;
 	var user = self.user._id;
+	var query;
 
-	var query = {'_type' : 'post', '_category' : category, '_user' : user};
+	if(category == "other") {
+		query = [`_type = "post"`, `"quote" NOT IN _tags`, `"summary" NOT IN _tags`, `"article" NOT IN _tags`, `_user = "${user}"`];
+	} else {
+		query = [`_type = "post"`, `"${category}" IN _tags`, `_user = "${user}"`];
+	}
 
 	common.ECGet(query, limit, last, range, order, function(results) {
 
@@ -185,7 +189,7 @@ $.apiGetPost = function() {
 
 	var uri = self.post.uri;
 
-	common.ECGet({"_type" : 'post', "_uri" : uri}, 1, [], [], [], function(result) {
+	common.ECGet([`_type = "post"`, `_uri = "${uri}"`], 1, [], [], [], function(result) {
 
 		if(result.success == false) {
 			
@@ -225,7 +229,7 @@ $.apiGetComments = function() {
 	var order = self.post["order[]"];
 	var limit = self.post.limit;
 
-	common.ECGet({"_type" : 'post', "_key" : key}, 1, [], [], [], function(result) {
+	common.ECGet([`_type = "post"`, `_key = "${key}"`], 1, [], [], [], function(result) {
 
 		if(result.success == false) {
 			
@@ -246,7 +250,7 @@ $.apiGetComments = function() {
 				return;
 			}
 
-			common.ECGet({'_type' : 'comment', '_parent_post' : post._key, '_verified' : 'true'}, limit, last, [], order, function(result) {
+			common.ECGet([`_type = "comment"`, `_parent_post = "${post._key}"`, `_verified = "true"`], limit, last, [], order, function(result) {
 
 				if(result.success == false) {
 					
@@ -286,13 +290,6 @@ $.apiSaveComment = function() {
 	var comment = self.post.comment;
 	var name = self.post.name;
 	var email = self.post.email;
-	var notify = self.post.notify;
-
-	if(notify == "ON") {
-		notify = true;
-	} else {
-		notify = false;
-	}
 
 	var data = { '_key' : '', 
 		     '_type' : 'comment', 
@@ -302,7 +299,7 @@ $.apiSaveComment = function() {
 		     '_email' : email, 
 		     '_email_hash' : '', 
 		     '_verified' : 'false', 
-		     '_notify' : notify,
+		     '_notify' : 'false',
 		     '_pin' : common.generatePin(5) 
 	};
 
@@ -370,7 +367,7 @@ $.apiVerifyComment = function() {
 
 	var pin = self.post.pin;
 
-	common.ECGet({'_type' : 'comment', '_pin' : pin, '_verified' : 'false'}, 1, [], [], [], function(result) {
+	common.ECGet([`_type = "comment"`, `_pin = "${pin}"`, `_verified = "false"`], 1, [], [], [], function(result) {
 
 		if(result.success == false) {
 			
@@ -398,36 +395,88 @@ $.apiVerifyComment = function() {
 };
 
 
-/*
+$.apiGetTags = function() {
+
+	var self = this;
+
+	var sql = "";
+	sql += `SELECT DISTINCT tag FROM core as c UNNEST(c._tags) as tag WHERE c._type = "post" AND "summary" IN c._tags`;
+        sql += ` AND "live" IN c._tags AND tag != "live" AND tag != "article" AND tag != "quote" AND tag != "summary"`;
+
+	common.ECQuery(sql, function(result) {
+
+		if(result.success == false) {
+			
+			self.view404("No tags found!");
+			
+		} else {
+
+			self.json(result);
+		}	
+	});
+};
+
+
+$.apiGetPostsByTag = function() {
+
+	var self = this;
+
+	var tag = self.post.tag;
+
+	var sql = `SELECT core.* FROM core WHERE _type = "post" AND "live" IN _tags AND "summary" IN _tags AND "${tag}" IN _tags`;
+
+	common.ECQuery(sql, function(result) {
+
+		if(result.success == false) {
+			
+			self.view404("No posts with the given tag found!");
+			
+		} else {
+
+			self.json(result);
+		}	
+	});
+};
+
+
 $.apiSearch = function() {
 
 	var self = this;
 
 	var query = self.post.query;
-	var last = self.post.last;
-	var fields = self.post["fields[]"];
-	var limit = self.post.limit;
-	var sort = self.post.sort;
 
-	var filter = {
-		"bool" : {
-			"must" : [
-				{ "match" : { "live" : "true" }},
-				{ "match" : { "group" : "summary" }}
-			]
-		}
-	};
-
-	common.EBSearch(query, last, limit, fields, sort, 'posts', 'post', filter, function(results) {
-
+	common.ECSearch(query, 10, function(results) {
+ 
 		if(results.success == false) {
 			
 			self.view500(results.message);
 			
 		} else {
 
-			self.json(results);
+			var keys = [];
+
+			for(var i = 0; i < results.message.length; i++) {
+
+				var key = results.message[i].id;
+	
+			       	keys.push(`_key = "${key}"`);
+			}
+
+			/* Need to make sure we only return live posts */
+			var sql = `SELECT core.* FROM core WHERE _type = "post" AND "live" IN _tags AND "summary" IN _tags AND (${keys.join(' OR ')})`;
+
+			common.ECQuery(sql, function(result) {
+
+				if(result.success == false) {
+					
+					self.view404("No results found!");
+					
+				} else {
+
+					self.json(result);
+				}	
+
+			});
 		}
 	});
 };
-*/
