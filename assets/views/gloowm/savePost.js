@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+	/* Make sure all fields are reset on page load */
+	$("#uri").val("");
+	$("#content").val("");	
+	$("#preview").html("");
+
 	function getItems() {
 
 		$('#default-load-select').hide();
