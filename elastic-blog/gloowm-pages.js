@@ -138,6 +138,14 @@ $.homeByYear = {
 	below: []
 };
 
+$.exportPost = {
+	uri: '/export-post/{uri}',
+	base: '/export-post',
+	controller: 'elastic-blog/savePost.js',
+	flags: ['authorize', 'get'],
+	label: 'Export Post.'
+};
+
 $.newPost = {
 	uri: '/save-post',
 	controller: 'elastic-blog/savePost.js',

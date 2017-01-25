@@ -1,12 +1,14 @@
 $(document).ready(function() {
 
-	$('#default-load-select').hide();
-
 	function getItems() {
+
+		$('#default-load-select').hide();
 
 		$('#load-select').remove();
 
+		/* We don't want people pressing load until results are returned */
 		$('#load-submit-button').hide();
+		$('#export-submit-button').hide();
 
 		var loadSelect = $('#default-load-select').clone();
 
@@ -46,18 +48,14 @@ $(document).ready(function() {
 
 				$('#load-select').append(item);
 			}
-
-			$('#load-submit-button').show();
 		});
 
 		getItems.fail(function(jqXHR, status, error) {
 
-			var item = $('#default-load-select-item').clone();	
-
-			$(item).removeAttr('id');
-			$(item).text("NO ITEMS FOUND!");
-
-			$('#load-select').append(item);
+			$('#load-select').remove();
+			$('#default-load-select').show();
+			$('#export-submit-button').hide();
+			$('#load-submit-button').hide();
 
 			return;
 		});
@@ -66,53 +64,82 @@ $(document).ready(function() {
 	}
 
 	$('#menu-load-button').click(function() {
+
 		getItems();
-	});
 
-	$("#load-category").change(function() {
-		getItems();
-	});
+		$('#load-submit-button').show();
 
-	$('#load-submit-button').click(function() {
+		$("#load-category").change(function() {
 
-		var uri = $('#load-select').val();
+			getItems();
 
-		$('#uri').val("");
-		$('#content').val("");
-		$('#tags li').not('#new-tag').not('#default-tag-item').remove();
-
-		var getPost = $.ajax({
-			type: "POST",
-			url: '{{pages.apiGetPost.uri}}',
-			data: {
-				uri : uri
-			}
+			$('#load-submit-button').show();
 		});
 
-		getPost.done(function(result) {
+		$('#load-submit-button').click(function() {
 
-			var message = result.message.pop();
+			var uri = $('#load-select').val();
 
-			$('#uri').val(message._uri);
-			$('#content').val(message._content);
+			$('#uri').val("");
+			$('#content').val("");
+			$('#tags li').not('#new-tag').not('#default-tag-item').remove();
 
-			for(var i = 0; i < message._tags.length; i++) {
+			var getPost = $.ajax({
+				type: "POST",
+				url: '{{pages.apiGetPost.uri}}',
+				data: {
+					uri : uri
+				}
+			});
 
-				var tagItem = $('#default-tag-item').clone();
+			getPost.done(function(result) {
 
-				$(tagItem).removeAttr('id');
+				var message = result.message.pop();
 
-				$(tagItem).children('.tag-text').html(message._tags[i]);
+				$('#uri').val(message._uri);
+				$('#content').val(message._content);
 
-				$('#new-tag').after(tagItem);
-			}
-	
+				for(var i = 0; i < message._tags.length; i++) {
+
+					var tagItem = $('#default-tag-item').clone();
+
+					$(tagItem).removeAttr('id');
+
+					$(tagItem).children('.tag-text').html(message._tags[i]);
+
+					$('#new-tag').after(tagItem);
+				}
+		
+				$('#load-window').hide();
+
+				$("#uri").trigger("input");
+			});
+
+			getPost.fail(errorHandler);
+		});
+	});
+
+	$('#menu-export-button').click(function() {
+
+		getItems();
+
+		$('#export-submit-button').show();
+
+		$("#load-category").change(function() {
+
+			getItems();
+
+			$('#export-submit-button').show();
+		});
+
+		$('#export-submit-button').click(function() {
+
+			var uri = $('#load-select').val();
+
+			window.open(`{{pages.exportPost.base}}/${uri}`, '_blank');
+
 			$('#load-window').hide();
-
-			$("#uri").trigger("input");
 		});
-
-		getPost.fail(errorHandler);
 	});
 
 	$('#menu-save-button').click(function() {
@@ -186,6 +213,30 @@ $(document).ready(function() {
 			$('#delete-cancel-button').show();
 
 			arrayIntoUL($("#delete-message"), ["Really delete this post?"]);
+
+			$('#delete-submit-button').click(function() {
+
+				var uri = $('#uri').val();
+
+				$('#delete-window .modal-body').children().hide();
+				$('#delete-close-button').show();
+
+				var deletePost = $.post('{{pages.apiDeletePost.uri}}', {
+					'uri' : uri
+				});
+
+				deletePost.success(function(result) {
+
+					$('#uri').val('');
+					$('#content').val('');
+
+					updateFire();
+
+					arrayIntoUL($("#delete-message"), ["Your post has been deleted!"]);
+				});
+
+				deletePost.error(errorHandler);
+			});
 		});
 
 		getPost.fail(function(jqXHR, status, error) {
@@ -196,73 +247,51 @@ $(document).ready(function() {
 		});
 	});
 
-	$('#delete-submit-button').click(function() {
-
-		var uri = $('#uri').val();
-
-		$('#delete-window .modal-body').children().hide();
-		$('#delete-close-button').show();
-
-		var deletePost = $.post('{{pages.apiDeletePost.uri}}', {
-			'uri' : uri
-		});
-
-		deletePost.success(function(result) {
-
-			$('#uri').val('');
-			$('#content').val('');
-
-			updateFire();
-
-			arrayIntoUL($("#delete-message"), ["Your post has been deleted!"]);
-		});
-
-		deletePost.error(errorHandler);
-	});
-
 	$('.new-tag-text').click(function() {
 
 		$(this).html("&nbsp;");
-	});
 
-	$('.new-tag-button').click(function() {
+		$('.new-tag-button').click(function() {
 
-		var found = false;
+			var found = false;
 
-		var tag = $('.new-tag-text').text();
+			var tag = $('.new-tag-text').text();
 
-		if(tag.trim().length == 0) {
+			if(tag.trim().length == 0) {
 
-			$('.new-tag-text').html('Cannot have empty tags...');
-		
-			return;
-		}
-
-		$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
-
-			var existingTag = $(this).find('.tag-text').text();
-
-			if(tag == existingTag) {
-				found = true;
+				$('.new-tag-text').html('Cannot have empty tags...');
+			
+				return;
 			}
+
+			$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
+
+				var existingTag = $(this).find('.tag-text').text();
+
+				if(tag == existingTag) {
+					found = true;
+				}
+			});
+
+			if(found == true) {
+			
+				$('.new-tag-text').html('Tag already exists...');
+
+				return;
+			}
+
+			$('.new-tag-text').html('Add new tag...');
+
+			var tagItem = $('#default-tag-item').clone();
+
+			$(tagItem).removeAttr('id');
+
+			$(tagItem).children('.tag-text').html(tag);
+
+			$('#new-tag').after(tagItem);
+
+			$('.new-tag-button').unbind("click");
 		});
-
-		if(found == true) {
-		
-			$('.new-tag-text').html('Tag already exists...');
-
-			return;
-		}
-
-		$('.new-tag-text').html('Add new tag...');
-
-		var tagItem = $('#default-tag-item').clone();
-
-		$(tagItem).removeAttr('id');
-
-		$(tagItem).children('.tag-text').html(tag);
-
-		$('#new-tag').after(tagItem);
 	});
 
 	$('#tags').on('click', '.remove-tag-button', function() {

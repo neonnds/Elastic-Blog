@@ -7,19 +7,21 @@
 	<div id="load-window" class="modal modal--flat">
 		<div class="modal-container">
 			<div class="modal-body">
+
 				<select id="load-category" name="load-category">
 					<option value="quote" selected="selected">QUOTE</option>
 					<option value="summary">SUMMARY</option>
 					<option value="article">ARTICLE</option>
 					<option value="other">OTHER</option>
 				</select>
-			
+
 				<select id="default-load-select" name="load-select">
 					<option id="default-load-select-item" value="#">NO ITEMS FOUND!</option>
 				</select>
 
-				<button class="button bg--error button--sm close-window">Cancel</button>
-				<button class="button bg--success button--sm" id="load-submit-button">Load</button>
+				<button class="-error close-window">Cancel</button>
+				<button class="-success" id="load-submit-button">Load</button>
+				<button class="-success" id="export-submit-button">Export</button>
 			</div>
 		</div>
 	</div>
@@ -28,9 +30,9 @@
 		<div class="modal-container">
 			<div class="modal-body">
 				<ul id="delete-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
-				<button id="delete-close-button" class="button bg--error button--sm close-window">Close</button>
-				<button id="delete-cancel-button" class="button bg--error button--sm close-window">Cancel</button>
-				<button id="delete-submit-button" class="button bg--success button--sm">Delete</button>
+				<button id="delete-close-button" class="-error close-window">Close</button>
+				<button id="delete-cancel-button" class="-error close-window">Cancel</button>
+				<button id="delete-submit-button" class="-success">Delete</button>
 			</div>
 		</div>
 	</div>
@@ -39,7 +41,7 @@
 		<div class="modal-container">
 			<div class="modal-body">
 				<ul id="save-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
-				<button id="save-close-button" class="button bg--error button--sm close-window">Close</button>
+				<button id="save-close-button" class="-error close-window">Close</button>
 			</div>
 		</div>
 	</div>
@@ -48,7 +50,7 @@
 		<div class="modal-container">
 			<div class="modal-body">
 				<ul id="preview-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
-				<button id="preview-close-button" class="button bg--error button--sm close-window">Close</button>
+				<button id="preview-close-button" class="-error close-window">Close</button>
 			</div>
 		</div>
 	</div>
@@ -74,12 +76,16 @@
 
 </main>
 
-<div grid>
-	<div column="6" class="content-panel">
-		<textarea id="content" name="content" class="panel portfolio-item"></textarea>
+<main id="editor-container" container>
+
+	<div grid>
+		<div column="6" class="content-panel">
+			<textarea id="content" name="content" class="panel portfolio-item"></textarea>
+		</div>
+
+		<div column="6" class="preview-panel">
+			<div id="preview" class="panel portfolio-item"></div>
+		</div>
 	</div>
 
-	<div column="6" class="preview-panel">
-		<div id="preview" class="panel portfolio-item"></div>
-	</div>
-</div>
+</main>

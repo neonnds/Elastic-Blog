@@ -106,6 +106,8 @@ $(document).ready(function() {
 
 				{{#compare pages.search.uri "===" page.uri}}
 
+					$('#more-item').hide();
+
 					getPosts = $.ajax({
 						type: "POST", 
 						url: '{{pages.apiSearch.uri}}', 
@@ -118,7 +120,7 @@ $(document).ready(function() {
 
 					{{#compare pages.tags.uri "===" page.uri}}
 
-						$('#more-button').hide();
+						$('#more-item').hide();
 
 						getPosts = $.ajax({
 							type: "POST", 
@@ -144,7 +146,9 @@ $(document).ready(function() {
 
 		getPosts.fail(function(jqXHR, status, error) {
 
-			$('#more-button').hide();
+			$('#more-item p').html("NO MORE POSTS!");
+
+			$('#more-item').unbind("click");
 
 			var itemCount = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-quote-portfolio-item').not('#empty-post-portfolio-item').length;	
 
@@ -154,7 +158,7 @@ $(document).ready(function() {
 		});
 	}
 
-	$('#more-button').click(function() {
+	$('#more-item').click(function() {
 		getItems();
 	});
 

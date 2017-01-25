@@ -135,7 +135,7 @@ $.apiGetMany = function() {
 
 		if(results.success == false) {
 			
-			self.view500("Failed to get posts!");
+			self.view404("No posts found!");
 			
 		} else {
 
@@ -170,7 +170,7 @@ $.apiGetMyPosts = function() {
 
 		if(results.success == false) {
 			
-			self.view500("Failed to get posts!");
+			self.view404("No posts found!");
 			
 		} else {
 
@@ -193,7 +193,7 @@ $.apiGetPost = function() {
 
 		if(result.success == false) {
 			
-			self.view500("Failed to get post with given URI!");
+			self.view404("Could not get post with given URI!");
 			
 		} else {
 
@@ -449,7 +449,7 @@ $.apiSearch = function() {
  
 		if(results.success == false) {
 			
-			self.view500(results.message);
+			self.view404(results.message);
 			
 		} else {
 
