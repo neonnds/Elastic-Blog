@@ -4,6 +4,26 @@
 
 <main container>
 
+	<div id="import-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+
+				<ul id="import-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+		
+				<div id="upload-drop" class="upload-area">
+					Drop files here to upload or <a class="upload-browse">select from your computer</a>
+				</div>
+
+				<div id="upload-list" class="upload-area">&nbsp;</div>
+
+				<input name="upload" type="file" id="upload"/>
+
+				<button class="-error close-window">Cancel</button>
+				<button class="-success" id="import-submit-button">Import</button>
+			</div>
+		</div>
+	</div>
+
 	<div id="load-window" class="modal modal--flat">
 		<div class="modal-container">
 			<div class="modal-body">

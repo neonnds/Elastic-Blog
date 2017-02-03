@@ -15,6 +15,8 @@ $(document).ready(function() {
 		$('#load-submit-button').hide();
 		$('#export-submit-button').hide();
 
+		$('.new-tag-text').html('Add new tag...');
+
 		var loadSelect = $('#default-load-select').clone();
 
 		$(loadSelect).attr("id", 'load-select');
@@ -121,6 +123,9 @@ $(document).ready(function() {
 			});
 
 			getPost.fail(errorHandler);
+
+			$(this).off('click');
+			$("#load-category").off('change');
 		});
 	});
 
@@ -144,6 +149,99 @@ $(document).ready(function() {
 			window.open(`{{pages.exportPost.base}}/${uri}`, '_blank');
 
 			$('#load-window').hide();
+			$(this).off('click');
+			$("#load-category").off('change');
+		});
+	});
+
+	$('#menu-import-button').click(function() {
+
+		var sendObj = null;
+
+		$('#upload-list').html("");
+		$('#upload-list').hide();
+		$('#import-submit-button').hide();
+
+		$('#import-submit-button').click(function() {
+
+			if(sendObj == null) {
+				return;
+			}
+
+			var ajaxData = new FormData();
+			
+			ajaxData.append('upload', sendObj);
+
+			$.ajax({
+				xhr: function () {
+					var xhr = $.ajaxSettings.xhr();
+					xhr.upload.onprogress = function (e) {
+						console.log(Math.floor(e.loaded / e.total * 100) + '%');
+					};
+					return xhr;
+				},
+				contentType: false,
+				processData: false,
+				type: 'POST',
+				data: ajaxData,
+				url: '{{pages.apiImportPost.uri}}',
+				success: function(response) {
+					console.log("success");
+				},
+				error: function() {
+					console.log("Error");
+				},
+				complete: function() {
+					console.log("Complete");
+				}
+			});
+
+			$('#import-window').hide();
+
+			$(this).off();
+
+			$(".upload-browse").off();
+			$("#upload").off();
+			$("#upload-drop").off();
+		});
+
+		$('.upload-browse').click(function() {
+
+			$("#upload").click();
+			
+			$('#upload').change(function(e){
+
+				sendObj = e.target.files[0];
+	
+				$('#upload-list').html(sendObj.name);
+				$('#upload-list').show();
+				$('#import-submit-button').show();
+			});
+		});
+
+		$("#upload-drop").on("dragover", function(event) {
+
+			event.preventDefault();  
+			event.stopPropagation();
+
+			$(this).addClass('upload-area-active');
+		});
+
+		$("#upload-drop").on('dragleave dragend drop', function() {
+
+			$(this).removeClass('upload-area-active');
+		});
+
+		$("#upload-drop").on("drop", function(event) {
+
+			sendObj = event.originalEvent.dataTransfer.files[0];
+
+			$('#upload-list').html(sendObj.name);
+			$('#upload-list').show();
+			$('#import-submit-button').show();
+
+			event.preventDefault();  
+			event.stopPropagation();
 		});
 	});
 
@@ -153,7 +251,7 @@ $(document).ready(function() {
 		var uri = $('#uri').val();
 		var content = $('#content').val();
 		var live = $('#live').val();
-		var tags = [];	
+		var tags = ["", ""]; //We place a empty element due to https://github.com/nodejs/node/issues/11145	
 
 		$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
 			tags.push($(this).find('.tag-text').text().trim());
@@ -255,48 +353,51 @@ $(document).ready(function() {
 	$('.new-tag-text').click(function() {
 
 		$(this).html("&nbsp;");
+	});
 
-		$('.new-tag-button').click(function() {
+	$('.new-tag-button').click(function() {
 
-			var found = false;
+		var found = false;
 
-			var tag = $('.new-tag-text').text();
+		var tag = $('.new-tag-text').text();
 
-			if(tag.trim().length == 0) {
+		if(tag == "Cannot have empty tags..." || tag == "Add new tag..." || tag == "Tag already exists...") {
 
-				$('.new-tag-text').html('Cannot have empty tags...');
-			
-				return;
+			return;	
+		}
+
+		if(tag.trim().length == 0) {
+
+			$('.new-tag-text').html('Cannot have empty tags...');
+		
+			return;
+		}
+
+		$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
+
+			var existingTag = $(this).find('.tag-text').text();
+
+			if(tag == existingTag) {
+				found = true;
 			}
-
-			$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
-
-				var existingTag = $(this).find('.tag-text').text();
-
-				if(tag == existingTag) {
-					found = true;
-				}
-			});
-
-			if(found == true) {
-			
-				$('.new-tag-text').html('Tag already exists...');
-
-				return;
-			}
-
-			$('.new-tag-text').html('Add new tag...');
-
-			var tagItem = $('#default-tag-item').clone();
-
-			$(tagItem).removeAttr('id');
-
-			$(tagItem).children('.tag-text').html(tag);
-
-			$('#new-tag').after(tagItem);
-
-			$('.new-tag-button').unbind("click");
 		});
+
+		if(found == true) {
+		
+			$('.new-tag-text').html('Tag already exists...');
+
+			return;
+		}
+
+		$('.new-tag-text').html('Add new tag...');
+
+		var tagItem = $('#default-tag-item').clone();
+
+		$(tagItem).removeAttr('id');
+
+		$(tagItem).children('.tag-text').html(tag);
+
+		$('#new-tag').after(tagItem);
 	});
 
 	$('#tags').on('click', '.remove-tag-button', function() {

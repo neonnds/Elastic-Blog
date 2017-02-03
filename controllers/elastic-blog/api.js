@@ -4,80 +4,34 @@ var common = require('../../elastic-blog/common.js');
 
 var crypto = require('crypto');
 
+var fs = require('fs');
+
 
 $.apiSavePost = function() {
 
 	var self = this;
 
-	var uri = self.post.uri;
-	var content = self.post.content;
-	var tags = self.post["tags[]"];
-	var user = self.user._id;
+	var data = {'_key' : '', 
+		    '_type' : 'post', 
+		    '_uri' : self.body.uri, 
+		    '_content' : self.body.content, 
+		    '_user' : self.user._id, 
+		    '_tags' : self.body["tags[]"]};
 
-	var data = {'_key' : '', '_type' : 'post', '_uri' : uri, '_content' : content, '_user' : user, '_tags' : tags};
+	//Have to remove the dummy element because of https://github.com/nodejs/node/issues/11145
+	data._tags.splice(0, 2);
 
-	var constraints = {
-		"_uri": {
-			presence: true,
-			format: {
-				pattern: "[aA-zZ0-9\-]+",
-				flags: "i",
-				message: "can only contain a-z, -, 0-9"
-			},
-	  		length: {
-				minimum: 5
-	  		}
-	  	}
-	};
+	common.EBSavePost(data, function(result) {
+	
+		if(result.success == false) {
+	
+			self.view500(result.message);
 
-	var failed = common.validate(data, constraints, {format: "flat"});
+		} else {
 
-	if(failed == undefined) {
-
-		common.ECGet([`_type = "post"`, `_uri = "${uri}"`], 1, [], [], [], function(result) {
-
-			if(result.error == true) {
-
-				self.view500("An unexpected error occured!");
-
-				return;
-			}
-
-			/* Existing document so do merge update */
-			if(result.success == true) {
-				
-				var post = result.message[0];
-
-				/* Can only update what you own */
-				if(post._user == user) {
-
-					data._key = post._key;
-
-				} else {
-
-					self.view500("The URI is already in use!");
-
-					return;
-				}
-			}
-
-			common.ECStore(data._key, data, function(results) {
-
-				if(results.success == false) {
-			
-					self.view500("Failed to save post!");
-
-				} else {
-
-					self.json(results);
-				}
-			});
-		});
-
-	} else {
-
-		self.view500(failed);
-	}
+			self.json(result);
+		}
+	});
 };
 
 
@@ -85,7 +39,7 @@ $.apiDeletePost = function() {
 
 	var self = this;
 
-	var uri = self.post.uri;
+	var uri = self.body.uri;
 	var user = self.user._id;
 
 	var query = [`_type = "post"`, `_uri = "${uri}"`, `_user = "${user}"`];
@@ -123,11 +77,11 @@ $.apiGetMany = function() {
 
 	var self = this;
 
-	var range = self.post["range[]"];
-	var last = self.post["last[]"];
-	var category = self.post.category;
-	var order = self.post["order[]"];
-	var limit = self.post.limit;
+	var range = self.body["range[]"];
+	var last = self.body["last[]"];
+	var category = self.body.category;
+	var order = self.body["order[]"];
+	var limit = self.body.limit;
 
 	var query = [`_type = "post"`, `"${category}" IN _tags`, `"live" IN _tags`];
 
@@ -152,11 +106,11 @@ $.apiGetMyPosts = function() {
 
 	var self = this;
 
-	var range = self.post["range[]"];
-	var last = self.post["last[]"];
-	var category = self.post.category;
-	var order = self.post["order[]"];
-	var limit = self.post.limit;
+	var range = self.body["range[]"];
+	var last = self.body["last[]"];
+	var category = self.body.category;
+	var order = self.body["order[]"];
+	var limit = self.body.limit;
 	var user = self.user._id;
 	var query;
 
@@ -187,7 +141,7 @@ $.apiGetPost = function() {
 
 	var self = this;
 
-	var uri = self.post.uri;
+	var uri = self.body.uri;
 
 	common.ECGet([`_type = "post"`, `_uri = "${uri}"`], 1, [], [], [], function(result) {
 
@@ -224,10 +178,10 @@ $.apiGetComments = function() {
 
 	var self = this;
 
-	var key = self.post.key;
-	var last = self.post["last[]"];
-	var order = self.post["order[]"];
-	var limit = self.post.limit;
+	var key = self.body.key;
+	var last = self.body["last[]"];
+	var order = self.body["order[]"];
+	var limit = self.body.limit;
 
 	common.ECGet([`_type = "post"`, `_key = "${key}"`], 1, [], [], [], function(result) {
 
@@ -286,10 +240,10 @@ $.apiSaveComment = function() {
 
 	var self = this;
 
-	var key = self.post.key;
-	var comment = self.post.comment;
-	var name = self.post.name;
-	var email = self.post.email;
+	var key = self.body.key;
+	var comment = self.body.comment;
+	var name = self.body.name;
+	var email = self.body.email;
 
 	var data = { '_key' : '', 
 		     '_type' : 'comment', 
@@ -300,7 +254,7 @@ $.apiSaveComment = function() {
 		     '_email_hash' : '', 
 		     '_verified' : 'false', 
 		     '_notify' : 'false',
-		     '_pin' : common.generatePin(5) 
+		     '_pin' : common.EBGeneratePin(5) 
 	};
 
 	var constraints = {
@@ -348,7 +302,7 @@ $.apiSaveComment = function() {
 
 			} else {
 
-				common.sendEmail(data._email, 'Your PIN ✔', data._pin, data._pin); 
+				common.EBSendEmail(data._email, 'Your PIN ✔', data._pin, data._pin); 
 
 				self.json(results);
 			}
@@ -365,7 +319,7 @@ $.apiVerifyComment = function() {
 
 	var self = this;
 
-	var pin = self.post.pin;
+	var pin = self.body.pin;
 
 	common.ECGet([`_type = "comment"`, `_pin = "${pin}"`, `_verified = "false"`], 1, [], [], [], function(result) {
 
@@ -421,7 +375,7 @@ $.apiGetPostsByTag = function() {
 
 	var self = this;
 
-	var tag = self.post.tag;
+	var tag = self.body.tag;
 
 	var sql = `SELECT core.* FROM core WHERE _type = "post" AND "live" IN _tags AND "summary" IN _tags AND "${tag}" IN _tags`;
 
@@ -443,7 +397,7 @@ $.apiSearch = function() {
 
 	var self = this;
 
-	var query = self.post.query;
+	var query = self.body.query;
 
 	common.ECSearch(query, 10, function(results) {
  
@@ -479,4 +433,75 @@ $.apiSearch = function() {
 			});
 		}
 	});
+};
+
+
+$.apiImportPost = function() {
+
+	var self = this;
+
+	//Do not delete temporary files until the end of the request
+	self.noClear(true);	
+
+	if(self.files.length != 1) {
+
+		self.view500("No file provided!");
+
+		return;
+	}
+
+	var user = self.user._id;
+	var file = self.files.pop();
+
+	fs.readFile(file.path, 'utf8', function(err, contents) {
+
+		if(err != null) {
+
+			self.view500("Failed to read file contents!");
+
+			return;
+		}
+
+		try {
+			var posts = JSON.parse(contents);
+
+			if(Array.isArray(posts) == true) {
+
+				for(var i = 0; i < posts.length; i++) {
+
+					var post = posts[i];
+
+					/* Force the user to the current user */
+					post._user = user;
+
+					/* Force the type to POST */
+					post._type = "post";
+
+					common.EBSavePost(post, function(result) {
+					
+						//console.log(result);
+
+						/* Need to implement a feedback mechanism here */
+						if(result.success == false) {
+					
+						} else {
+							
+						}
+					});
+
+					self.json({"success" : true, "message" : "Posts are importing..."});
+				}
+
+			} else {
+
+				self.view500("Failed to parse file contents. Needs to be a JSON array!");
+			}
+
+		} catch (ex) {
+
+			console.log(ex);
+
+			self.view500("Failed to parse file contents!");
+		}
+	});	
 };

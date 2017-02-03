@@ -640,30 +640,46 @@ input, select, textarea {
 	}
 }
 
+nav {
 
-nav #tags {
+	ul {
+		max-height: 200px;
+		overflow: hidden;
 
-	list-style: none outside none;
-	margin: 0;
-	margin-bottom: 10px;
-	padding: 0;
-	max-height: none;
-	min-height: none;
-	overflow-x: hidden;
-		
-	li {
-
-		a {
-			color: $white;
-		}	
+		&:hover {
+			overflow-y: auto;
+			max-height: 200px;
+		}
 	}
+	
+	#tags {
 
-	.tag {
-		
-		margin-bottom: 2px;
+		list-style: none outside none;
+		margin: 0;
+		margin-bottom: 10px;
+		padding: 0;
+		max-height: 200px;
+		min-height: none;
+		overflow: hidden;
+			
+		&:hover {
+			overflow-y: auto;
+		}
 
-		&::before {
-			background: #32373d;
+		li {
+
+			a {
+				color: $white;
+			}	
+		}
+
+		.tag {
+			
+			margin-bottom: 2px;
+
+			&::before {
+				background: #32373d;
+			}
 		}
 	}
 }
@@ -793,4 +809,38 @@ nav #tags {
 
 #default-load-select {
 	display: none;
+}
+
+#import-window {
+
+	.upload-area {
+		padding: 15px;
+		font-size: 13px;
+		text-align: center;
+		color: #666;
+		font-weight: bold;
+		background-color: #eee;
+		border: 2px dashed #aaa;
+		border-radius: 10px;
+		z-index: 9999;
+
+		.upload-browse {
+			cursor: pointer;
+			text-decoration: underline;
+			color: $black;
+		}
+	}
+
+	.upload-area-active {
+		background-color: $whiteAntiflash;
+	}
+
+	#upload-list {
+		margin-top: 10px;
+		display: none;
+	}
+	
+	#upload {
+		display: none;
+	}
 }

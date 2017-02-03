@@ -59,6 +59,14 @@ $.apiSavePost = {
 	label: 'API Save Post.'
 };
 
+$.apiImportPost = {
+	uri: '/api/import-post',
+	controller: 'elastic-blog/api.js',
+	flags : ['+xhr', 'upload', 'post', 'authorize'],
+	length: 819200,
+	label: 'API Import Post.'
+};
+
 $.apiSaveComment = {
 	uri: '/api/save-comment',
 	controller: 'elastic-blog/api.js',
