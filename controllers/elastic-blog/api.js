@@ -375,7 +375,7 @@ $.apiGetPostsByTag = function() {
 
 	var self = this;
 
-	var tag = self.body.tag;
+	var tag = decodeURIComponent(self.body.tag);
 
 	var sql = `SELECT core.* FROM core WHERE _type = "post" AND "live" IN _tags AND "summary" IN _tags AND "${tag}" IN _tags`;
 
