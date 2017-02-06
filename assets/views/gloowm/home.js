@@ -88,13 +88,13 @@ $(document).ready(function() {
 
 		{{else}}
 
-			{{#compare pages.homeByYear.uri "===" page.uri}}
+			{{#compare pages.homeByDate.uri "===" page.uri}}
 
 				getPosts = $.ajax({
 					type: "POST", 
 					url: '{{pages.apiGetMany.uri}}', 
 					data: { 
-						range    :  ["_created", '{{year}}-01', '{{year}}-12'], 
+						range    :  ["_created", '{{fromDate}}', '{{toDate}}'], 
 						last     :  lastItem,
 						category :  'summary',
 						limit    :  8,

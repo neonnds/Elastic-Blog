@@ -14,17 +14,18 @@ $.home = function() {
 	self.html(page);
 };
 
-$.homeByYear = function(year) {
+$.homeByDate = function(fromDate, toDate) {
 
 	var self = this;
 
 	common.model = {};
 
-	common.model.year = year;
+	common.model.fromDate = fromDate;
+	common.model.toDate = toDate;
 
 	var body = {};
 
-	var page = common.make(self, common.pages.homeByYear);
+	var page = common.make(self, common.pages.homeByDate);
 
 	self.html(page);
 };

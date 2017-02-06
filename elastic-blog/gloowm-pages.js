@@ -130,10 +130,10 @@ $.home = {
 	below: []
 };
 
-$.homeByYear = {
-	uri: '/year/{year}',
+$.homeByDate = {
+	uri: '/date/{fromDate}/{toDate}',
 	controller: 'elastic-blog/home.js',
-	base: '/year',
+	base: '/date',
 	label: 'Home',
 	views: [
 		{'homejs' : 'gloowm/home.js'}, 
