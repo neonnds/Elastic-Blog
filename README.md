@@ -19,7 +19,7 @@ Enter the Elastic-Blog project
 
     $> cd ./elastic-blog-2017-02
     
-Install the following node modules from packages.json
+Install the node modules defined in packages.json
 
     $> npm install
 
