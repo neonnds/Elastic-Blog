@@ -1,51 +1,54 @@
 # Elastic-Blog
 A simple blog website using total.js and couchbase.
 
-## Releases
+## Latest Release
 
-* [Version 2015.03](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-03.tar.gz)
-* [Version 2015.04](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-04.tar.gz)
-* [Version 2015.05](https://github.com/neonnds/Elastic-Blog/elastic-blog-2015-05.tar.gz)
+* [Version 2017.02](https://github.com/neonnds/Elastic-Blog/elastic-blog-2017-02.tar.gz)
 
 ## Getting Started
 
 Get Elastic Blog
 
-    $> wget https://github.com/neonnds/Elastic-Blog/raw/master/elastic-blog-2015-12.tar.gz
+    $> wget https://github.com/neonnds/Elastic-Blog/raw/master/elastic-blog-2017-02.tar.gz
     
 Extract Elastic Blog
 
-    $> tar -zxf elastic-blog-2015-12.tar.gz
+    $> tar -zxf elastic-blog-2017-02.tar.gz
     
 Enter the Elastic-Blog project
 
-    $> cd ./elastic-blog-2015-12
+    $> cd ./elastic-blog-2017-02
+    
+Install the following node modules from packages.json
+
+    $> npm install
 
 Get Couchbase from the offical site, install and run
 
     https://www.couchbase.com/
-
+    
 Start Elastic-Blog
 
-    $> nodejs index.js
+    $> node index.js
     
 Visit in a modern web browser:
 
     http://127.0.0.1:8000/
 
 
-## Development
+## Linux Development Installation
 
-### Requirements
+Get the Elastic-Core project
 
-* [Elastic-Core](https://github.com/neonnds/Elastic-Core)
+    $> git clone https://github.com/neonnds/Elastic-Core.git
+    
+Enter the Elastic-Core project
 
-* [CUID](https://github.com/ericelliott/cuid)
+    $> cd ./Elastic-Core
+    
+Install the following node modules from packages.json
 
-* [Rho.js](http://inca.github.io/rho)
-
-
-### Linux Installation
+    $> npm install
 
 Enter the Elastic-Core project sites directory
 
@@ -57,19 +60,11 @@ Get the Elastic-Blog project
 
 Enter the Elastic-Blog project
 
-    $> cd ./Elastic-Blog
+    $> cd ./Elastic-Core/sites/Elastic-Blog
 
-Install the following node modules
+Install the following node modules from packages.json
 
-    $> npm install bcrypt-nodejs --save
-    
-    $> npm install cuid --save
-    
-    $> npm install rho --save
-
-    $> npm install crypto --save
-
-    $> npm install nodemailer --save
+    $> npm install
 
 Enter the Elastic-Core project
 
