@@ -1,14 +1,21 @@
 $(document).ready(function() {
 
+	/* Used in the import feature */
+	var sendObj = null;
+
 	/* Make sure all fields are reset on page load */
 	$("#uri").val("");
 	$("#content").val("");	
 	$("#preview").html("");
 
-	function getItems() {
+	function getItems(type) {
 
-		$('#default-load-select').hide();
+		var category = $('#load-category').val();
 
+		$('#load-submit-button').hide();
+		$('#export-submit-button').hide();
+
+		/* This is a temporary drop down that could have been created before */
 		$('#load-select').remove();
 
 		/* We don't want people pressing load until results are returned */
@@ -17,17 +24,8 @@ $(document).ready(function() {
 
 		$('.new-tag-text').html('Add new tag...');
 
-		var loadSelect = $('#default-load-select').clone();
-
-		$(loadSelect).attr("id", 'load-select');
-
-		$(loadSelect).children().remove();
-
-		$('#default-load-select').after(loadSelect);
-
-		$(loadSelect).show();
-
-		var category = $('#load-category').val();
+		$('#default-load-select-item').text("LOADING...");
+		$('#default-load-select').show();
 
 		var getItems = $.ajax({
 			type: "POST",
@@ -37,11 +35,20 @@ $(document).ready(function() {
 				last     : [],
 				category : category,
 				limit    : 1000,
-				order    : ["_updated", "DESC"]
+				order    : ["_key", "ASC"]
 			}
 		});
 
 		getItems.done(function(result) {
+
+			var loadSelect = $('#default-load-select').clone();	
+
+			$(loadSelect).attr("id", 'load-select');
+
+			$(loadSelect).children().remove();
+
+			$('#default-load-select').after(loadSelect);
+
 
 			var message = result.message;
 
@@ -53,14 +60,24 @@ $(document).ready(function() {
 				$(item).removeAttr('id');
 				$(item).text(message[i]["_uri"]);
 
-				$('#load-select').append(item);
+				$(loadSelect).append(item);
 			}
+
+			$('#default-load-select').hide();
+
+			if(type == "load") {
+				$('#load-submit-button').show();
+			} else {
+				$('#export-submit-button').show();
+			}
+
+			$(loadSelect).show();
 		});
 
 		getItems.fail(function(jqXHR, status, error) {
 
 			$('#load-select').remove();
-			$('#default-load-select').show();
+			$('#default-load-select-item').text("NO ITEMS FOUND!");
 			$('#export-submit-button').hide();
 			$('#load-submit-button').hide();
 
@@ -72,177 +89,153 @@ $(document).ready(function() {
 
 	$('#menu-load-button').click(function() {
 
-		getItems();
+		getItems("load");
+	});
 
-		$('#load-submit-button').show();
+	$("#load-category").change(function() {
 
-		$("#load-category").change(function() {
+		getItems("load");
+	});
 
-			getItems();
+	$('#load-submit-button').click(function() {
 
-			$('#load-submit-button').show();
+		var uri = $('#load-select').val();
+
+		$('#uri').val("");
+		$('#content').val("");
+		$('#tags li').not('#new-tag').not('#default-tag-item').remove();
+
+		var getPost = $.ajax({
+			type: "POST",
+			url: '{{pages.apiGetPost.uri}}',
+			data: {
+				uri : uri
+			}
 		});
 
-		$('#load-submit-button').click(function() {
+		getPost.done(function(result) {
 
-			var uri = $('#load-select').val();
+			var message = result.message.pop();
 
-			$('#uri').val("");
-			$('#content').val("");
-			$('#tags li').not('#new-tag').not('#default-tag-item').remove();
+			$('#uri').val(message._uri);
+			$('#content').val(message._content);
 
-			var getPost = $.ajax({
-				type: "POST",
-				url: '{{pages.apiGetPost.uri}}',
-				data: {
-					uri : uri
-				}
-			});
+			for(var i = 0; i < message._tags.length; i++) {
 
-			getPost.done(function(result) {
+				var tagItem = $('#default-tag-item').clone();
 
-				var message = result.message.pop();
+				$(tagItem).removeAttr('id');
 
-				$('#uri').val(message._uri);
-				$('#content').val(message._content);
+				$(tagItem).children('.tag-text').html(message._tags[i]);
 
-				for(var i = 0; i < message._tags.length; i++) {
+				$('#new-tag').after(tagItem);
+			}
+	
+			$('#load-window').hide();
 
-					var tagItem = $('#default-tag-item').clone();
-
-					$(tagItem).removeAttr('id');
-
-					$(tagItem).children('.tag-text').html(message._tags[i]);
-
-					$('#new-tag').after(tagItem);
-				}
-		
-				$('#load-window').hide();
-
-				$("#uri").trigger("input");
-			});
-
-			getPost.fail(errorHandler);
-
-			$(this).off('click');
-			$("#load-category").off('change');
+			$("#uri").trigger("input");
 		});
+
+		getPost.fail(errorHandler);
 	});
 
 	$('#menu-export-button').click(function() {
 
-		getItems();
+		getItems("export");
+	});
 
-		$('#export-submit-button').show();
+	$('#export-submit-button').click(function() {
 
-		$("#load-category").change(function() {
+		var uri = $('#load-select').val();
 
-			getItems();
+		window.open(`{{pages.exportPost.base}}/${uri}`, '_blank');
 
-			$('#export-submit-button').show();
-		});
-
-		$('#export-submit-button').click(function() {
-
-			var uri = $('#load-select').val();
-
-			window.open(`{{pages.exportPost.base}}/${uri}`, '_blank');
-
-			$('#load-window').hide();
-			$(this).off('click');
-			$("#load-category").off('change');
-		});
+		$('#load-window').hide();
 	});
 
 	$('#menu-import-button').click(function() {
 
-		var sendObj = null;
+		sendObj = null;
 
 		$('#upload-list').html("");
 		$('#upload-list').hide();
 		$('#import-submit-button').hide();
+	});
 
-		$('#import-submit-button').click(function() {
+	$('#import-submit-button').click(function() {
 
-			if(sendObj == null) {
-				return;
+		if(sendObj == null) {
+			return;
+		}
+
+		var ajaxData = new FormData();
+		
+		ajaxData.append('upload', sendObj);
+
+		$.ajax({
+			xhr: function () {
+				var xhr = $.ajaxSettings.xhr();
+				xhr.upload.onprogress = function (e) {
+					console.log(Math.floor(e.loaded / e.total * 100) + '%');
+				};
+				return xhr;
+			},
+			contentType: false,
+			processData: false,
+			type: 'POST',
+			data: ajaxData,
+			url: '{{pages.apiImportPost.uri}}',
+			success: function(response) {
+				console.log("success");
+			},
+			error: function() {
+				console.log("Error");
+			},
+			complete: function() {
+				console.log("Complete");
 			}
-
-			var ajaxData = new FormData();
-			
-			ajaxData.append('upload', sendObj);
-
-			$.ajax({
-				xhr: function () {
-					var xhr = $.ajaxSettings.xhr();
-					xhr.upload.onprogress = function (e) {
-						console.log(Math.floor(e.loaded / e.total * 100) + '%');
-					};
-					return xhr;
-				},
-				contentType: false,
-				processData: false,
-				type: 'POST',
-				data: ajaxData,
-				url: '{{pages.apiImportPost.uri}}',
-				success: function(response) {
-					console.log("success");
-				},
-				error: function() {
-					console.log("Error");
-				},
-				complete: function() {
-					console.log("Complete");
-				}
-			});
-
-			$('#import-window').hide();
-
-			$(this).off();
-
-			$(".upload-browse").off();
-			$("#upload").off();
-			$("#upload-drop").off();
 		});
 
-		$('.upload-browse').click(function() {
+		$('#import-window').hide();
+	});
 
-			$("#upload").click();
-			
-			$('#upload').change(function(e){
+	$('.upload-browse').click(function() {
 
-				sendObj = e.target.files[0];
-	
-				$('#upload-list').html(sendObj.name);
-				$('#upload-list').show();
-				$('#import-submit-button').show();
-			});
-		});
+		$("#upload").click();
+	});
+		
+	$('#upload').change(function(e){
 
-		$("#upload-drop").on("dragover", function(event) {
+		sendObj = e.target.files[0];
 
-			event.preventDefault();  
-			event.stopPropagation();
+		$('#upload-list').html(sendObj.name);
+		$('#upload-list').show();
+		$('#import-submit-button').show();
+	});
 
-			$(this).addClass('upload-area-active');
-		});
+	$("#upload-drop").on("dragover", function(event) {
 
-		$("#upload-drop").on('dragleave dragend drop', function() {
+		event.preventDefault();  
+		event.stopPropagation();
 
-			$(this).removeClass('upload-area-active');
-		});
+		$(this).addClass('upload-area-active');
+	});
 
-		$("#upload-drop").on("drop", function(event) {
+	$("#upload-drop").on('dragleave dragend drop', function() {
 
-			sendObj = event.originalEvent.dataTransfer.files[0];
+		$(this).removeClass('upload-area-active');
+	});
 
-			$('#upload-list').html(sendObj.name);
-			$('#upload-list').show();
-			$('#import-submit-button').show();
+	$("#upload-drop").on("drop", function(event) {
 
-			event.preventDefault();  
-			event.stopPropagation();
-		});
+		sendObj = event.originalEvent.dataTransfer.files[0];
+
+		$('#upload-list').html(sendObj.name);
+		$('#upload-list').show();
+		$('#import-submit-button').show();
+
+		event.preventDefault();  
+		event.stopPropagation();
 	});
 
 	$('#menu-save-button').click(function() {
@@ -251,11 +244,13 @@ $(document).ready(function() {
 		var uri = $('#uri').val();
 		var content = $('#content').val();
 		var live = $('#live').val();
-		var tags = ["", ""]; //We place a empty element due to https://github.com/nodejs/node/issues/11145	
+		var tags = ["", ""]; /* We place two empty elements due to https://github.com/nodejs/node/issues/11145 */	
 
 		$('#tags li').not('#new-tag').not('#default-tag-item').each(function(index) {
 			tags.push($(this).find('.tag-text').text().trim());
 		});
+
+		arrayIntoUL($("#save-message"), ["Saving..."]);
 
 		var savePost = $.post('{{pages.apiSavePost.uri}}', {
 			'uri'      : uri, 
@@ -316,30 +311,6 @@ $(document).ready(function() {
 			$('#delete-cancel-button').show();
 
 			arrayIntoUL($("#delete-message"), ["Really delete this post?"]);
-
-			$('#delete-submit-button').click(function() {
-
-				var uri = $('#uri').val();
-
-				$('#delete-window .modal-body').children().hide();
-				$('#delete-close-button').show();
-
-				var deletePost = $.post('{{pages.apiDeletePost.uri}}', {
-					'uri' : uri
-				});
-
-				deletePost.success(function(result) {
-
-					$('#uri').val('');
-					$('#content').val('');
-
-					updateFire();
-
-					arrayIntoUL($("#delete-message"), ["Your post has been deleted!"]);
-				});
-
-				deletePost.error(errorHandler);
-			});
 		});
 
 		getPost.fail(function(jqXHR, status, error) {
@@ -348,6 +319,30 @@ $(document).ready(function() {
 
 			arrayIntoUL($("#delete-message"), ["You need to save the post first!"]);
 		});
+	});
+
+	$('#delete-submit-button').click(function() {
+
+		var uri = $('#uri').val();
+
+		$('#delete-window .modal-body').children().hide();
+		$('#delete-close-button').show();
+
+		var deletePost = $.post('{{pages.apiDeletePost.uri}}', {
+			'uri' : uri
+		});
+
+		deletePost.success(function(result) {
+
+			$('#uri').val('');
+			$('#content').val('');
+
+			updateFire();
+
+			arrayIntoUL($("#delete-message"), ["Your post has been deleted!"]);
+		});
+
+		deletePost.error(errorHandler);
 	});
 
 	$('.new-tag-text').click(function() {

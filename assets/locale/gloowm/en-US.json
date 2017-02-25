@@ -1,5 +1,12 @@
 {
-	"site-title"  : "Elastic Blog - Gloowm Theme",
-	"site-banner" : "Elastic Blog.",
-	"site-footer" : "&copy; 2016 Elastic Blog - Gloowm Theme"
+	"site-name"		: "ELASTIC-BLOG",
+	"site-title"		: "ELASTIC BLOG - GLOOWM THEME",
+	"site-banner"		: "ELASTIC BLOG.",
+	"site-footer"		: "&copy; 2016 ELASTIC BLOG - GLOOWM THEME",
+	"ok-button"		: "OK",
+	"cancel-button"		: "CANCEL",
+	"send-button"		: "SEND",
+	"login-button"		: "LOGIN",
+	"register-button"	: "REGISTER",
+	"search-button"		: "SEARCH"
 }

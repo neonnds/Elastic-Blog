@@ -54,7 +54,7 @@ $(document).ready(function() {
 						range    : [],
 						last     : [],
 						category : 'quote',
-						limit    : 1,
+						limit    : 2,
 						order    : ["_key", "DESC"]
 					}
 				});

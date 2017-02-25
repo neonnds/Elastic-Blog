@@ -7,6 +7,8 @@ $(document).ready(function() {
 
 		var lastItem = $('#comment-items .portfolio-item').not('#default-comment-item').last(); 
 
+		$('#more-item p').html("LOADING...");
+
 		if(lastItem.length == 0) {
 			lastItem = [];
 		} else {

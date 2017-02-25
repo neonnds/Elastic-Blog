@@ -1,27 +1,62 @@
 $(document).ready(function() {
-	
+
+	function closeWindow(targetWindow) {
+
+		$(targetWindow).find('.message-list').children().not('.default-item').remove();
+
+		$(targetWindow).find('.modal-body').find('input').val('');
+
+		$(targetWindow).hide();
+	}
+
+	$(document).keyup(function(e) {
+
+		e.preventDefault();
+
+		var targetWindow = $('.modal:visible');
+
+                if(targetWindow.length == 0) {
+                        return;
+                }
+
+		if(e.keyCode == 27) { /* Escape key */
+
+			/* Should only ever get one modal open at a time */
+			closeWindow(targetWindow);
+
+		} else if(e.keyCode == 13) { /* Return key */
+
+			/* Should only ever get one modal open at a time */
+			var button = $(targetWindow).find(".-success:visible");
+
+			if(button.length == 1) {
+
+				$(button).click();
+			}
+		}
+	});
+
 	$('.close-window').click(function(e) {
 
-		$('.message-list').children().not('.default-item').remove();
-
-		var targetWindow = $(this).parent();
-
-		$(targetWindow).find('input').val('');
-
-		$(targetWindow).parent().parent().hide();
+		closeWindow($(this).parent().parent().parent());
 
 		e.preventDefault();
 	});
 
 	$('.open-window').click(function(e) {
 
-		$('.message-list').children().not('.default-item').remove();
+		/* Close the menu */
+		$("body").removeClass("nav--open");
 
 		var targetWindow = $($(this).attr('href'));
+
+		$(targetWindow).find('.message-list').children().not('.default-item').remove();
 
 		$(targetWindow).find('input').val('');
 
 		$(targetWindow).show();
+
+		$(targetWindow).attr('tabindex',-1).focus();
 
 		e.preventDefault();
 	});
@@ -147,5 +182,12 @@ $(document).ready(function() {
 	
 	$('#error-ok-button').click(function() {
 		$('#error-lightbox').hide();
+	});
+
+	$("#nav-button").click(function(e) {
+
+		e.preventDefault();
+
+		$("body").toggleClass("nav--open");
 	});
 });

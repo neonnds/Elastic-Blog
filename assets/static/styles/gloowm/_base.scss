@@ -69,7 +69,7 @@ body {
     background: none repeat scroll 0 0 #fff;
     box-sizing: border-box;
     outline: medium none;
-    padding: 4px;
+    padding: 13px;
     height: typeScale(7);
     display: inline-block;
     width: 100%;
@@ -843,5 +843,13 @@ nav {
 	
 	#upload {
 		display: none;
+	}
+}
+
+#contact-window {
+
+	#contact-message {
+		height: 200px;
+		overflow: auto;
 	}
 }
