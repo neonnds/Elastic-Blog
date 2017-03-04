@@ -8,19 +8,15 @@ $(document).ready(function() {
 	$("#content").val("");	
 	$("#preview").html("");
 
-	function getItems(type) {
+	function loadItems() {
 
 		var category = $('#load-category').val();
-
-		$('#load-submit-button').hide();
-		$('#export-submit-button').hide();
 
 		/* This is a temporary drop down that could have been created before */
 		$('#load-select').remove();
 
 		/* We don't want people pressing load until results are returned */
 		$('#load-submit-button').hide();
-		$('#export-submit-button').hide();
 
 		$('.new-tag-text').html('Add new tag...');
 
@@ -64,12 +60,7 @@ $(document).ready(function() {
 			}
 
 			$('#default-load-select').hide();
-
-			if(type == "load") {
-				$('#load-submit-button').show();
-			} else {
-				$('#export-submit-button').show();
-			}
+			$('#load-submit-button').show();
 
 			$(loadSelect).show();
 		});
@@ -78,7 +69,6 @@ $(document).ready(function() {
 
 			$('#load-select').remove();
 			$('#default-load-select-item').text("NO ITEMS FOUND!");
-			$('#export-submit-button').hide();
 			$('#load-submit-button').hide();
 
 			return;
@@ -87,14 +77,90 @@ $(document).ready(function() {
 		$('#load-window').show();
 	}
 
+	function exportItems() {
+
+		var category = $('#export-category').val();
+
+		/* This is a temporary drop down that could have been created before */
+		$('#export-select').remove();
+
+		if(category == "all") {
+
+			$('#export-submit-button').show();
+
+			return;
+		}
+
+		/* We don't want people pressing load until results are returned */
+		$('#export-submit-button').hide();
+
+		$('.new-tag-text').html('Add new tag...');
+
+		$('#default-export-select-item').text("LOADING...");
+		$('#default-export-select').show();
+
+		var getItems = $.ajax({
+			type: "POST",
+			url: '{{pages.apiGetMyPosts.uri}}',
+			data: {
+				range    : [],
+				last     : [],
+				category : category,
+				limit    : 1000,
+				order    : ["_key", "ASC"]
+			}
+		});
+
+		getItems.done(function(result) {
+
+			var exportSelect = $('#default-export-select').clone();	
+
+			$(exportSelect).attr("id", 'export-select');
+
+			$(exportSelect).children().remove();
+
+			$('#default-export-select').after(exportSelect);
+
+
+			var message = result.message;
+
+			for(var i = 0; i < message.length; i++) {
+
+				var item = $('#default-export-select-item').clone();	
+
+				$(item).attr('value', message[i]["_uri"]);
+				$(item).removeAttr('id');
+				$(item).text(message[i]["_uri"]);
+
+				$(exportSelect).append(item);
+			}
+
+			$('#default-export-select').hide();
+			$('#export-submit-button').show();
+
+			$(exportSelect).show();
+		});
+
+		getItems.fail(function(jqXHR, status, error) {
+
+			$('#export-select').remove();
+			$('#default-export-select-item').text("NO ITEMS FOUND!");
+			$('#export-submit-button').hide();
+
+			return;
+		});
+
+		$('#export-window').show();
+	}
+
 	$('#menu-load-button').click(function() {
 
-		getItems("load");
+		loadItems();
 	});
 
 	$("#load-category").change(function() {
 
-		getItems("load");
+		loadItems();
 	});
 
 	$('#load-submit-button').click(function() {
@@ -141,16 +207,26 @@ $(document).ready(function() {
 
 	$('#menu-export-button').click(function() {
 
-		getItems("export");
+		exportItems();
+	});
+
+	$("#export-category").change(function() {
+
+		exportItems();
 	});
 
 	$('#export-submit-button').click(function() {
 
-		var uri = $('#load-select').val();
+		var uri = $('#export-select').val();
+
+		/* Its an export all request */
+		if(uri == undefined || uri == "") {
+			uri = "all";
+		}
 
 		window.open(`{{pages.exportPost.base}}/${uri}`, '_blank');
 
-		$('#load-window').hide();
+		$('#export-window').hide();
 	});
 
 	$('#menu-import-button').click(function() {
@@ -250,6 +326,8 @@ $(document).ready(function() {
 			tags.push($(this).find('.tag-text').text().trim());
 		});
 
+		$('#save-window').addClass('no-key');
+	
 		arrayIntoUL($("#save-message"), ["Saving..."]);
 
 		var savePost = $.post('{{pages.apiSavePost.uri}}', {
@@ -260,6 +338,8 @@ $(document).ready(function() {
 
 		savePost.success(function(result) {
 
+			$('#login-window').removeClass('no-key');
+	
 			arrayIntoUL($("#save-message"), ["Your post has been saved!"]);
 		});
 

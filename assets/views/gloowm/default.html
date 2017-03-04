@@ -49,10 +49,21 @@
 			<div class="modal-container">
 				<div class="modal-body">
 					<ul id="contact-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
-					<input id="contact-email" type="text" class="panel" placeholder="Your Email" value=""/>
-					<textarea id="contact-message" name="contact-message" class="panel portfolio-item"></textarea>
+					<input id="contact-email" type="text" class="panel" placeholder="YOUR EMAIL" value=""/>
+					<textarea id="contact-text" name="contact-text" class="panel portfolio-item" placeholder="MESSAGE"></textarea>
 					<button class="-error close-window">{{locale "cancel-button"}}</button>
-					<button class="-success" id="contact-submit-button">{{locale "send-button"}}</button>
+					<button class="-success" id="contact-submit">{{locale "send-button"}}</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="contact-verify-window" class="modal modal--flat">
+			<div class="modal-container">
+				<div class="modal-body">
+					<ul id="contact-verify-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
+					<input id="contact-verify-pin" type="text" class="panel" placeholder="PIN CODE" value="" />
+					<button class="-error close-window">{{locale "cancel-button"}}</button>
+					<button id="contact-verify-submit" class="-success">Verify</button>
 				</div>
 			</div>
 		</div>

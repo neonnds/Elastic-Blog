@@ -18,8 +18,30 @@
 
 				<input name="upload" type="file" id="upload"/>
 
-				<button class="-error close-window">Cancel</button>
-				<button class="-success" id="import-submit-button">Import</button>
+				<button class="-error close-window">{{locale "cancel-button"}}</button>
+				<button class="-success" id="import-submit-button">IMPORT</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="export-window" class="modal modal--flat">
+		<div class="modal-container">
+			<div class="modal-body">
+
+				<select id="export-category" name="export-category">
+					<option value="quote" selected="selected">QUOTE</option>
+					<option value="summary">SUMMARY</option>
+					<option value="article">ARTICLE</option>
+					<option value="other">OTHER</option>
+					<option value="all">ALL</option>
+				</select>
+
+				<select id="default-export-select" name="export-select">
+					<option id="default-export-select-item" value="#">&nbsp;</option>
+				</select>
+
+				<button class="-error close-window">{{locale "cancel-button"}}</button>
+				<button class="-success" id="export-submit-button">EXPORT</button>
 			</div>
 		</div>
 	</div>
@@ -39,9 +61,8 @@
 					<option id="default-load-select-item" value="#">&nbsp;</option>
 				</select>
 
-				<button class="-error close-window">Cancel</button>
-				<button class="-success" id="load-submit-button">Load</button>
-				<button class="-success" id="export-submit-button">Export</button>
+				<button class="-error close-window">{{locale "cancel-button"}}</button>
+				<button class="-success" id="load-submit-button">LOAD</button>
 			</div>
 		</div>
 	</div>
@@ -51,7 +72,7 @@
 			<div class="modal-body">
 				<ul id="delete-message" class="message-list"><li class="default-item">&nbsp;</li></ul>
 				<button id="delete-close-button" class="-error close-window">Close</button>
-				<button id="delete-cancel-button" class="-error close-window">Cancel</button>
+				<button id="delete-cancel-button" class="-error close-window">{{locale "cancel-button"}}</button>
 				<button id="delete-submit-button" class="-success">Delete</button>
 			</div>
 		</div>

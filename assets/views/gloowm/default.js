@@ -19,6 +19,11 @@ $(document).ready(function() {
                         return;
                 }
 
+		/* Check if key events have been disabled on a dialog */
+		if($(targetWindow).hasClass('no-key')) {	
+			return;
+		}
+
 		if(e.keyCode == 27) { /* Escape key */
 
 			/* Should only ever get one modal open at a time */
@@ -53,6 +58,7 @@ $(document).ready(function() {
 		$(targetWindow).find('.message-list').children().not('.default-item').remove();
 
 		$(targetWindow).find('input').val('');
+		$(targetWindow).find('textarea').val('');
 
 		$(targetWindow).show();
 
@@ -77,6 +83,7 @@ $(document).ready(function() {
 	
 		$("#login-password").val('');
 
+		$('#login-window').addClass('no-key');
 		$('#login-window .modal-body').children().hide();
 
 		arrayIntoUL($("#login-message"), ["Checking..."]);
@@ -88,6 +95,8 @@ $(document).ready(function() {
 
 		loginPost.success(function(result) {
 
+			$('#login-window').removeClass('no-key');
+
 			if(result == null) {
 
 				$('#login-window .modal-body').children().show();
@@ -96,13 +105,15 @@ $(document).ready(function() {
 
 			} else {
 
-				arrayIntoUL($("#login-message"), result.message);
-
 				if(result.success == true) {
+
+					arrayIntoUL($("#login-message"), ["Login success. Redirecting..."]);
 
 					window.location.replace("{{pages.home.uri}}");	
 
 				} else {
+
+					arrayIntoUL($("#login-message"), result.message);
 
 					$('#login-window .modal-body').children().show();
 				}
@@ -123,9 +134,16 @@ $(document).ready(function() {
 			$("#register-password").val('');
 			$("#register-confirm").val('');
 
+			$('#register-window').addClass('no-key');
+			$('#register-window .modal-body').children().hide();
+
+			arrayIntoUL($("#register-message"), ["Loading..."]);
+
 			var registerPost = $.post('{{pages.apiRegister.uri}}', {'email' : email, 'password' : password, 'confirm' : confirm});
 
 			registerPost.success(function(result) {
+
+				$('#register-window').removeClass('no-key');
 
 				if(result == null) {
 
@@ -189,5 +207,60 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		$("body").toggleClass("nav--open");
+	});
+
+	$('#contact-submit').click(function() {
+		
+		var message = $('#contact-text').val();
+		var email = $('#contact-email').val();
+	
+		$('#contact-text').hide();
+	       	$('#contact-email').hide();
+		$('#contact-window button').hide();
+		$('#contact-window').addClass('no-key');
+
+		arrayIntoUL($("#contact-message"), ["Sending verification pin..."]);
+
+		$("#contact-window").show();
+
+
+		var saveContact = $.post('{{pages.apiSaveContact.uri}}', {
+			'message'  : message, 
+			'email'    : email,
+		});
+
+		saveContact.success(function(result) {
+
+			$('#contact-window').removeClass('no-key');
+			$("#contact-verify-pin").val('');
+			$('#contact-text').val('');
+		       	$('#contact-email').val('');
+
+			arrayIntoUL($("#contact-verify-message"), ["Check your email and enter the pin!"]);
+
+			$('#contact-window').hide();
+			$('#contact-verify-window').show();
+		});
+
+		saveComment.error(errorHandler);
+	});
+
+	$('#contact-verify-submit').click(function() {
+
+		var pin = $('#contact-verify-pin').val();
+
+		$('#contact-verify-window').addClass('no-key');
+			
+		var verifyContact = $.post('{{pages.apiVerifyContact.uri}}', {
+			'pin' : pin
+		});
+
+		verifyContact.success(function(result) {
+
+			$('#contact-verify-window').removeClass('no-key');
+			$('#contact-verify-window').hide();
+		});
+
+		verifyContact.error(errorHandler);
 	});
 });

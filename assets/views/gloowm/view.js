@@ -54,6 +54,8 @@ $(document).ready(function() {
 
 				$('#comment-items').append(commentItem);
 			});
+
+			$('#more-item p').html("VIEW MORE COMMENTS...");
 		});
 
 		getComments.fail(function(jqXHR, status, error) {
@@ -73,6 +75,14 @@ $(document).ready(function() {
 		var name = $('#comment-name').val();
 		var email = $('#comment-email').val();
 		var notify = $('#notify-submit span').text();
+
+		$('#verify-window input').hide();
+		$('#verify-window button').hide();
+
+		arrayIntoUL($("#verify-message"), ["Sending verification pin..."]);
+
+		$("#verify-window").show();
+
 	
 		var saveComment = $.post('{{pages.apiSaveComment.uri}}', {
 			'key'      : '{{key}}', 
@@ -86,6 +96,9 @@ $(document).ready(function() {
 
 			$('#more-item p').html(defaultCommentText);
 
+			$('#verify-window input').show();
+			$('#verify-window button').show();
+	
 			$("#verify-pin").val('');
 			$('#comment-text').val('');
 			$('#comment-name').val('');
@@ -93,7 +106,7 @@ $(document).ready(function() {
 
 			arrayIntoUL($("#verify-message"), ["Check your email and enter the pin to comment!"]);
 
-			$('#verify-window').show();
+			$("#verify-window").show();
 		});
 
 		saveComment.error(errorHandler);

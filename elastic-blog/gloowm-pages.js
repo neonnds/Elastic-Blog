@@ -81,6 +81,20 @@ $.apiVerifyComment = {
 	label: 'API Verify Comment.'
 };
 
+$.apiSaveContact = {
+	uri: '/api/save-contact',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Save Contact.'
+};
+
+$.apiVerifyContact = {
+	uri: '/api/verify-contact',
+	controller: 'elastic-blog/api.js',
+	flags: ['post'],
+	label: 'API Verify Contact.'
+};
+
 $.apiDeletePost = {
 	uri: '/api/delete-post',
 	controller: 'elastic-blog/api.js',

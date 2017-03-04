@@ -349,6 +349,101 @@ $.apiVerifyComment = function() {
 };
 
 
+$.apiSaveContact = function() {
+
+	var self = this;
+
+	var message = self.body.message;
+	var email = self.body.email;
+
+	var data = { '_key' : '', 
+		     '_type' : 'contact', 
+		     '_message' : message, 
+		     '_email' : email, 
+		     '_verified' : 'false', 
+		     '_pin' : common.EBGeneratePin(5) 
+	};
+
+	var constraints = {
+		"_email": {
+			presence: true,
+	  		email: true,
+		},
+		"_message": {
+			presence: true,
+			format: {
+				pattern: "[aA-zZ0-9\\.\\s]+",
+				flags: "i",
+				message: "can only contain a-z, A-Z, Period (.), Space ( ), 0-9"
+			},
+	  		length: {
+				minimum: 5,
+				maximum: 280
+	  		}
+	  	}
+	};
+
+	var failed = common.validate(data, constraints, {format: "flat"});
+
+	if(failed == undefined) {
+
+		common.ECStore(data._key, data, function(results) {
+
+			if(results.success == false) {
+		
+				self.view500("Failed to save contact!");
+
+			} else {
+
+				common.EBSendEmail(data._email, 'Your PIN ✔', data._pin, data._pin); 
+
+				self.json(results);
+			}
+		});
+
+	} else {
+
+		self.view500(failed);
+	}
+};
+
+
+$.apiVerifyContact = function() {
+
+	var self = this;
+
+	var pin = self.body.pin;
+
+	common.ECGet([`_type = "contact"`, `_pin = "${pin}"`, `_verified = "false"`], 1, [], [], [], function(result) {
+
+		if(result.success == false) {
+			
+			self.view404("No contact found with that pin!");
+			
+		} else {
+
+			var data = result.message.pop();
+
+			data._verified = 'true';
+
+			common.ECStore(data._key, data, function(result) {
+
+				if(result.success == false) {
+			
+					self.view500("Failed to verify contact!");
+
+				} else {
+
+					common.EBSendEmail("SYSTEM", `Contact Form : ${data._email}`, data._message, data._message); 
+
+					self.json(result);
+				}
+			});
+		}
+	});
+};
+
+
 $.apiGetTags = function() {
 
 	var self = this;

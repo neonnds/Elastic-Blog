@@ -22,6 +22,10 @@ F.once('load', function() {
 
 
 $.EBSendEmail = function(toEmail, subject, textContent, htmlContent) {
+	
+	if(toEmail.toUpperCase() == "SYSTEM") {
+		toEmail = F.config["smtp-username"];	
+	}
 
 	/* create reusable transporter object using the default SMTP transport */
 	var connection = `smtps:\/\/${F.config['smtp-username']}:${F.config['smtp-password']}@${F.config['smtp-domain']}`;

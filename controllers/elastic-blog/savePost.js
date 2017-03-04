@@ -17,27 +17,21 @@ $.newPost = function() {
 $.exportPost = function(uri) {
 
 	var self = this;
+	var user = self.user._id;
+	var query = [`_type = "post"`, `_user = "${user}"`];
 
-	common.ECGet([`_type = "post"`, `_uri = "${uri}"`], 1, [], [], [], function(result) {
+	if(uri.toLowerCase() != "all") {
+		
+		query.push(`_uri = "${uri}"`);
+	}
 
-		if(result.success == false) {
+	common.ECGet(query, [], [], [], [], function(results) {
+
+		if(results.success == false) {
 			
-			self.view404("Could not get post with given URI!");
+			self.view404("No post(s) found!");
 			
 		} else {
-
-			var post = result.message[0];
-
-			/*
-			 * If you own the post then you can view it. 
-			 * If you do not own it then it has to be live to view. 
-			 */
-			if((self.user == null || self.user._id != post._user) && post.live == 'false') {
-			
-				self.view401("You do not have access to view this post.");		
-
-				return;
-			}
 
 			//Set the download name to the orignal filename rather then the file key
 			var headers = [];
@@ -51,7 +45,7 @@ $.exportPost = function(uri) {
 			headers["Content-Disposition"] = `attachment;filename=${uri}.json`;
 			headers["Content-Transfer-Encoding"] = "binary";
 
-			self.plain(JSON.stringify(post), headers);
+			self.plain(JSON.stringify(results.message), headers);
 		}
 	});
 };
