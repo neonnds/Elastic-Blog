@@ -594,16 +594,6 @@ input, select, textarea {
 }
 
 nav {
-
-	ul {
-		max-height: 200px;
-		overflow: hidden;
-
-		&:hover {
-			overflow-y: auto;
-			max-height: 200px;
-		}
-	}
 	
 	#tags {
 
