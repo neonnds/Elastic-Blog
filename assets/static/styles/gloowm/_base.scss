@@ -1,53 +1,4 @@
 //
-// Typography
-// ----------
-
-@font-face {
-	font-family: 'ff_tisa_web_pro';
-	src: url('/fonts/elastic-core/ff-tisa-web-pro.eot');
-	src: 	url('/fonts/elastic-core/ff-tisa-web-pro.woff') format('woff'), 
-		url('/fonts/elastic-core/ff-tisa-web-pro.ttf') format('truetype'), 
-		url('/fonts/elastic-core/ff-tisa-web-pro.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'sofia_problack';
-	src: url("/fonts/elastic-core/sofia-pro-black-webfont.eot");
-	src: 	url("/fonts/elastic-core/sofia-pro-black-webfont.eot?#iefix") format("embedded-opentype"),
-		url("/fonts/elastic-core/sofia-pro-black-webfont.woff") format("woff"),
-		url("/fonts/elastic-core/sofia-pro-black-webfont.ttf") format("truetype"),
-		url("/fonts/elastic-core/sofia-pro-black-webfont.svg#sofia_problack") format("svg");
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'sofia_pro_regular';
-	src: url("/fonts/elastic-core/sofia-pro-regular-webfont.eot");
-	src: 	url("/fonts/elastic-core/sofia-pro-regular-webfont.eot?#iefix") format("embedded-opentype"),
-		url("/fonts/elastic-core/sofia-pro-regular-webfont.woff") format("woff"),
-		url("/fonts/elastic-core/sofia-pro-regular-webfont.ttf") format("truetype"),
-		url("/fonts/elastic-core/sofia-pro-regular-webfont.svg#sofia_pro_regularregular") format("svg");
-	font-weight: normal;
-	font-style: normal;
-}
-
-
-// 
-// Globals
-// -------
-
-// Font families
-$font-primary: "ff_tisa_web_pro", "Arial", sans-serif !default;
-$font-secondary: "sofia_pro_regular", "Arial", sans-serif !default;
-$font-mono: "Consolas", monospace !default;
-$font-print-primary: "Georgia", "Times New Roman", "Times", serif !default;
-$font-print-secondary: "Georgia", "Times New Roman", "Times", serif !default;
-
-
-//
 // Base styles
 // =============================================================================
 
@@ -303,7 +254,7 @@ body {
 	height: typeScale(4);
 	position: fixed;
 	top: typeScale(5);
-	right: typeScale(5);
+	left: typeScale(5);
 	overflow: hidden;
 	text-indent: 100%;
 	transition: transform 0.5s, background-color $transition-duration;
@@ -384,12 +335,12 @@ body {
 	font-size: typeScale(2);
 	height: 100%;
 	position: fixed;
-	right: 0;
+	left: 0;
 	top: 0;
 	bottom: 0;
 	transition: visibility 0s 0.7s;
 	visibility: hidden;
-	width: 20em;
+	width: 16em;
 	z-index: 2;
 
 	.logo {
@@ -437,9 +388,9 @@ body {
 	.nav-wrapper {
 		background-color: getColor(background, dark);
 		height: 100%;
-		overflow-y: hidden;
+		overflow-y: auto;
 		padding: typeScale(6) typeScale(4);
-		transform: translate(100%, 0);
+		transform: translate(-100%, 0);
 		transition: transform 0.7s;
 	}
 }
@@ -458,7 +409,8 @@ body {
 			transition: transform 0.5s;
 		}
 	}
-
+	
+	// Hide the open button (=) and show only the close button (x)
 	.nav-button {
 		&:focus, &:hover {
 			.nav-icon {

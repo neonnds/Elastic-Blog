@@ -1,0 +1,51 @@
+//
+// Typography
+// ----------
+
+@font-face {
+	font-family: 'ff_tisa_web_pro';
+	src: url('/fonts/elastic-core/ff-tisa-web-pro.eot');
+	src: 	url('/fonts/elastic-core/ff-tisa-web-pro.woff') format('woff'), 
+		url('/fonts/elastic-core/ff-tisa-web-pro.ttf') format('truetype'), 
+		url('/fonts/elastic-core/ff-tisa-web-pro.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'sofia_problack';
+	src: url("/fonts/elastic-core/sofia-pro-black-webfont.eot");
+	src: 	url("/fonts/elastic-core/sofia-pro-black-webfont.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/elastic-core/sofia-pro-black-webfont.woff") format("woff"),
+		url("/fonts/elastic-core/sofia-pro-black-webfont.ttf") format("truetype"),
+		url("/fonts/elastic-core/sofia-pro-black-webfont.svg#sofia_problack") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'sofia_pro_regular';
+	src: url("/fonts/elastic-core/sofia-pro-regular-webfont.eot");
+	src: 	url("/fonts/elastic-core/sofia-pro-regular-webfont.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/elastic-core/sofia-pro-regular-webfont.woff") format("woff"),
+		url("/fonts/elastic-core/sofia-pro-regular-webfont.ttf") format("truetype"),
+		url("/fonts/elastic-core/sofia-pro-regular-webfont.svg#sofia_pro_regularregular") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+// 
+// Globals
+// -------
+
+// Font families
+$font-primary: "ff_tisa_web_pro", "Arial", sans-serif !default;
+$font-secondary: "sofia_pro_regular", "Arial", sans-serif !default;
+$font-mono: "Consolas", monospace !default;
+$font-print-primary: "Georgia", "Times New Roman", "Times", serif !default;
+$font-print-secondary: "Georgia", "Times New Roman", "Times", serif !default;
+
+// Tracking
+$letter-spacing: 0 !default;
+
