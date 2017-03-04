@@ -193,7 +193,17 @@ $(document).ready(function() {
 
 		getTags.fail(function(jqXHR, status, error) {
 
-			console.log(error);
+			var tagItem = $('#default-tag-item').clone();
+
+			$(tagItem).removeAttr('id');
+
+			$(tagItem).children('a').html("NO TAGS");
+
+			$(tagItem).children('a').attr("href", '{{pages.home.uri}}');
+
+			$('#tags').append(tagItem);
+
+			return;
 		});
 
 	{{/compare}}

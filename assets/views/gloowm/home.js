@@ -20,6 +20,9 @@ $(document).ready(function() {
 
 	function getItems() {
 
+		$('#loading-item').show();
+		$('#more-item').hide();
+
 		var lastItem = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-post-portfolio-item').not('#empty-quote-portfolio-item').last(); 
 
 		if(lastItem.length == 0) {
@@ -134,27 +137,33 @@ $(document).ready(function() {
 					
 				{{/compare}}
 
-
 			{{/compare}}
 
 		{{/compare}}
 
 		getPosts.done(function(result) {
 	
+			$('#loading-item').hide();
+
 			generateGrid(result.message);
 		});
 
 		getPosts.fail(function(jqXHR, status, error) {
 
-			$('#more-item p').html("NO MORE POSTS!");
-
-			$('#more-item').unbind("click");
-
+			$('#loading-item').hide();
+		
 			var itemCount = $('#section .portfolio-item').not('#default-portfolio-item').not('#empty-quote-portfolio-item').not('#empty-post-portfolio-item').length;	
 
 			if(itemCount == 0) {
 				$('#empty-post-portfolio-item').show();		
+				$('#more-item').hide();
+
+				return;
 			}
+
+			$('#more-item p').html("NO MORE POSTS!");
+			$('#more-item').unbind("click");
+			$('#more-item').show();
 		});
 	}
 
