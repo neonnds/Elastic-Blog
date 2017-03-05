@@ -40,7 +40,7 @@
 // -------
 
 // Font families
-$font-primary: "ff_tisa_web_pro", "Arial", sans-serif !default;
+$font-primary: "sofia_pro_regular", "Arial", sans-serif !default;
 $font-secondary: "sofia_pro_regular", "Arial", sans-serif !default;
 $font-mono: "Consolas", monospace !default;
 $font-print-primary: "Georgia", "Times New Roman", "Times", serif !default;
@@ -48,4 +48,16 @@ $font-print-secondary: "Georgia", "Times New Roman", "Times", serif !default;
 
 // Tracking
 $letter-spacing: 0 !default;
+
+// Custome scaling ratio
+$_elastic-ratio:    1.300 !default;
+
+// Ratio for primary scale
+$scale-ratio: $_elastic-ratio !default;
+
+// Font size for small devices
+$font-size: 14 !default;
+
+// Font size for big devices
+$font-size-secondary: 16 !default;
 

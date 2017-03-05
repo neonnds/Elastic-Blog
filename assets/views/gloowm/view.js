@@ -3,6 +3,10 @@ $(document).ready(function() {
 	var defaultCommentText = "VIEW COMMENTS!";
 	var emptyCommentText = "NO COMMENTS!";
 
+	$('#comment-text').val('');
+	$('#comment-name').val('');
+	$('#comment-email').val('');
+
 	function getItems() {
 
 		var lastItem = $('#comment-items .portfolio-item').not('#default-comment-item').last(); 
