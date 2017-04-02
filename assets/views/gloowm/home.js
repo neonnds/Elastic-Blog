@@ -145,6 +145,14 @@ $(document).ready(function() {
 	
 			$('#loading-item').hide();
 
+			{{#compare pages.homeByDate.uri "===" page.uri}}
+				$('#more-item').show();
+			{{else}}
+				{{#compare pages.home.uri "===" page.uri}}
+					$('#more-item').show();
+				{{/compare}}
+			{{/compare}}
+
 			generateGrid(result.message);
 		});
 
