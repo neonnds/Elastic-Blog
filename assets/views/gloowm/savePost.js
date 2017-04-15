@@ -349,6 +349,8 @@ $(document).ready(function() {
 	$('#menu-preview-button').click(function() {
 
 		var uri = $('#uri').val();
+	
+		arrayIntoUL($("#preview-message"), ["Loading..."]);
 
 		var getPost = $.ajax({
 			type: "POST",
