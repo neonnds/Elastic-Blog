@@ -310,7 +310,7 @@ $.apiSaveComment = function() {
 
 	} else {
 
-		self.view500(failed);
+		self.json({success: false, message: failed});
 	}
 };
 
@@ -403,7 +403,7 @@ $.apiSaveContact = function() {
 
 	} else {
 
-		self.view500(failed);
+		self.json({success: false, message: failed});
 	}
 };
 

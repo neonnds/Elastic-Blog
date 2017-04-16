@@ -60,6 +60,8 @@ $(document).ready(function() {
 		$(targetWindow).find('input').val('');
 		$(targetWindow).find('textarea').val('');
 
+		$(targetWindow).find('.modal-body').children().show();
+
 		$(targetWindow).show();
 
 		$(targetWindow).attr('tabindex',-1).focus();
@@ -113,9 +115,9 @@ $(document).ready(function() {
 
 				} else {
 
-					arrayIntoUL($("#login-message"), result.message);
-
 					$('#login-window .modal-body').children().show();
+
+					arrayIntoUL($("#login-message"), result.message);
 				}
 			}
 		});
@@ -145,18 +147,18 @@ $(document).ready(function() {
 
 				$('#register-window').removeClass('no-key');
 
-				if(result == null) {
-
-					arrayIntoUL($("#register-message"), ["An error occured!"]);
-
-				} else {
+				if(result.success == true) {
 
 					arrayIntoUL($("#register-message"), result.message);
 
-					if(result.success == true) {
-						$('#register-window').hide();
-						$('#login-window').show();
-					}
+					$('#register-window').hide();
+					$('#login-window').show();
+
+				} else {
+				
+					$("#register-window .modal-body").children().show();
+
+					arrayIntoUL($("#register-message"), result.message);
 				}
 			});
 
@@ -224,9 +226,7 @@ $(document).ready(function() {
 		var message = $('#contact-text').val();
 		var email = $('#contact-email').val();
 	
-		$('#contact-text').hide();
-	       	$('#contact-email').hide();
-		$('#contact-window button').hide();
+		$('#contact-window').find('.modal-body').children().hide();
 		$('#contact-window').addClass('no-key');
 
 		arrayIntoUL($("#contact-message"), ["Sending verification pin..."]);
@@ -241,18 +241,27 @@ $(document).ready(function() {
 
 		saveContact.success(function(result) {
 
-			$('#contact-window').removeClass('no-key');
-			$("#contact-verify-pin").val('');
-			$('#contact-text').val('');
-		       	$('#contact-email').val('');
+			if(result.success == false) {
 
-			arrayIntoUL($("#contact-verify-message"), ["Check your email and enter the pin!"]);
+				$('#contact-window').find('.modal-body').children().show();
 
-			$('#contact-window').hide();
-			$('#contact-verify-window').show();
+				arrayIntoUL($("#contact-message"), result.message);
+
+			} else {
+
+				$('#contact-window').removeClass('no-key');
+				$("#contact-verify-pin").val('');
+				$('#contact-text').val('');
+				$('#contact-email').val('');
+
+				arrayIntoUL($("#contact-verify-message"), ["Check your email and enter the pin!"]);
+
+				$('#contact-window').hide();
+				$('#contact-verify-window').show();
+			}
 		});
 
-		saveComment.error(errorHandler);
+		saveContact.error(errorHandler);
 	});
 
 	$('#contact-verify-submit').click(function() {
