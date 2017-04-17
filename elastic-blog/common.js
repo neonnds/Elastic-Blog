@@ -115,13 +115,13 @@ $.EBSavePost = function(data, callback) {
 
 	var query;
 
-	if(data._key != "") {
+	if(data._key == "") {
 
-		query = [`_key = "${data._key}"`];		
+		query = [`_type = "post"`, `_uri = "${data._uri}"`];
 
 	} else {
 		
-		query = [`_type = "post"`, `_uri = "${data._uri}"`];
+		query = [`_key = "${data._key}"`];		
 	}
 
 	$.ECGet(query, 1, [], [], [], function(result) {
@@ -129,31 +129,41 @@ $.EBSavePost = function(data, callback) {
 		if(result.error == true) {
 
 			callback({"success" : false, "message" : "An unexpected error occured!"});
+			
+			return;
 		}
 
 		/* Existing document so do merge update */
 		if(result.success == true) {
 			
-			var post = result.message[0];
+			var post = result.message.pop();
 
 			/* Can only update what you own */
-			if(post._user != data._user) {
+			if(data._user != post._user) {
 
 				callback({"success" : false, "message" : "The URI or KEY is already in use by another user!"});
 
 				return;
-
-			} else {
-
-				/* Make sure the provided and retrieved documents are the same */
-				data._key = post._key;
 			}
+
+			console.log("Updating post...");
+
+			$.ECStore(post._key, post, function(results) {
+
+				callback(results);
+			});
+
+		} else {
+
+			data._key = "";
+
+			console.log("New post...");
+
+			$.ECStore(data._key, data, function(results) {
+
+				callback(results);
+			});
 		}
-
-		$.ECStore(data._key, data, function(results) {
-
-			callback(results);
-		});
 	});
 };
 

@@ -379,6 +379,8 @@ $(document).ready(function() {
 
 		$('#delete-window .modal-body').children().hide();
 
+		arrayIntoUL($("#delete-message"), ["Loading..."]);
+
 		var getPost = $.ajax({
 			type: "POST",
 			url: '{{pages.apiGetPost.uri}}',
@@ -409,6 +411,8 @@ $(document).ready(function() {
 
 		$('#delete-window .modal-body').children().hide();
 		$('#delete-close-button').show();
+
+		arrayIntoUL($("#delete-message"), ["Loading..."]);
 
 		var deletePost = $.post('{{pages.apiDeletePost.uri}}', {
 			'uri' : uri
