@@ -136,34 +136,35 @@ $.EBSavePost = function(data, callback) {
 		/* Existing document so do merge update */
 		if(result.success == true) {
 			
-			var post = result.message.pop();
+			var post = result.message[0];
 
 			/* Can only update what you own */
-			if(data._user != post._user) {
+			if(post._user != data._user) {
 
 				callback({"success" : false, "message" : "The URI or KEY is already in use by another user!"});
 
 				return;
 			}
 
+			/* Make sure the provided and retrieved documents are the same */
+			data._key = post._key;
+
+			/* Add attributes that may not exist */
+			data._created = post._created;		
+
 			console.log("Updating post...");
-
-			$.ECStore(post._key, post, function(results) {
-
-				callback(results);
-			});
 
 		} else {
 
+			/* Force a new document to be created */
 			data._key = "";
 
 			console.log("New post...");
-
-			$.ECStore(data._key, data, function(results) {
-
-				callback(results);
-			});
 		}
+
+		$.ECStore(data._key, data, function(results) {
+			callback(results);
+		});
 	});
 };
 
