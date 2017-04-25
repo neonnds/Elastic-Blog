@@ -581,6 +581,13 @@ nav {
 		}
 
 		.tag {
+			@media (--only-small-medium) {
+				width: 100%;
+			}
+
+			@media (--only-medium-large) {
+				width: 100%;
+			}
 			
 			margin-bottom: 2px;
 			display: block;
@@ -632,6 +639,18 @@ nav {
 	}
 
 	.tag {
+		@media (--only-small) {
+			width: 82%;
+		}
+
+		@media (--only-medium) {
+			width: 88%;
+		}
+
+		@media (--only-large) {
+			width: 90%;
+		}
+
 		overflow: hidden;
 		line-height: 23px;
 		background: $blueBright;
