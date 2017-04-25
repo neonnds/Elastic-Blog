@@ -450,7 +450,7 @@ $.apiGetTags = function() {
 
 	var sql = "";
 	sql += `SELECT DISTINCT tag FROM core as c UNNEST(c._tags) as tag WHERE c._type = "post" AND "summary" IN c._tags`;
-        sql += ` AND "live" IN c._tags AND tag != "live" AND tag != "article" AND tag != "quote" AND tag != "summary"`;
+        sql += ` AND "live" IN c._tags AND tag != "live" AND tag != "article" AND tag != "quote" AND tag != "summary" ORDER BY tag ASC`;
 
 	common.ECQuery(sql, function(result) {
 
@@ -472,7 +472,7 @@ $.apiGetPostsByTag = function() {
 
 	var tag = decodeURIComponent(self.body.tag);
 
-	var sql = `SELECT core.* FROM core WHERE _type = "post" AND "live" IN _tags AND "summary" IN _tags AND "${tag}" IN _tags`;
+	var sql = `SELECT core.* FROM core WHERE _type = "post" AND "live" IN _tags AND "summary" IN _tags AND "${tag}" IN _tags ORDER BY _key DESC LIMIT 16`;
 
 	common.ECQuery(sql, function(result) {
 
