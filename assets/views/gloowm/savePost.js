@@ -13,7 +13,7 @@ $(document).ready(function() {
 		var category = $('#load-category').val();
 
 		/* This is a temporary drop down that could have been created before */
-		$('#load-select').remove();
+		$('#load-window select').not('#load-category').not('#default-load-select').remove();
 
 		/* We don't want people pressing load until results are returned */
 		$('#load-submit-button').hide();
@@ -36,6 +36,9 @@ $(document).ready(function() {
 		});
 
 		getItems.done(function(result) {
+
+			/* This is a temporary drop down that could have been created before */
+			$('#load-window select').not('#load-category').not('#default-load-select').remove();
 
 			var loadSelect = $('#default-load-select').clone();	
 
