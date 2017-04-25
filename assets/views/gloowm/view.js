@@ -98,19 +98,30 @@ $(document).ready(function() {
 
 		saveComment.success(function(result) {
 
-			$('#more-item p').html(defaultCommentText);
+			if(result.success == true) {
 
-			$('#verify-window input').show();
-			$('#verify-window button').show();
-	
-			$("#verify-pin").val('');
-			$('#comment-text').val('');
-			$('#comment-name').val('');
-		       	$('#comment-email').val('');
+				$('#more-item p').html(defaultCommentText);
 
-			arrayIntoUL($("#verify-message"), ["Check your email and enter the pin to comment!"]);
+				$('#verify-window input').show();
+				$('#verify-submit').show();
+				$('#verify-cancel').show();
+		
+				$("#verify-pin").val('');
+				$('#comment-text').val('');
+				$('#comment-name').val('');
+				$('#comment-email').val('');
 
-			$("#verify-window").show();
+				arrayIntoUL($("#verify-message"), ["Check your email and enter the pin to comment!"]);
+
+				$("#verify-window").show();
+
+			} else {
+
+				arrayIntoUL($("#verify-message"), result.message);
+
+				$('#verify-ok').show();
+				$("#verify-window").show();
+			}
 		});
 
 		saveComment.error(errorHandler);
