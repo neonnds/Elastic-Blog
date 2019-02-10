@@ -1,5 +1,5 @@
 # Elastic-Blog
-A simple blog website using total.js and couchbase.
+A simple blog website using total.js and sqlite.
 
 ## Latest Release
 
@@ -22,10 +22,6 @@ Enter the Elastic-Blog project
 Install the node modules defined in packages.json
 
     $> npm install
-
-Get Couchbase from the offical site, install and run
-
-    https://www.couchbase.com/
     
 Start Elastic-Blog
 
